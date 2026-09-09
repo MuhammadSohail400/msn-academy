@@ -12,7 +12,7 @@
 * **Date:** September 08, 2026
 * **Status:** Complete / Approved for Engineering Implementation
 * **Author / Role:** Senior Backend Architect & Node.js/MongoDB Systems Specialist
-* **Target Audience:** Backend Engineering Team (5 Core Developers), Lead Full-Stack Engineers, DevOps/SRE, QA Automation Engineers
+* **Target Audience:** Solo Backend Lead (Full Backend & API Ownership), Frontend Engineering Team (M1–M4), Lead Full-Stack Engineers, DevOps/SRE, QA Automation Engineers
 * **Backend Technology Stack:**
   * **Runtime:** Node.js (v20.x LTS)
   * **Language:** TypeScript (v5.x Strict Mode)
@@ -27,7 +27,7 @@
   * **Logging Engine:** Pino (v9.x) with `pino-http` request tracking
   * **Process Manager:** PM2 (Cluster Mode) / Docker Container Engine
 * **Purpose:**
-  This document provides the definitive architectural blueprint for the MSN Academy backend services. Derived strictly from [`01-PRD.md`](file:///c:/Users/HS%20LAPTOP/Downloads/MSN%20Academy%20project/01-PRD.md), [`02-Database-Design.md`](file:///c:/Users/HS%20LAPTOP/Downloads/MSN%20Academy%20project/02-Database-Design.md), and [`03-Frontend-Architecture.md`](file:///c:/Users/HS%20LAPTOP/Downloads/MSN%20Academy%20project/03-Frontend-Architecture.md), this document establishes the structural layer responsibilities, modular domain partitioning, security controls, transaction boundaries, asynchronous worker patterns, and a 5-developer parallel execution framework designed for high-concurrency production reliability.
+  This document provides the definitive architectural blueprint for the MSN Academy backend services. Derived strictly from [`01-PRD.md`](file:///c:/Users/HS%20LAPTOP/Downloads/MSN%20Academy%20project/01-PRD.md), [`02-Database-Design.md`](file:///c:/Users/HS%20LAPTOP/Downloads/MSN%20Academy%20project/02-Database-Design.md), and [`03-Frontend-Architecture.md`](file:///c:/Users/HS%20LAPTOP/Downloads/MSN%20Academy%20project/03-Frontend-Architecture.md), this document establishes the structural layer responsibilities, modular domain partitioning, security controls, transaction boundaries, asynchronous worker patterns, and an optimal phased implementation roadmap for the Solo Backend Lead to deliver all 43 REST API endpoints for the Frontend team.
 
 ---
 
@@ -727,17 +727,17 @@ graph TD
 
 ---
 
-## 31. 5-Member Backend Ownership Matrix
+## 31. Solo Backend Lead Ownership & Phased Delivery Roadmap
 
-To enable 5 backend engineers to work concurrently with zero file merge conflicts:
+The entire backend service layer, database persistence, and all 43 REST API endpoints are owned and developed by the **Solo Backend Lead**. To provide the Frontend team (M1–M4) with immediate integration endpoints while honoring domain dependencies (see Section 30 API Dependency Map), backend development proceeds through 5 sequential phases:
 
-| Engineer | Primary Module Ownership | Database Models Owned | Controllers & Services Owned | Integration Boundaries |
-| :--- | :--- | :--- | :--- | :--- |
-| **Member 1 (Auth & User Lead)** | `auth`, `users` | `User` | `AuthController`, `AuthService`, `UserController`, `UserService` | Delivers `authMiddleware` and User DTOs consumed by all developers. |
-| **Member 2 (Catalog & Content Lead)**| `courses`, `contact` | `Course`, `ContactInquiry` | `CourseController`, `CourseService`, `ContactController`, `ContactService` | Supplies course definitions and syllabus trees consumed by Cart and Learning. |
-| **Member 3 (Commerce & Billing Lead)** | `cart`, `orders`, `payments` | `Cart`, `Order`, `Payment` | `CartController`, `CartService`, `OrderController`, `OrderService`, `PaymentController`, `PaymentService` | Manages checkout transactions and triggers enrollment creation upon payment approval. |
-| **Member 4 (LMS & Learning Lead)** | `enrollments`, `learning` | `Enrollment` | `EnrollmentController`, `EnrollmentService`, `LearningController`, `LearningService` | Consumes order completions; tracks progress; unlocks assessment when progress = 100%. |
-| **Member 5 (Evaluation & Trust Lead)**| `assessments`, `certificates`| `Assessment`, `AssessmentAttempt`, `Certificate` | `AssessmentController`, `AssessmentService`, `CertificateController`, `CertificateService` | Receives 100% course completions; manages timed testing, scoring, and certificate issuance. |
+| Phase | Phase Title | Domain Modules Owned | Core Deliverables & Business Logic | Primary Frontend Consumer |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Foundation, Auth & Identity** | `auth`, `users` | Express server bootstrap, MongoDB connection pool, Zod validator middleware, JWT HttpOnly cookie pipeline, password hashing, and user profile CRUD. | **M1** (`/login`, `/register`, `/profile`) |
+| **2** | **Catalog & Content Engine** | `courses`, `contact` | Master course catalog, faceted filters (categories, levels), syllabus tree endpoints, and public contact inquiries. | **M2** (`/`, `/courses`, `/courses/:slug`, `/contact`) |
+| **3** | **Commerce & Payment Rails** | `cart`, `orders`, `payments` | Guest & student cart persistence, promo coupons, checkout ledger, Pakistani payment rails (Bank Wire, Easypaisa, JazzCash), and slip verification audit. | **M3** (`CartDrawer`, `/checkout`, `/orders`) |
+| **4** | **LMS Learning Portal** | `enrollments`, `learning` | Paid course access grants, video lecture streaming context, downloadable attachments, lesson completion toggles, and atomic 0–100% progress tracking. | **M4** (`/my-courses`, `/learn/:courseId`, `/lesson/:id`) |
+| **5** | **Evaluation & Credential Registry** | `assessments`, `certificates` | 120m timed exam engine, auto-grading (70% pass threshold), BullMQ certificate PDF worker, vector QR codes, and public `/verify` registry. | **M4** (`/learn/:courseId/assessment`, `/verify`) |
 
 ---
 
