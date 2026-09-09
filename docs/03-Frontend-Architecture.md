@@ -1227,37 +1227,81 @@ export default defineConfig({
 
 ---
 
-## 13. Team Ownership Matrix — 5 Developers
+## 13. Frontend Team Ownership Matrix (4 Frontend Members M1–M4)
 
-To enable 5 frontend engineers to work simultaneously without code conflicts, responsibilities are cleanly divided into horizontal and vertical feature slices:
+The entire backend API layer is developed by the **Solo Backend Lead**. The frontend application is divided among **4 Frontend Team Members (M1–M4)** into clean, non-overlapping vertical slices. (Detailed interactive developer checklists are available in [`docs/FRONTEND-TEAM-TASK-DIVISION.md`](FRONTEND-TEAM-TASK-DIVISION.md)):
 
-| Team Member | Domain Modules Owned | Key Pages & Screens Owned | Redux & Services Owned |
-| :--- | :--- | :--- | :--- |
-| **Member 1** | **Authentication & Student Profile** | `/login`, `/register`, `/forgot-password`, `/reset-password`, `/profile` | `authSlice.js`, `authService.js`, `profileService.js`, `AuthLayout.jsx` |
-| **Member 2** | **Course Catalog, Details & Marketing** | `/`, `/courses`, `/courses/:slug`, `/about`, `/pricing`, `/faq`, `/contact` | `courseService.js`, `PublicLayout.jsx`, `PublicHeader.jsx`, `PublicFooter.jsx` |
-| **Member 3** | **Cart, Checkout & Order History** | `/checkout`, `/order/success`, `/order/pending`, `/order/failed`, `/orders` | `cartSlice.js`, `cartService.js`, `checkoutService.js`, `CartDrawer.jsx` |
-| **Member 4** | **Student Dashboard & Learning Player** | `/dashboard`, `/my-courses`, `/learn/:courseId`, `/learn/:courseId/lesson/:id` | `learningService.js`, `DashboardLayout.jsx`, `LearningLayout.jsx`, `VideoPlayer.jsx` |
-| **Member 5** | **Assessments & Certificate Verification**| `/learn/:courseId/assessment/*`, `/certificate/:certId`, `/verify` | `assessmentService.js`, `certificateService.js`, `ExamLayout.jsx`, `ExamSession.jsx` |
+| Team Member | Domain Modules Owned | Key Pages & Screens Owned | Redux & Services Owned | Consumed Backend APIs | UI Screenshots Assigned (`ui-screenshots/`) |
+| :--- | :--- | :--- | :--- | :--- | :---: |
+| **Member 1 (M1)** | **Auth, Profile & Dashboard Shell** | `/login`, `/register`, `/forgot-password`, `/reset-password`, `/profile`, `/dashboard` | `authSlice.js`, `authService.js`, `profileService.js`, `AuthLayout.jsx`, `DashboardLayout.jsx` | `POST /auth/*`, `GET/PUT /users/*`, `GET /student/dashboard-summary` | **10 Screens** |
+| **Member 2 (M2)** | **Marketing, Catalog & Syllabus Details** | `/` (Home), `/courses`, `/courses/:slug`, `/about`, `/pricing`, `/faq`, `/contact` | `courseService.js`, `contactService.js`, `PublicLayout.jsx`, `PublicHeader.jsx`, `PublicFooter.jsx` | `GET /courses/*`, `GET /categories`, `POST /contact` | **15 Screens** |
+| **Member 3 (M3)** | **Cart, Checkout, Orders & Certificates** | `/checkout`, `/order/success`, `/order/pending`, `/order/failed`, `/orders`, `/certificate/:certId`, `/verify` | `cartSlice.js`, `cartService.js`, `checkoutService.js`, `orderService.js`, `certificateService.js` | `* /cart/*`, `* /orders/*`, `* /payments/*`, `* /certificates/*` | **22 Screens** |
+| **Member 4 (M4)** | **LMS Player & 120m Assessment Engine**| `/my-courses`, `/learn/:courseId`, `/learn/:courseId/lesson/:id`, `/learn/:courseId/assessment/*` | `learningService.js`, `assessmentService.js`, `LearningLayout.jsx`, `ExamLayout.jsx` | `GET /student/enrollments`, `* /learning/*`, `* /assessments/*` | **24 Screens** |
+
+### 13.1 Exact UI Screenshots Ownership per Member
+
+#### Member 1 (M1) — Auth, Profile & Dashboard (10 Screens)
+* `Student login.png`, `Login-Mobile.png` (Login screen desktop & mobile)
+* `Create Account.png`, `Create account-mobile.png` (Registration screen desktop & mobile)
+* `student Profile-desktop.png`, `student Profile-desktop-1.png`, `Student Profile-mob.png` (Profile, Change Password, Notification Toggles)
+* `dashboard.png`, `dashboard-1.png`, `Dashboard-mb.png` (Student LMS Dashboard Hub, Progress Widgets, Continue Learning)
+
+#### Member 2 (M2) — Marketing & Course Discovery (15 Screens)
+* `Home.png`, `home-mobile.png` (Landing page hero, live stats, testimonials, home verification widget)
+* `Course catalog.png`, `Course catalog-mobile.png` (Course directory, search, category pills, level filters)
+* `Course details.png`, `Course details-1.png` (Course syllabus, outcomes, sticky enroll bar, preview modal)
+* `About.png` (About Us mission, core values, impact counters)
+* `Pricing.png`, `Pricing-1.png` (Pricing tiers, PKR 8k–18k, inclusions, pricing FAQs)
+* `FAQs.png`, `FAQs-mobile.png` (FAQ accordion with category filter pills)
+* `Contact.png`, `Contact us-mobile.png` (Contact form, contact cards, WhatsApp integration link)
+* `Menu.png`, `Menu-1.png` (Mobile hamburger navigation drawer)
+
+#### Member 3 (M3) — Cart, Checkout, Orders & Certificates (22 Screens)
+* **Cart, Checkout & Orders (14 Screens):**
+  * `Shopping cart.png` (Slide-over cart drawer, item removal, coupon promo code input)
+  * `Checkout.png`, `Checkout-1.png` (Guest & Student checkout, Pakistani payment methods, mobile 4-step stepper)
+  * `Success.png`, `Payment successful-mb.png`, `Pass-mob.png` (Order success & immediate enrollment confirmation)
+  * `pending.png`, `Pending-mb.png` (Manual payment pending notice, 24h verification SLA, "Check Status" CTA)
+  * `Failed.png`, `Payment failed-mb.png`, `Fail-mob.png` (Payment decline notice & retry CTAs)
+  * `Order history.png`, `Order history-1.png`, `Order history-mob.png` (Order invoices, status filter tabs, receipt modal)
+* **Certificates & Verification Registry (8 Screens):**
+  * `certificate.png`, `certificate-1.png` (High-res Certificate of Completion with signature & security seal)
+  * `Certificate-mob.png` (Mobile certificate card with QR code & "Verify Online")
+  * `certificate verification.png`, `certificate verification-1.png`, `Certificate verification-mobile.png` (Public verification lookup with sample demo chips)
+  * `verification complete.png`, `verification complete-1.png` (Authentic verified modal with student details)
+
+#### Member 4 (M4) — LMS Player & 120-Minute Timed Assessment Engine (24 Screens)
+* **LMS Library & Player (9 Screens):**
+  * `My courses.png`, `My courses-1.png`, `My courses-mb.png` (Enrolled courses portfolio with progress bars)
+  * `course overview.png`, `course overview-1.png`, `Overview-mb.png` (Curriculum modules tree, downloadable resources card)
+  * `lecture.png`, `lecture-1.png`, `Lecture-mb.png` (Video lecture player, lesson notes, attachments, "✓ Mark as Complete")
+* **Timed Assessment Engine — 120 Mins (15 Screens):**
+  * `Course assessment.png`, `Course assessment-1.png`, `Course assessment-mb.png` (Exam briefing, 70% threshold, rules)
+  * `Assessmet questions.png`, `Assessmet questions-1.png`, `asses. Questions-mb.png` (Live exam session, 120m countdown, question navigator grid, flag for review)
+  * `Review and submit.png`, `Review and submit-1.png`, `Review-mb.png` (Pre-submission question summary, unanswered warnings)
+  * `go back.png`, `go back-1.png` ("Submit Assessment?" confirmation safeguard modal)
+  * `assessment pass.png`, `assessment pass-1.png` (Exam passed screen, 82% score, celebration badge, certificate unlock)
+  * `assessment fail.png`, `assessment fail-1.png` (Exam failed screen, 55% score, retake exam CTA)
 
 ---
 
-## 14. Parallel Development & Mocking Strategy
+## 14. Parallel Development & Integration Strategy
 
-Each of the 5 developers can run their modules independently using Mock Service Worker (MSW) or stub services matching the exact 43 REST contracts in [`05-API-Specification.md`](file:///c:/Users/HS%20LAPTOP/Downloads/MSN%20Academy%20project/05-API-Specification.md):
+Frontend developers work against the frozen REST contracts in [`05-API-Specification.md`](file:///c:/Users/HS%20LAPTOP/Music/msn-academy/docs/05-API-Specification.md) provided by the Solo Backend Lead:
 
 ```text
 PRD (01-PRD.md)
        ↓
-API Contract (05-API-Specification.md)
+API Specification Contract (05-API-Specification.md)
        ↓
-Frontend Mock Contract (MSW / Vite Proxies)
-       ↓
-Parallel Developer Tracks (Members 1 through 5)
-├── Member 1: Auth Slices, JWT Cookie Sessions, Login UI
-├── Member 2: Course Catalog Grid, Slug Details, Marketing Shell
-├── Member 3: Cart Drawer, Checkout Form, Bank Transfer Slip Upload
-├── Member 4: Navy Sidebar, Student Dashboard KPIs, Video Player
-└── Member 5: 120m Countdown Timer, MCQ Exam Engine, QR Certificate
+┌───────────────────────────────────────┴───────────────────────────────────────┐
+│                                                                               │
+Backend Track (Solo Backend Lead)                       Frontend Track (Team M1–M4)
+├── Phase 1: Auth & User Profiles                       ├── M1: Auth Slices, JWT Cookie Sessions, Login UI
+├── Phase 2: Courses Catalog & Contact                  ├── M2: Course Catalog Grid, Slug Details, Marketing Shell
+├── Phase 3: Cart, Orders & Payment Rails (PKR)         ├── M3: Cart Drawer, Checkout Form, Bank Slip Upload
+├── Phase 4: Enrollments & Lesson Player Context        ├── M4: Navy Sidebar, Student Dashboard KPIs, Video Player
+└── Phase 5: 120m Assessment Engine & QR Certificate    └── M4: 120m Countdown Timer, MCQ Exam, QR Certificate
 ```
 
 ---

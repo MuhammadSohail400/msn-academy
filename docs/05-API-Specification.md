@@ -3456,23 +3456,23 @@ Rate limits protect availability and prevent brute-force attacks:
 
 ---
 
-## 33. API Module Ownership — 5 Members
+## 33. API Ownership & Integration Matrix
 
-The 5 developers are assigned clear, non-overlapping API domains:
+All **43 REST API endpoints** are implemented and maintained exclusively by the **Solo Backend Lead**. Frontend developers (M1–M4) consume these frozen endpoint contracts in their respective feature areas:
 
-| Team Member | Module Ownership | Key Endpoint Responsibilities | Database Models Owned |
-| :--- | :--- | :--- | :--- |
-| **Member 1** | **Auth & User Profiles** | `POST /auth/*`, `GET/PUT /users/*` | `User` |
-| **Member 2** | **Course Catalog & Contact** | `GET /courses/*`, `GET /categories`, `POST /contact` | `Course`, `ContactInquiry` |
-| **Member 3** | **Cart, Orders & Payments** | `* /cart/*`, `* /orders/*`, `* /payments/*` | `Cart`, `Order`, `Payment` |
-| **Member 4** | **Enrollments & Learning** | `GET /student/*`, `GET/POST /learning/*` | `Enrollment` |
-| **Member 5** | **Assessments & Certificates** | `* /assessments/*`, `* /certificates/*` | `Assessment`, `AssessmentAttempt`, `Certificate` |
+| Module Domain | Endpoints Owned by Backend Lead | Primary Database Models | Frontend Consumer | Consumer Screens & Components |
+| :--- | :--- | :--- | :---: | :--- |
+| **Auth & User Profiles** | `POST /auth/*`, `GET/PUT /users/*` | `User` | **M1** | `/login`, `/register`, `/forgot-password`, `/profile`, `DashboardLayout` |
+| **Course Catalog & Contact** | `GET /courses/*`, `GET /categories`, `POST /contact` | `Course`, `ContactInquiry` | **M2** | `/` (Home), `/courses` (Catalog), `/courses/:slug`, `/contact` |
+| **Cart, Orders & Payments** | `* /cart/*`, `* /orders/*`, `* /payments/*` | `Cart`, `Order`, `Payment` | **M3** | `CartDrawer`, `/checkout`, `/order/pending`, `/orders` (History) |
+| **Enrollments & LMS Learning** | `GET /student/*`, `GET/POST /learning/*` | `Enrollment` | **M4** | `/dashboard`, `/my-courses`, `/learn/:courseId`, `/lesson/:id` |
+| **Assessments & Certificates** | `* /assessments/*`, `* /certificates/*` | `Assessment`, `AssessmentAttempt`, `Certificate` | **M4** *(or M5)* | `/learn/:courseId/assessment/*`, `/certificate/:id`, `/verify` |
 
 ---
 
-## 34. Parallel Development Strategy
+## 34. Parallel Development & Contract-First Integration Strategy
 
-This API specification serves as the frozen, implementation-ready contract enabling frontend and backend teams to build concurrently:
+This API specification serves as the frozen, implementation-ready contract enabling the Solo Backend Lead and the Frontend team to build concurrently:
 
 ```text
 PRD (01-PRD.md)
@@ -3483,12 +3483,12 @@ API Specification (05-API-Specification.md)
        ↓
 ┌───────────────────────────────────────┴───────────────────────────────────────┐
 │                                                                               │
-Backend Development (5 Devs)                                     Frontend Development (5 Devs)
-├── Member 1: Auth/User Routes & JWT                             ├── Member 1: Auth/Profile Pages & Redux Auth
-├── Member 2: Course Aggregations & Catalog Filter              ├── Member 2: Course Catalog & Details UI
-├── Member 3: Cart, Checkout & Payment Adapters                 ├── Member 3: Cart Drawer & Checkout Flow
-├── Member 4: Lesson Player & Progress Engine                   ├── Member 4: Learning Portal & Player
-└── Member 5: Assessment Timer & Certificate PDF                └── Member 5: Assessment Session & Certificate
+Backend Track (Solo Backend Lead)                       Frontend Track (Team M1–M4)
+├── Phase 1: Auth & User Profiles (JWT Cookies)         ├── M1: Auth & Profile Pages, Redux Session
+├── Phase 2: Courses Catalog & Contact Inquiries        ├── M2: Course Catalog & Details UI
+├── Phase 3: Cart, Orders & Payment Rails (PKR)         ├── M3: Cart Drawer & Checkout Flow
+├── Phase 4: Enrollments & LMS Lesson Player Context    ├── M4: Learning Portal, Player & Dashboard
+└── Phase 5: 120m Assessment Engine & Verification PDF  └── M4: Timed Exam Session & QR Certificate
 ```
 
 ### Mocking Guidelines for Frontend Developers:
@@ -3622,8 +3622,10 @@ Every endpoint in this specification follows this standardized structure:
 
 ## 38. Traceability Matrix
 
-| API ID | Endpoint | PRD Requirement | DB Collection | Frontend Route / Feature | Module Owner |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+> **Ownership Note:** All 43 REST API endpoints and their underlying Mongoose models/transactions are engineered exclusively by the **Solo Backend Lead**. The "Frontend Consumer" column identifies which frontend developer (M1–M4) consumes the endpoint in the client application.
+
+| API ID | Endpoint | PRD Requirement | DB Collection | Frontend Route / Feature | Frontend Consumer |
+| :--- | :--- | :--- | :--- | :--- | :---: |
 | **API-AUTH-001** | `POST /auth/register` | FR-AUTH-001 | `users`, `carts` | `/register` (`RegisterForm.tsx`) | Member 1 |
 | **API-AUTH-002** | `POST /auth/login` | FR-AUTH-002 | `users` | `/login` (`LoginForm.tsx`) | Member 1 |
 | **API-AUTH-003** | `POST /auth/logout` | FR-AUTH-003 | `users` | Global Header / Sidebar | Member 1 |
