@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand colors — from docs/03-Frontend-Architecture.md, section 9.1 */
+  --color-brand-navy: #0B132B;
+  --color-brand-navy-light: #1C2541;
+  --color-brand-navy-dark: #050A18;
+
+  --color-brand-crimson: #DC2626;
+  --color-brand-crimson-hover: #B91C1C;
+  --color-brand-crimson-light: #FEE2E2;
+
+  --color-brand-amber: #F59E0B;
+  --color-brand-emerald: #10B981;
+  --color-brand-blue: #3B82F6;
+  --color-brand-violet: #7C3AED;
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Outfit", "Inter", sans-serif;
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px -2px rgba(11, 19, 43, 0.08);
+  --shadow-modal: 0 20px 40px -4px rgba(11, 19, 43, 0.2);
+}
+
+@layer base {
+  body {
+    @apply font-sans text-gray-800 bg-white antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
