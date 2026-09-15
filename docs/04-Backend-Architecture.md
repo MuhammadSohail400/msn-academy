@@ -1,7 +1,7 @@
 # Backend Architecture Document
 # MSN Academy — Vocational & Technology Learning Management System
 
----
+--- 
 
 ## 1. Document Information
 

@@ -11,6 +11,8 @@ router.use(authGuard);
 
 router.get('/profile', UserController.getProfile);
 router.put('/profile', validateRequest({ body: updateProfileSchema }), UserController.updateProfile);
+router.patch('/profile', validateRequest({ body: updateProfileSchema }), UserController.updateProfile);
 router.put('/password', validateRequest({ body: changePasswordSchema }), UserController.changePassword);
+router.patch('/password', validateRequest({ body: changePasswordSchema }), UserController.changePassword);
 
 export default router;
