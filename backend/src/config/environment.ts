@@ -20,6 +20,7 @@ const environmentSchema = z.object({
   JWT_REFRESH_SECRET: z.string().min(16, 'JWT_REFRESH_SECRET must be at least 16 characters').default('msn_super_secret_jwt_refresh_token_key_32chars!'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
   COOKIE_SECRET: z.string().min(16, 'COOKIE_SECRET must be at least 16 characters').default('msn_cookie_signing_secret_key_32chars!'),
+  PAYMENT_WEBHOOK_SECRET: z.string().default('msn_webhook_secret_key_default_32chars!'),
 });
 
 const parsed = environmentSchema.safeParse(process.env);
