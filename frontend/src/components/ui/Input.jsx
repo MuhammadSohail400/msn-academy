@@ -19,7 +19,7 @@ const Input = forwardRef(function Input(
           id={inputId}
           type={resolvedType}
           placeholder=" "
-          className={`peer w-full rounded-lg border px-3.5 pt-5 pb-2 text-sm text-gray-800 placeholder-transparent
+          className={`peer w-full rounded-lg border px-3.5 pt-2 pb-2 text-sm text-gray-800 placeholder-transparent
             focus:outline-none focus:ring-2 focus:ring-offset-0
             ${error
               ? 'border-brand-crimson focus:ring-brand-crimson'
