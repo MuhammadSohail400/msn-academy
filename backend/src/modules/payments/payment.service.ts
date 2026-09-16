@@ -4,6 +4,7 @@ import { Payment, IPayment } from './payment.model';
 import { Order } from '../orders/order.model';
 import { getPaymentInstructions } from '../orders/order.service';
 import { SubmitProofInput, AdminReviewPaymentInput, PaymentWebhookInput } from './payment.validation';
+import { EnrollmentService } from '../enrollments/enrollment.service';
 import { env } from '../../config/environment';
 import { ApiError } from '../../utils/ApiError';
 import { logger } from '../../utils/logger';
@@ -143,7 +144,11 @@ export class PaymentService {
 
     if (input.status === 'APPROVED') {
       await Order.findByIdAndUpdate(payment.orderId, { status: 'COMPLETED' });
-      logger.info({ paymentId, orderId: payment.orderId.toString() }, '✅ Payment approved by Admin. Order completed.');
+      await EnrollmentService.provisionEnrollmentsForOrder(
+        payment.orderId.toString(),
+        payment.userId.toString()
+      );
+      logger.info({ paymentId, orderId: payment.orderId.toString() }, '✅ Payment approved by Admin. Order completed & enrollments provisioned.');
     } else {
       await Order.findByIdAndUpdate(payment.orderId, { status: 'FAILED' });
       logger.info({ paymentId, orderId: payment.orderId.toString() }, '❌ Payment rejected by Admin. Order marked failed.');
@@ -219,9 +224,11 @@ export class PaymentService {
       order.status = 'COMPLETED';
       await order.save();
 
+      await EnrollmentService.provisionEnrollmentsForOrder(order._id.toString(), order.userId.toString());
+
       logger.info(
         { orderId: order._id.toString(), orderNumber: order.orderNumber, txId: input.transactionId },
-        '🚀 Order automatically completed via Payment Webhook notification!'
+        '🚀 Order automatically completed & enrollments provisioned via Payment Webhook notification!'
       );
     } else if (input.status === 'FAILED') {
       payment.status = 'REJECTED';

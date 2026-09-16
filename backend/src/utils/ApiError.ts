@@ -38,6 +38,10 @@ export class ApiError extends Error {
     return new ApiError(409, message);
   }
 
+  public static gone(message: string = 'Resource is no longer available'): ApiError {
+    return new ApiError(410, message);
+  }
+
   public static unprocessable(message: string = 'Validation failed', errors?: ValidationErrorDetail[]): ApiError {
     return new ApiError(422, message, errors);
   }

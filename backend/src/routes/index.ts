@@ -7,6 +7,10 @@ import inquiryRoutes from '../modules/inquiries/inquiry.routes';
 import cartRoutes from '../modules/cart/cart.routes';
 import orderRoutes from '../modules/orders/order.routes';
 import paymentRoutes from '../modules/payments/payment.routes';
+import enrollmentRoutes from '../modules/enrollments/enrollment.routes';
+import learningRoutes from '../modules/learning/learning.routes';
+import assessmentRoutes from '../modules/assessments/assessment.routes';
+import certificateRoutes from '../modules/certificates/certificate.routes';
 
 export const apiRouter = Router();
 
@@ -25,5 +29,13 @@ apiRouter.use('/contact', inquiryRoutes);
 apiRouter.use('/cart', cartRoutes);
 apiRouter.use('/orders', orderRoutes);
 apiRouter.use('/payments', paymentRoutes);
+
+// 5. Enrollments, Learning Hub & Progress Routes
+apiRouter.use('/student', enrollmentRoutes);
+apiRouter.use('/learning', learningRoutes);
+
+// 6. Timed Assessment Engine & Verification Routes
+apiRouter.use('/assessments', assessmentRoutes);
+apiRouter.use('/certificates', certificateRoutes);
 
 export default apiRouter;
