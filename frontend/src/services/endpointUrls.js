@@ -22,7 +22,9 @@ export const ENDPOINTS = {
   CONTACT: '/contact',
   CART: {
     BASE: '/cart',
-    ITEM: (courseId) => `/cart/${courseId}`,
+    ITEMS: '/cart/items',
+    ITEM: (courseId) => `/cart/items/${courseId}`,
+    PROMO: '/cart/promo',
   },
   ORDERS: {
     LIST: '/orders',
