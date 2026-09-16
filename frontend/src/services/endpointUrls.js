@@ -18,6 +18,7 @@ export const ENDPOINTS = {
     LIST: '/courses',
     DETAILS: (slug) => `/courses/${slug}`,
     CATEGORIES: '/categories',
+    SYLLABUS: (courseId) => `/courses/${courseId}/syllabus`,
   },
   CONTACT: '/contact',
   CART: {

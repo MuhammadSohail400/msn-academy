@@ -1,34 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand colors — from docs/03-Frontend-Architecture.md, section 9.1 */
-  --color-brand-navy: #0B132B;
-  --color-brand-navy-light: #1C2541;
-  --color-brand-navy-dark: #050A18;
+  /* Brand colors matching exact design specification */
+  --color-brand-red: #C8102E;
+  --color-brand-red-dark: #A30B24;
+  --color-brand-red-light: #FEE2E2;
 
-  --color-brand-crimson: #DC2626;
-  --color-brand-crimson-hover: #B91C1C;
+  /* Primary Dark Navy color #0f1e45 requested by user */
+  --color-brand-navy: #0f1e45;
+  --color-brand-navy-dark: #0f1e45;
+  --color-brand-navy-light: #162858;
+
+  --color-brand-crimson: #C8102E;
+  --color-brand-crimson-hover: #A30B24;
   --color-brand-crimson-light: #FEE2E2;
 
   --color-brand-amber: #F59E0B;
   --color-brand-emerald: #10B981;
-  --color-brand-blue: #3B82F6;
+  --color-brand-blue: #0f1e45;
   --color-brand-violet: #7C3AED;
 
   /* Typography */
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-display: "Outfit", "Inter", sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Shadows */
-  --shadow-card: 0 4px 20px -2px rgba(11, 19, 43, 0.08);
-  --shadow-modal: 0 20px 40px -4px rgba(11, 19, 43, 0.2);
+  --shadow-card: 0 4px 20px -2px rgba(15, 30, 69, 0.08);
+  --shadow-modal: 0 20px 40px -4px rgba(15, 30, 69, 0.2);
+}
+
+.hero-glow {
+  background: radial-gradient(circle at top right, lch(42.53% 74.96 28.45 / 0.18), transparent 60%),
+    radial-gradient(circle at center left, rgba(25, 48, 105, 0.45), transparent 50%);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @layer base {
   body {
-    @apply font-sans text-gray-800 bg-white antialiased;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    @apply font-sans text-slate-800 bg-white antialiased selection:bg-brand-red selection:text-white;
   }
 }

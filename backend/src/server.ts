@@ -13,9 +13,12 @@ async function bootstrap() {
     logger.info('Connecting to MongoDB...');
     await connectDatabase();
 
-    // 2. Verify Redis Connection
+
+    // 2. Verify Redis Connection (non-blocking — don't let a dead Redis stop the server)
     logger.info('Connecting to Redis...');
-    await redis.ping();
+    redis.ping()
+      .then(() => logger.info('✅ Redis ping succeeded.'))
+      .catch((err) => logger.warn({ err: err.message }, '⚠️ Redis unavailable — continuing without cache.'));
 
     // 3. Start HTTP Server
     server = app.listen(env.PORT, () => {

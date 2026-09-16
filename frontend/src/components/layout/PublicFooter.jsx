@@ -1,76 +1,91 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Globe, Mail, Phone, MessageCircle } from 'lucide-react';
-
-// Four-column footer with links, copyright, social — owned by M2 (Marketing & Discovery)
-const COLUMNS = [
-  {
-    heading: 'MSN Academy',
-    links: [
-      { to: '/about', label: 'About Us' },
-      { to: '/pricing', label: 'Pricing' },
-      { to: '/contact', label: 'Contact' },
-    ],
-  },
-  {
-    heading: 'Courses',
-    links: [
-      { to: '/courses', label: 'All Courses' },
-      { to: '/faq', label: 'FAQs' },
-    ],
-  },
-  {
-    heading: 'Support',
-    links: [
-      { to: '/verify', label: 'Verify Certificate' },
-      { to: '/contact', label: 'Help Center' },
-    ],
-  },
-];
+import MsnLogo from '../ui/MsnLogo';
 
 export default function PublicFooter() {
   return (
-    <footer className="border-t border-gray-100 bg-brand-navy-dark text-gray-300">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 md:grid-cols-4 lg:px-8">
-        <div className="col-span-2 md:col-span-1">
-          <p className="font-display text-lg font-semibold text-white">MSN Academy</p>
-          <p className="mt-2 text-sm text-gray-400">
-            Career-focused vocational and technology training for Pakistan.
+    <footer className="bg-[#0f1e45] text-slate-300 pt-12 pb-8 px-4 border-t border-blue-900/40 text-xs">
+      <div className="max-w-md md:max-w-6xl mx-auto space-y-8 md:space-y-0 md:grid md:grid-cols-4 md:gap-8">
+        {/* Brand & Mission */}
+        <div>
+          <div className="mb-3">
+            <MsnLogo className="h-10" />
+          </div>
+          <p className="text-slate-300/80 leading-relaxed mb-4 text-[11px]">
+            Gain in-demand tech skills with practical training, real projects, and industry-focused learning.
           </p>
-          <div className="mt-4 flex gap-3">
-            <a href="/contact" aria-label="Website" className="text-gray-400 hover:text-white">
-              <Globe className="h-4 w-4" />
-            </a>
-            <a href="mailto:hello@msnacademy.pk" aria-label="Email" className="text-gray-400 hover:text-white">
-              <Mail className="h-4 w-4" />
-            </a>
-            <a href="tel:+923000000000" aria-label="Phone" className="text-gray-400 hover:text-white">
-              <Phone className="h-4 w-4" />
-            </a>
-            <a href="https://wa.me/923000000000" aria-label="WhatsApp" className="text-gray-400 hover:text-white">
-              <MessageCircle className="h-4 w-4" />
-            </a>
+          {/* Social Icons Row */}
+          <div className="flex items-center gap-3 text-slate-300">
+            <a aria-label="Website" className="w-7 h-7 rounded bg-[#162858] flex items-center justify-center hover:text-white border border-blue-900/50 transition-colors" href="/">🌐</a>
+            <a aria-label="Share" className="w-7 h-7 rounded bg-[#162858] flex items-center justify-center hover:text-white border border-blue-900/50 transition-colors" href="/courses">🔗</a>
+            <a aria-label="Contact" className="w-7 h-7 rounded bg-[#162858] flex items-center justify-center hover:text-white border border-blue-900/50 transition-colors" href="/contact">✉️</a>
+            <a aria-label="RSS" className="w-7 h-7 rounded bg-[#162858] flex items-center justify-center hover:text-white border border-blue-900/50 transition-colors" href="/faq">📡</a>
           </div>
         </div>
 
-        {COLUMNS.map((col) => (
-          <div key={col.heading}>
-            <p className="text-sm font-semibold text-white">{col.heading}</p>
-            <ul className="mt-3 space-y-2">
-              {col.links.map((link) => (
-                <li key={link.to}>
-                  <Link to={link.to} className="text-sm text-gray-400 hover:text-white">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+        {/* Quick Links */}
+        <div className="pt-4 md:pt-0 border-t border-blue-900/40 md:border-t-0">
+          <h5 className="text-white font-bold text-[11px] uppercase tracking-wider mb-3">Quick Links</h5>
+          <ul className="space-y-2 text-[11px]">
+            <li><Link className="hover:text-white transition-colors" to="/">Home</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/about">About Us</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/courses">All Courses</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/pricing">Pricing</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/faq">Tech Blog</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/faq">FAQ</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/contact">Contact</Link></li>
+          </ul>
+        </div>
+
+        {/* Courses */}
+        <div className="pt-4 md:pt-0 border-t border-blue-900/40 md:border-t-0">
+          <h5 className="text-white font-bold text-[11px] uppercase tracking-wider mb-3">Courses</h5>
+          <ul className="space-y-2 text-[11px]">
+            <li><Link className="hover:text-white transition-colors" to="/courses?category=Data%20Science">Data Analytics</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/courses?category=Artificial%20Intelligence">AI Automation</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/courses?category=Design">UI/UX Design</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/courses?category=Web%20Development">Frontend Development</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/courses?category=Marketing">Digital Marketing</Link></li>
+            <li><Link className="hover:text-white transition-colors" to="/courses">MS Office & Productivity</Link></li>
+          </ul>
+        </div>
+
+        {/* Contact Info */}
+        <div className="pt-4 md:pt-0 border-t border-blue-900/40 md:border-t-0">
+          <h5 className="text-white font-bold text-[11px] uppercase tracking-wider mb-3">Contact</h5>
+          <div className="space-y-2 text-[11px]">
+            <div className="flex items-center gap-2">
+              <span>✉</span>
+              <span>info@msnacademy.com</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span>📞</span>
+              <span>+92 XXX XXX XXXX</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span>📍</span>
+              <span>Pakistan</span>
+            </div>
+            <div className="pt-1">
+              <Link className="text-brand-red hover:underline font-semibold flex items-center gap-1" to="/verify">
+                <span>Verify a Certificate</span>
+                <span>→</span>
+              </Link>
+            </div>
           </div>
-        ))}
+        </div>
       </div>
-      <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-gray-500 sm:px-6 lg:px-8">
-        © {new Date().getFullYear()} MSN Academy. All rights reserved.
+
+      {/* Bottom Copyright & Legal */}
+      <div className="max-w-md md:max-w-6xl mx-auto pt-6 mt-8 border-t border-blue-900/40 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-slate-400">
+        <div>© 2026 MSN Academy. All rights reserved.</div>
+        <div className="flex gap-4">
+          <Link className="hover:text-slate-300" to="/privacy">Privacy Policy</Link>
+          <Link className="hover:text-slate-300" to="/terms">Terms of Use</Link>
+        </div>
       </div>
     </footer>
   );
 }
+
+
