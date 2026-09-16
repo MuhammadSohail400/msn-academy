@@ -38,6 +38,7 @@ import AssessmentQuestions from './pages/assessments/AssessmentQuestions';
 import AssessmentResult from './pages/assessments/AssessmentResult';
 
 // Checkout pages — M3
+import Cart from './pages/checkout/Cart';
 import Checkout from './pages/checkout/Checkout';
 import OrderSuccess from './pages/checkout/OrderSuccess';
 import OrderPending from './pages/checkout/OrderPending';
@@ -63,6 +64,7 @@ export default function App() {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/verify" element={<VerifyCertificate />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order/success" element={<OrderSuccess />} />
           <Route path="/order/pending" element={<OrderPending />} />
