@@ -4,6 +4,8 @@ import { ApiResponse } from '../../utils/ApiResponse';
 import { setAuthCookies, clearAuthCookies } from '../../utils/cookie';
 import { ApiError } from '../../utils/ApiError';
 
+import logger from '../../utils/logger';
+
 export class AuthController {
   /**
    * POST /api/v1/auth/register
@@ -76,6 +78,9 @@ export class AuthController {
   public static async forgotPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const result = await AuthService.forgotPassword(req.body.email);
+      if (result.resetToken) {
+        logger.info(`[AUTH] Password reset link for ${req.body.email}: ${process.env.CLIENT_URL || 'http://localhost:5173'}/reset-password?token=${result.resetToken}`);
+      }
       res.status(200).json(
         ApiResponse.ok(
           // In development, expose reset token to make testing painless

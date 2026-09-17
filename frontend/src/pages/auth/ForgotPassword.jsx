@@ -7,6 +7,7 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [debugToken, setDebugToken] = useState('');
   const [error, setError] = useState('');
   const [fieldError, setFieldError] = useState('');
 
@@ -26,7 +27,11 @@ export default function ForgotPassword() {
 
     setLoading(true);
     try {
-      await authService.forgotPassword(email.trim());
+      const res = await authService.forgotPassword(email.trim());
+      const token = res?.data?.debugResetToken || res?.debugResetToken;
+      if (token) {
+        setDebugToken(token);
+      }
       setSubmitted(true);
     } catch (err) {
       setError(err?.message || 'Failed to send reset link. Please try again.');
@@ -122,6 +127,24 @@ export default function ForgotPassword() {
             If an account exists for <span className="font-semibold text-slate-800">{email}</span>,
             we have sent instructions to reset your password.
           </p>
+
+          {debugToken && (
+            <div className="mt-5 rounded-2xl bg-amber-50 border border-amber-200/80 p-4 text-left">
+              <div className="flex items-center gap-2 text-amber-800 font-semibold text-xs mb-1">
+                <span>🛠️ Development Mode (No Email Service Configured)</span>
+              </div>
+              <p className="text-xs text-amber-700 leading-relaxed mb-3">
+                Since an SMTP email service is not configured yet, you can test the password reset screen directly using this link:
+              </p>
+              <Link
+                to={`/reset-password?token=${debugToken}`}
+                className="inline-flex items-center justify-center w-full rounded-xl bg-brand-crimson py-2.5 text-xs font-semibold text-white hover:bg-brand-crimson-hover transition-all shadow-sm"
+              >
+                Reset Password Now →
+              </Link>
+            </div>
+          )}
+
           <div className="mt-6">
             <Link
               to="/login"
