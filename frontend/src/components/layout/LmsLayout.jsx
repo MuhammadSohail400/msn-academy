@@ -1,12 +1,24 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import LmsSidebar from './LmsSidebar';
 import LmsTopBar from './LmsTopBar';
 
-// Sidebar + TopBar shell — wraps M1's dashboard and M4's my-courses/learning pages
-// NOTE: real route guarding (redirect to /login if not authenticated) will be added
-// by M1 once authSlice is fully built out.
+// Authenticated LMS shell — Dashboard, My Courses, Learning, Orders, Certificates, Profile
+// Redirects unauthenticated users to /login?redirect=<intended-path>
 export default function LmsLayout() {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    return (
+      <Navigate
+        to={`/login?redirect=${encodeURIComponent(location.pathname)}`}
+        replace
+      />
+    );
+  }
+
   return (
     <div className="flex min-h-screen">
       <LmsSidebar />
