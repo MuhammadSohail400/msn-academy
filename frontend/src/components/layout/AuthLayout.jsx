@@ -1,5 +1,5 @@
-import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import { FaArrowLeft } from "react-icons/fa6";
 
 export default function AuthLayout() {
   return (
@@ -7,9 +7,14 @@ export default function AuthLayout() {
       <header className="hidden px-7 pt-8 md:block">
         <Link
           to="/"
-          className="text-sm text-[#A8B1C0] transition hover:text-brand-navy"
+          className="text-sm text-[#9aa5b7] transition hover:text-brand-navy"
         >
-           &nbsp;Back to Website
+          <div className='flex items-center gap-2'>
+            <FaArrowLeft />
+          <span>
+            Back to Website
+          </span>
+          </div>
         </Link>
       </header>
       <main>
