@@ -44,6 +44,7 @@ export const logoutUser = createAsyncThunk('auth/logoutUser', async (_, { reject
 const initialState = {
   user: null,
   isAuthenticated: false,
+  isInitialAuthChecked: false,
   isLoading: false,
   error: null,
 };
@@ -55,11 +56,13 @@ const authSlice = createSlice({
     setCredentials(state, action) {
       state.user = action.payload;
       state.isAuthenticated = true;
+      state.isInitialAuthChecked = true;
       state.error = null;
     },
     clearCredentials(state) {
       state.user = null;
       state.isAuthenticated = false;
+      state.isInitialAuthChecked = true;
     },
     setAuthLoading(state, action) {
       state.isLoading = action.payload;
@@ -78,11 +81,13 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.isInitialAuthChecked = true;
       })
       .addCase(fetchMe.rejected, (state) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
+        state.isInitialAuthChecked = true;
       });
 
     // loginUser
@@ -95,6 +100,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.isInitialAuthChecked = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -111,6 +117,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.isInitialAuthChecked = true;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -122,6 +129,7 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.isAuthenticated = false;
+        state.isInitialAuthChecked = true;
         state.error = null;
       });
   },

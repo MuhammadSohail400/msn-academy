@@ -12,7 +12,8 @@ export const ENDPOINTS = {
   },
   USERS: {
     PROFILE: '/users/profile',
-    CHANGE_PASSWORD: '/users/change-password',
+    PASSWORD: '/users/password',
+    CHANGE_PASSWORD: '/users/password',
   },
   COURSES: {
     LIST: '/courses',

@@ -7,8 +7,19 @@ import LmsTopBar from './LmsTopBar';
 // Authenticated LMS shell — Dashboard, My Courses, Learning, Orders, Certificates, Profile
 // Redirects unauthenticated users to /login?redirect=<intended-path>
 export default function LmsLayout() {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { isAuthenticated, isInitialAuthChecked, isLoading } = useSelector((state) => state.auth);
   const location = useLocation();
+
+  if (!isInitialAuthChecked || isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-crimson border-t-transparent" />
+          <p className="text-sm font-medium text-gray-500">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (

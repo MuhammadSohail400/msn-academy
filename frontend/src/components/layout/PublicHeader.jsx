@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { ShoppingCart, Menu } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import MobileNavDrawer from './MobileNavDrawer';
 import { openCartDrawer } from '../../store/slices/uiSlice';
