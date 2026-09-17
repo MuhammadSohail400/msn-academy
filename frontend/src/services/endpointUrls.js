@@ -28,25 +28,32 @@ export const ENDPOINTS = {
   },
   ORDERS: {
     LIST: '/orders',
+    CHECKOUT: '/orders/checkout',
     DETAILS: (id) => `/orders/${id}`,
   },
   PAYMENTS: {
-    CHECKOUT: '/payments/checkout',
-    STATUS: (orderId) => `/payments/${orderId}/status`,
+    CREATE: '/payments/create',
+    VERIFY: (paymentId) => `/payments/${paymentId}/verify`,
+    STATUS: (paymentId) => `/payments/${paymentId}`,
   },
   ENROLLMENTS: {
     LIST: '/student/enrollments',
   },
+  STUDENT: {
+    DASHBOARD: '/student/dashboard-summary',
+  },
   LEARNING: {
-    COURSE: (courseId) => `/learning/${courseId}`,
-    LESSON_COMPLETE: (lessonId) => `/learning/lesson/${lessonId}/complete`,
+    OVERVIEW: (courseId) => `/learning/${courseId}/overview`,
+    LESSON: (courseId, lessonId) => `/learning/${courseId}/lessons/${lessonId}`,
+    COMPLETE: (courseId, lessonId) => `/learning/${courseId}/lessons/${lessonId}/complete`,
   },
   ASSESSMENTS: {
     START: (courseId) => `/assessments/${courseId}/start`,
     SUBMIT: (attemptId) => `/assessments/${attemptId}/submit`,
   },
   CERTIFICATES: {
-    MINE: '/certificates',
+    LIST: '/certificates',
+    DETAILS: (certId) => `/certificates/${certId}`,
     VERIFY: (certId) => `/certificates/verify/${certId}`,
   },
 };
