@@ -64,6 +64,7 @@ export default function App() {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/verify" element={<VerifyCertificate />} />
+          <Route path="/verify/:certId" element={<VerifyCertificate />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order/success" element={<OrderSuccess />} />

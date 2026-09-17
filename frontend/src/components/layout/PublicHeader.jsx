@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { ShoppingCart, Menu, User, Sparkles } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import MobileNavDrawer from './MobileNavDrawer';
+import { openCartDrawer } from '../../store/slices/uiSlice';
 
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
@@ -14,6 +14,7 @@ const NAV_LINKS = [
 ];
 
 export default function PublicHeader() {
+  const dispatch = useDispatch();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const cartCount = useSelector((state) => state.cart?.items?.length ?? 2);
   const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated ?? false);
@@ -61,11 +62,12 @@ export default function PublicHeader() {
 
         {/* Right Desktop Actions */}
         <div className="flex items-center gap-3.5">
-          {/* Shopping Cart Trigger */}
-          <Link
-            to="/cart"
-            aria-label="Cart"
-            className="relative rounded-lg p-2 text-slate-200 hover:bg-white/10 transition-colors"
+          {/* Shopping Cart Trigger — Opens M3 CartDrawer */}
+          <button
+            type="button"
+            onClick={() => dispatch(openCartDrawer())}
+            aria-label="Open shopping cart"
+            className="relative rounded-lg p-2 text-slate-200 hover:bg-white/10 transition-colors cursor-pointer"
           >
             <ShoppingCart className="h-5 w-5" />
             {cartCount > 0 && (
@@ -73,7 +75,7 @@ export default function PublicHeader() {
                 {cartCount}
               </span>
             )}
-          </Link>
+          </button>
 
           {/* Student Login Button */}
           <Link
