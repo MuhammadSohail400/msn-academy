@@ -850,9 +850,74 @@ A backend feature is officially considered **Done** and ready for deployment onl
 * **Decision:** Decouple `orders` from `payments` using an adapter architecture supporting manual bank/wallet verification today and automated gateways tomorrow.
 * **Rationale:** Meets immediate domestic Pakistani payment requirements without locking the architecture into a single provider.
 
+### ADR-005: Two-Tier Transactional Email Architecture (Phase 6 Final Milestone)
+* **Decision:** Defer external SMTP email service activation to **Phase 6 (Final Phase)**. During intermediate phases, critical recovery tokens are logged to Pino logger and exposed via secure development responses (`debugResetToken`). In Phase 6, a unified `EmailService` with Nodemailer and optional BullMQ background workers will execute asynchronous dispatches.
+* **Rationale:** Eliminates external network dependencies, spam filtering hurdles, and third-party SMTP credential requirements during early sprint iterations while keeping the production architecture cleanly designed.
+
 ---
 
-## 38. Open Decisions & Technical Assumptions
+## 38. Transactional Email & Asynchronous Notification Architecture (Phase 6 / Final Milestone)
+
+### 38.1 Module Overview & Scheduling
+Transactional emails represent a critical communication layer across authentication security, commercial receipts, and certification delivery. To ensure rapid delivery of core business logic, email infrastructure is scheduled as the **Final Milestone (Phase 6)**.
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│              MSN Academy Email Delivery Pipeline (Phase 6)              │
+│                                                                         │
+│  [Domain Service]                                                       │
+│    (Auth, Orders, Payments, LMS, Contact)                               │
+│         │                                                               │
+│         ▼                                                               │
+│  [EmailService / Dispatcher] ──► Checks user.preferences.emailNotif?    │
+│         │                                                               │
+│    ┌────┴─────────────────────────────┐                                 │
+│    ▼ (Production / SMTP Configured)   ▼ (Development / Fallback)        │
+│  [BullMQ / Redis Job Queue]         [Pino Pretty Console Logger]        │
+│    └──► [Nodemailer SMTP Transport]   └──► Direct URL in Server Console │
+│         ├── AWS SES / Gmail SMTP                                        │
+│         └──► [Student Inbox]                                            │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 38.2 Environment & SMTP Transport Specification
+The `src/config/environment.ts` schema defines non-breaking, optional environment variables with sensible defaults:
+```typescript
+SMTP_HOST: z.string().default('smtp.gmail.com'),
+SMTP_PORT: z.string().default('587').transform((v) => parseInt(v, 10)),
+SMTP_SECURE: z.string().default('false').transform((v) => v === 'true'),
+SMTP_USER: z.string().optional().default(''),
+SMTP_PASS: z.string().optional().default(''),
+EMAIL_FROM: z.string().default('MSN Academy <no-reply@msnacademy.pk>'),
+```
+
+### 38.3 Email Event Catalog & Service Interface
+
+| Domain | Method Name | Trigger Point | Recipient | Key Payload / Variables |
+| :--- | :--- | :--- | :--- | :--- |
+| **Auth** | `sendPasswordResetEmail` | `POST /auth/forgot-password` | Student | `recipientName`, `resetUrl`, `expirationMinutes (15-60m)` |
+| **Auth** | `sendPasswordChangedAlert` | `PUT /users/password`, `/auth/reset-password` | Student | `recipientName`, `timestamp`, `ipAddress` |
+| **Auth** | `sendWelcomeEmail` | `POST /auth/register` | Student | `recipientName`, `loginUrl`, `catalogUrl` |
+| **Auth** | `sendGuestProvisionedEmail`| `POST /orders/checkout` (Guest) | Guest Buyer | `recipientName`, `tempPassword`, `loginUrl`, `orderId` |
+| **Commerce** | `sendPaymentPendingEmail` | Manual Bank Checkout | Student | `orderId`, `totalAmountPKR`, `bankDetails`, `uploadUrl` |
+| **Commerce** | `sendOrderReceiptEmail` | Webhook / Payment Verified | Student | `orderId`, `coursesList`, `totalPaidPKR`, `receiptUrl` |
+| **Commerce** | `sendPaymentApprovedEmail`| Admin verifies bank slip | Student | `orderId`, `courseName`, `lmsDashboardUrl` |
+| **Commerce** | `sendPaymentRejectedEmail`| Admin rejects bank slip | Student | `orderId`, `rejectionReason`, `reuploadUrl` |
+| **LMS** | `sendCertificateEmail` | `POST /assessments/:id/submit` ($\ge 70\%$) | Graduate | `studentName`, `courseName`, `score`, `verifyUrl`, `pdfUrl` |
+| **LMS** | `sendCourseCompletedEmail`| 100% lessons marked done | Student | `studentName`, `courseName`, `examBriefingUrl` |
+| **Support** | `sendContactAdminNotification`| `POST /contact` | Admin | `fullName`, `email`, `phone`, `subject`, `message` |
+| **Support** | `sendContactUserAutoResponder`| `POST /contact` | Inquirer | `fullName`, `subject`, `expectedResponseTime (24h)` |
+
+### 38.4 Responsive HTML Design System
+All templates share a standardized master layout:
+* **Brand Header:** Deep Navy (`#0B132B`) with centered white MSN Academy insignia.
+* **Content Container:** 600px width, clean `#FFFFFF` card, slate typography, generous padding.
+* **Primary Action Button:** High-contrast Crimson (`#C9252C`) with rounded corners (`border-radius: 8px`).
+* **Footer:** Registered academy address, support contact, and notification preference management links.
+
+---
+
+## 39. Open Decisions & Technical Assumptions
 
 ### 38.1 Confirmed Technical Foundations
 1. Express.js REST API with TypeScript running on Node.js LTS.

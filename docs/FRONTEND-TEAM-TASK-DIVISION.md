@@ -278,3 +278,15 @@ Har Frontend Developer ko kaam shuru karte waqt yeh 6 steps follow karne chahiye
    * API calls ko connect karein with `withCredentials: true`. (Jab tak backend endpoint ban raha ho, mock data use karein).
 6. **Step 6: Verify Responsive Breakpoints**
    * Mobile (< 768px), Tablet (768px–1024px), Desktop (> 1024px) verify karein.
+
+---
+
+## 📬 Phase 6 (Final Milestone): Transactional Email & Asynchronous Feedback Integration
+
+* **Implementation Schedule:** Outgoing email notifications (Welcome message, password reset links, order receipts, bank transfer instructions, payment approvals, certificate notifications, and contact auto-responders) are scheduled for **Phase 6 (Final Milestone)**.
+* **Frontend Scope:** Frontend members do **not** need to handle SMTP or email delivery. Frontend tasks are strictly limited to presenting intuitive UI feedback:
+  * **Success/Pending Confirmation Screens:** (e.g., `ForgotPassword.jsx`, `OrderSuccess.jsx`, `OrderPending.jsx`, `AssessmentResult.jsx`).
+  * **Interactive Toast Alerts:** Toast notifications via `ToastContainer.jsx`.
+  * **Student Profile Preferences:** Ensuring the `Email Notifications` toggle in `Profile.jsx` cleanly updates `user.preferences.emailNotifications` via `PUT /api/v1/users/profile`.
+* **Backend Scope:** Backend Lead will connect the unified `EmailService` (Nodemailer, branded responsive HTML templates, SMTP transport, and BullMQ queue) to dispatch emails asynchronously in the final phase.
+

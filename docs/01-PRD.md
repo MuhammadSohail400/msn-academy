@@ -1484,6 +1484,38 @@ Each business rule is classified based on whether it is explicitly substantiated
 | **Certificate Copied/Shared**| In-App Toast | Toast: *"Certificate verification link copied to clipboard!"* | Auto-dismisses in 3s. |
 | **Invalid Certificate ID**| Inline Form Alert | Red text: *"Certificate ID not found. Please verify the code and try again."* | Clears upon new query. |
 
+### 15.1 Comprehensive Transactional Email Notification System (Phase 6 / Final Phase Implementation)
+
+> [!NOTE]
+> **Implementation Timeline:** The comprehensive email delivery infrastructure will be implemented in **Phase 6 (Final Phase)** after core frontend workflows and backend domain services are completed. In intermediate development phases, critical credentials/tokens are surfaced via secure development fallback responses and server console logging.
+
+The MSN Academy platform specifies a production-grade transactional email service powered by **Nodemailer** and an enterprise SMTP gateway (e.g. AWS SES, Gmail SMTP with App Passwords, or Mailtrap for staging). All outgoing communications feature responsive HTML templates with MSN Academy branding (Crimson `#C9252C`, Deep Navy `#0B132B`, clean typography, and direct action CTAs).
+
+#### 15.1.1 Email Notification Matrix by Domain
+
+| # | Notification Event | Trigger / Source Endpoint | Target Recipient | Template Purpose & Key Elements | Priority / SLA |
+| :---: | :--- | :--- | :--- | :--- | :---: |
+| **1** | **Password Reset Link** | `POST /api/v1/auth/forgot-password` | Registered Student | 15–60 min single-use reset token with red button: *"Reset Your Password"* (`/reset-password?token=...`). | High / Instant |
+| **2** | **Password Changed Alert** | `PUT /api/v1/users/password` or `POST /api/v1/auth/reset-password` | Student | Security notification confirming password was updated, with timestamp and security hotline. | High / Instant |
+| **3** | **Student Welcome & Onboarding** | `POST /api/v1/auth/register` | New Student | Welcomes student to MSN Academy, provides platform orientation, and links to Course Catalog & LMS Dashboard. | Normal / Async |
+| **4** | **Guest Checkout Credentials** | `POST /api/v1/orders/checkout` (Guest Mode) | Guest Purchaser | Auto-provisions account (`isGuestProvisioned: true`), generates temporary password, and sends login instructions + course access link. | High / Instant |
+| **5** | **Email Verification Link** | `POST /api/v1/auth/verify-email` | New Student | Supports `isEmailVerified` lifecycle with secure one-click confirmation link. | Normal / Async |
+| **6** | **Payment Pending / Bank Instructions** | `POST /api/v1/orders/checkout` or `POST /api/v1/payments/verify-payment` | Student | Triggered on manual Bank Transfer / Easypaisa / JazzCash orders. Itemizes Order ID, payable PKR total, IBAN/Account details, and 24h slip upload instructions. | High / Instant |
+| **7** | **Payment Receipt & Enrollment Confirmed**| Gateway Webhook or Instant Settlement | Student | Itemized official payment receipt with Order ID, course title(s), PKR amount, transaction reference, and primary CTA: *"Start Learning"*. | High / Instant |
+| **8** | **Manual Payment Approved (Admin)** | `PATCH /api/v1/admin/payments/:id/verify` (`APPROVED`) | Student | Alerts student that their bank slip was verified by the admin team and course lectures are unlocked on their dashboard. | High / Instant |
+| **9** | **Manual Payment Rejected** | `PATCH /api/v1/admin/payments/:id/verify` (`REJECTED`) | Student | Alerts student that payment slip could not be verified (e.g. illegible screenshot or mismatched reference) with rejection reason and resubmission link. | High / Instant |
+| **10**| **Assessment Passed & Certificate Issued**| `POST /api/v1/assessments/:id/submit` (Score $\ge 70\%$) | Graduated Student | Celebratory email with final score, Certificate ID (`MSN-YYYY-XXXXX`), public verification link (`/verify/:id`), and *"Download Certificate PDF"* CTA. | High / Instant |
+| **11**| **Course 100% Completion Milestone** | Video curriculum marked complete | Student | Congratulates student on finishing all modules and presents immediate CTA: *"Take Final Assessment"*. | Normal / Async |
+| **12**| **Contact Inquiry Admin Dispatch** | `POST /api/v1/contact` | Admin (`admin@msnacademy.pk`) | Real-time lead dispatch containing sender's full name, email, phone number, subject, and message. | Normal / Instant |
+| **13**| **Contact Inquiry User Auto-Responder** | `POST /api/v1/contact` | Inquiring Visitor | Immediate acknowledgement confirming receipt of message and promising response within 24 hours. | Normal / Async |
+| **14**| **Course Announcement & Updates** | Course Announcement Broadcast | Enrolled Students | Updates students regarding curriculum changes, live Q&A sessions, or new resources. Respects student notification preferences. | Low / Batch |
+
+#### 15.1.2 Student Notification Preference Compliance
+In accordance with `FEAT-PROF-04` and the Student Profile UI (`student Profile-desktop.png`):
+* The platform honors `user.preferences.emailNotifications`.
+* **Marketing & Curriculum Updates (Event #14)** are strictly suppressed when the student toggles email notifications off.
+* **Transactional Security & Financial Emails (Events #1, #2, #4, #6, #7, #8, #9, #10)** are classified as critical system transactions and are always dispatched regardless of preference settings.
+
 ---
 
 ## 16. Search, Filtering & Sorting Specifications
@@ -1706,6 +1738,7 @@ As explicitly specified in `Checkout.png`:
 │ • Dynamic Certificate generation, PDF download, and LinkedIn share     │
 │ • Public Certificate Verification registry with QR code resolution     │
 │ • Order History tracking and Student Profile password management       │
+│ • Phase 6 (Final Phase): Comprehensive Email Delivery System (Nodemailer, SMTP, Branded Templates) │
 └───────────────────────────────────┬────────────────────────────────────┘
                                     │
                                     ▼
@@ -1740,6 +1773,7 @@ As explicitly specified in `Checkout.png`:
 3. **Assessment Question Counts:** The desktop UI displays 10 questions (`Assessmet questions.png`) while the mobile UI displays 30 questions (`asses. Questions-mb.png`). It is assumed that the assessment question pool size is configurable per course.
 4. **Passing Retake Policy:** It is assumed that when a student retakes a passed assessment, their highest score is retained and the original completion date remains intact.
 5. **Certificate QR Resolution:** It is assumed that scanning the QR code on any certificate resolves to `https://msnacademy.com/verify?id={certificateId}`.
+6. **Transactional Email Phasing:** Transactional email sending is slated for implementation as the final milestone (Phase 6). Intermediate development phases utilize console debug logging and API fallback fields.
 
 ### 24.2 Open Questions for Product Leadership & Stakeholders
 1. **Payment Gateway Integration:** Which specific merchant aggregator (e.g., PayFast, Kuickpay, Safepay, JazzCash Direct Merchant API) will be integrated for automated instant digital payments to bypass the 24-hour manual verification lag?
@@ -1756,7 +1790,7 @@ As explicitly specified in `Checkout.png`:
 | **Authentication** | Google Identity Services & Apple Sign-In | Confirmed (UI represented) | 1-click social sign-up and student authentication. |
 | **Local Payment Rails** | Bank Transfer (1Link/IBAN), Easypaisa, JazzCash | Confirmed (UI represented) | Local currency payment settlement in Pakistan. |
 | **Video Streaming CDN** | Cloudflare Stream / Vimeo Pro / AWS CloudFront | Potential / TBC | Secure, adaptive bitrate video delivery for lectures. |
-| **Transactional Email** | SendGrid / AWS SES / Postmark | Confirmed (Flow implied) | Account activation, order receipts, payment verification, certificate delivery. |
+| **Transactional Email** | Nodemailer with SMTP (Gmail App Password, AWS SES, Mailtrap) | Confirmed (Phase 6 Final Milestone) | Account onboarding, password recovery, order receipts, payment approvals, certificate delivery, admin inquiries. |
 | **PDF Generation Engine**| Puppeteer / React-PDF / PDFKit | Confirmed (UI represented) | Server-side vector PDF generation for Certificates of Completion. |
 | **File Storage** | AWS S3 / Cloudflare R2 | Confirmed (UI represented) | Hosting downloadable course slides (.pdf), code (.zip), spreadsheets (.xlsx). |
 | **Public Registry & QR** | QR Code Generator Library (e.g., node-qrcode) | Confirmed (UI represented) | Generation of dynamic scannable QR codes for physical/digital certificates. |
