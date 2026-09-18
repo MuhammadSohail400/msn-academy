@@ -1,38 +1,76 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Clock } from 'lucide-react';
 import Button from '../ui/Button';
 
-// Distraction-free exam countdown & submit button — owned by M4 (Assessment Engine)
-// secondsLeft is owned by the feature (features/assessments), this component only displays it.
-export default function ExamHeader({ secondsLeft = 0, onSubmit, isSubmitting = false }) {
-  const minutes = Math.floor(secondsLeft / 60);
+export default function ExamHeader({
+  courseTitle = 'Course Assessment',
+  secondsLeft = 7200,
+  onReviewSubmit,
+  isSubmitting = false,
+  showTimer = true,
+  actionText = 'Review & Submit',
+}) {
+  const hours = Math.floor(secondsLeft / 3600);
+  const minutes = Math.floor((secondsLeft % 3600) / 60);
   const seconds = secondsLeft % 60;
   const isLowTime = secondsLeft <= 300; // last 5 minutes
 
-  return (
-    <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-gray-100 bg-white px-4 sm:px-6">
-      <span className="font-display text-base font-semibold text-brand-navy">Course Assessment</span>
+  const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-      <div className="flex items-center gap-4">
+  return (
+    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between bg-brand-navy px-4 sm:px-8 text-white shadow-md">
+      {/* Left: Brand / Title */}
+      <div className="flex items-center gap-3">
+        <Link to="/my-courses" className="flex items-center gap-2 group">
+          <div className="flex h-8 w-8 items-center justify-center rounded bg-brand-crimson font-display font-bold text-sm text-white shadow-sm">
+            MSN
+          </div>
+          <span className="hidden sm:inline-block font-display text-sm font-semibold text-white group-hover:text-gray-200 transition-colors">
+            {courseTitle.startsWith('Course Assessment') ? courseTitle : `Course Assessment: ${courseTitle}`}
+          </span>
+        </Link>
+      </div>
+
+      {/* Center: 120-minute countdown timer */}
+      {showTimer && (
         <div
-          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold tabular-nums ${
-            isLowTime ? 'bg-brand-crimson-light text-brand-crimson' : 'bg-gray-100 text-gray-700'
+          className={`flex items-center gap-2 rounded-lg px-4 py-1.5 text-sm sm:text-base font-bold tabular-nums tracking-wide shadow-inner ${
+            isLowTime
+              ? 'bg-brand-crimson text-white animate-pulse'
+              : 'bg-[#1a2942] text-white border border-[#2b3e5d]'
           }`}
+          title="Time remaining for this assessment attempt"
         >
-          <Clock className="h-4 w-4" />
-          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+          <Clock className="h-4 w-4 text-gray-300" />
+          <span>{formattedTime}</span>
         </div>
-        <Button variant="primary" size="sm" onClick={onSubmit} isLoading={isSubmitting}>
-          Submit Assessment
-        </Button>
+      )}
+
+      {/* Right: Review & Submit button */}
+      <div>
+        {onReviewSubmit && (
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={onReviewSubmit}
+            isLoading={isSubmitting}
+            className="!bg-brand-crimson hover:!bg-brand-crimson-dark text-white font-medium px-4 py-2 text-xs sm:text-sm rounded-md shadow-sm"
+          >
+            {actionText}
+          </Button>
+        )}
       </div>
     </header>
   );
 }
 
 ExamHeader.propTypes = {
+  courseTitle: PropTypes.string,
   secondsLeft: PropTypes.number,
-  onSubmit: PropTypes.func,
+  onReviewSubmit: PropTypes.func,
   isSubmitting: PropTypes.bool,
+  showTimer: PropTypes.bool,
+  actionText: PropTypes.string,
 };

@@ -80,7 +80,7 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
 
-        {/* Authenticated LMS shell (M1 dashboard/profile, M4 learning) */}
+        {/* Authenticated LMS shell (M1 dashboard/profile, M4 learning, assessment briefing & scorecard) */}
         <Route element={<LmsLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
@@ -90,13 +90,13 @@ export default function App() {
           <Route path="/certificate/:certId" element={<CertificateView />} />
           <Route path="/learn/:courseId" element={<CourseOverview />} />
           <Route path="/learn/:courseId/lesson/:id" element={<LecturePlayer />} />
+          <Route path="/learn/:courseId/assessment" element={<AssessmentBriefing />} />
+          <Route path="/learn/:courseId/assessment/result" element={<AssessmentResult />} />
         </Route>
 
-        {/* Distraction-free assessment flow (M4) */}
+        {/* Distraction-free active exam shell (M4 timed engine) */}
         <Route element={<ExamLayout />}>
-          <Route path="/learn/:courseId/assessment" element={<AssessmentBriefing />} />
           <Route path="/learn/:courseId/assessment/questions" element={<AssessmentQuestions />} />
-          <Route path="/learn/:courseId/assessment/result" element={<AssessmentResult />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
