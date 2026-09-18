@@ -127,7 +127,7 @@ export default function Dashboard() {
       {/* 4 KPI Quick Stats Cards matching Figma dashboard.png */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Enrolled */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4 min-h-[96px] h-full">
           <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
             <BookOpen className="h-6 w-6 stroke-[2]" />
           </div>
@@ -140,7 +140,7 @@ export default function Dashboard() {
         </div>
 
         {/* Completed */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4 min-h-[96px] h-full">
           <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
             <CheckCircle2 className="h-6 w-6 stroke-[2]" />
           </div>
@@ -153,7 +153,7 @@ export default function Dashboard() {
         </div>
 
         {/* Certificates */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4 min-h-[96px] h-full">
           <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-purple-50 text-purple-600 border border-purple-100">
             <Award className="h-6 w-6 stroke-[2]" />
           </div>
@@ -166,7 +166,7 @@ export default function Dashboard() {
         </div>
 
         {/* Pending Assessment */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4 min-h-[96px] h-full">
           <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
             <AlertCircle className="h-6 w-6 stroke-[2]" />
           </div>

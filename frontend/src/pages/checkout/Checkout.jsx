@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   ChevronRight,
   Lock,
@@ -13,6 +13,7 @@ import {
   User,
 } from 'lucide-react';
 import orderService from '../../services/orderService';
+import { fetchCart } from '../../features/cart/slice/cartSlice';
 
 const PAYMENT_METHODS = [
   {
@@ -37,7 +38,8 @@ const PAYMENT_METHODS = [
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { items, subtotal, discount, total, currency, appliedCoupon } = useSelector(
+  const dispatch = useDispatch();
+  const { items, subtotal, discount, total, currency, appliedCoupon, isLoading } = useSelector(
     (state) => state.cart
   );
   const user = useSelector((state) => state.auth.user);
@@ -49,42 +51,30 @@ export default function Checkout() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  // Guard: redirect to login if not authenticated
-  if (!isAuthenticated) {
+  // Fetch cart on mount for both guest and authenticated users
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [dispatch]);
+
+  // Loading skeleton while cart is being fetched
+  if (isLoading && items.length === 0) {
     return (
-      <div className="mx-auto max-w-md px-4 py-20 text-center">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100">
-          <User className="h-8 w-8 text-slate-400" />
-        </div>
-        <h1 className="font-display text-xl font-bold text-slate-900">Sign in to checkout</h1>
-        <p className="mt-2 text-sm text-slate-500">You need to be logged in to place an order.</p>
-        <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <Link
-            to="/login?redirect=/checkout"
-            className="rounded-xl bg-brand-navy px-6 py-3 text-sm font-semibold text-white hover:bg-brand-navy/90"
-          >
-            Existing Student Sign In
-          </Link>
-          <Link
-            to="/register"
-            className="rounded-xl border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50"
-          >
-            Create Account
-          </Link>
-        </div>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <Loader2 className="mx-auto h-8 w-8 animate-spin text-brand-crimson mb-3" />
+        <p className="text-sm text-slate-500">Loading checkout details…</p>
       </div>
     );
   }
 
   // Guard: empty cart
-  if (items.length === 0) {
+  if (!isLoading && items.length === 0) {
     return (
       <div className="mx-auto max-w-md px-4 py-20 text-center">
         <h1 className="font-display text-xl font-bold text-slate-900">Your cart is empty</h1>
         <p className="mt-2 text-sm text-slate-500">Add some courses before checking out.</p>
         <Link
           to="/courses"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-brand-crimson px-6 py-3 text-sm font-semibold text-white"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-brand-crimson px-6 py-3 text-sm font-semibold text-white hover:bg-brand-crimson-hover transition-colors"
         >
           Browse Courses
         </Link>
@@ -93,6 +83,10 @@ export default function Checkout() {
   }
 
   const handlePlaceOrder = async () => {
+    if (!isAuthenticated) {
+      navigate('/login?redirect=/checkout');
+      return;
+    }
     if (!agreed) {
       setError('Please agree to the Terms of Use and Refund Policy to continue.');
       return;
@@ -101,12 +95,13 @@ export default function Checkout() {
     setSubmitting(true);
     try {
       const res = await orderService.checkout(paymentMethod, notes);
-      const { order, paymentDetails } = res.data;
+      const { order, paymentDetails, paymentId } = res.data;
       // Navigate to pending page with order info in state
       navigate('/order/pending', {
         state: {
           orderId: order.id,
           orderNumber: order.orderNumber,
+          paymentId: paymentId || order.id,
           totalAmount: order.totalAmount,
           currency: order.currency,
           paymentMethod: order.paymentMethod,
@@ -156,12 +151,18 @@ export default function Checkout() {
                 </div>
               ) : (
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button className="flex-1 rounded-xl bg-brand-navy py-3 text-sm font-semibold text-white hover:bg-brand-navy/90">
-                    Guest Checkout
-                  </button>
-                  <button className="flex-1 rounded-xl border border-slate-300 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                  <Link
+                    to="/register?redirect=/checkout"
+                    className="flex-1 h-11 flex items-center justify-center rounded-xl bg-brand-navy text-sm font-semibold text-white hover:bg-brand-navy/90 transition-colors"
+                  >
+                    Create Account to Enroll
+                  </Link>
+                  <Link
+                    to="/login?redirect=/checkout"
+                    className="flex-1 h-11 flex items-center justify-center rounded-xl border border-slate-300 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                  >
                     Existing Student Sign In
-                  </button>
+                  </Link>
                 </div>
               )}
             </div>
@@ -181,7 +182,7 @@ export default function Checkout() {
                       type="text"
                       defaultValue={user?.fullName?.split(' ')[0] || ''}
                       placeholder="First name"
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
+                      className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-800 placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
                     />
                   </div>
                   <div>
@@ -190,7 +191,7 @@ export default function Checkout() {
                       type="text"
                       defaultValue={user?.fullName?.split(' ').slice(1).join(' ') || ''}
                       placeholder="Last name"
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
+                      className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-800 placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
                     />
                   </div>
                 </div>
@@ -202,7 +203,7 @@ export default function Checkout() {
                     type="email"
                     defaultValue={user?.email || ''}
                     placeholder="you@example.com"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-800 placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
                   />
                   <p className="mt-1 text-[11px] text-slate-400">
                     Your course access details will be sent to this email.
@@ -216,7 +217,7 @@ export default function Checkout() {
                     type="tel"
                     defaultValue={user?.phone || ''}
                     placeholder="+92 XXX XXX XXXX"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
+                    className="w-full h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-800 placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
                   />
                 </div>
               </div>
@@ -361,7 +362,7 @@ export default function Checkout() {
               <button
                 onClick={handlePlaceOrder}
                 disabled={submitting}
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-crimson py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors disabled:opacity-60"
+                className="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-brand-crimson text-sm font-bold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors disabled:opacity-60 active:scale-[0.99]"
               >
                 {submitting ? (
                   <Loader2 className="h-4 w-4 animate-spin" />

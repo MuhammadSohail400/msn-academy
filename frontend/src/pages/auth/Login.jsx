@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { Eye, EyeOff, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { loginUser } from '../../features/auth/slice/authSlice';
 
 export default function Login() {
@@ -9,6 +9,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const redirectPath = searchParams.get('redirect') || '/dashboard';
+  const isSignedOut = searchParams.get('signedOut') === 'true';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,15 +51,23 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-3xl bg-white border border-slate-200/90 shadow-sm p-8 sm:p-10 transition-all">
+    <div className="w-full max-w-[480px] rounded-3xl bg-white border border-slate-200/90 shadow-sm p-6 sm:p-8 transition-all">
       <div className="mb-6">
         <h1 className="font-display text-2xl sm:text-[26px] font-bold tracking-tight text-slate-900">
           Student Login
         </h1>
-        <p className="mt-1.5 text-xs sm:text-sm text-slate-400">
+        <p className="mt-1 text-xs sm:text-sm text-slate-400">
           Welcome back. Sign in to access your learning dashboard.
         </p>
       </div>
+
+      {/* Sign Out Success Alert */}
+      {isSignedOut && !submitError && (
+        <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 p-3.5 text-xs text-emerald-700 animate-in fade-in">
+          <CheckCircle2 className="h-4 w-4 flex-shrink-0 mt-0.5 text-emerald-600" />
+          <span>You have been signed out successfully.</span>
+        </div>
+      )}
 
       {/* Global Error Alert */}
       {submitError && (
@@ -68,7 +77,7 @@ export default function Login() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} noValidate className="space-y-4">
+      <form onSubmit={handleSubmit} noValidate autoComplete="off" className="space-y-4">
         {/* Email Address */}
         <div>
           <label
@@ -86,12 +95,11 @@ export default function Login() {
               if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: '' });
             }}
             placeholder="you@example.com"
-            autoComplete="email"
-            className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 ${
-              fieldErrors.email
+            autoComplete="off"
+            className={`w-full h-11 rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 ${fieldErrors.email
                 ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/20'
                 : 'border-slate-200 focus:border-brand-crimson focus:ring-brand-crimson/20'
-            }`}
+              }`}
           />
           {fieldErrors.email && (
             <p className="mt-1 text-xs text-rose-600 font-medium">{fieldErrors.email}</p>
@@ -124,12 +132,11 @@ export default function Login() {
                 if (fieldErrors.password) setFieldErrors({ ...fieldErrors, password: '' });
               }}
               placeholder="Enter your password"
-              autoComplete="current-password"
-              className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 pr-11 transition-all focus:outline-none focus:ring-2 ${
-                fieldErrors.password
+              autoComplete="new-password"
+              className={`w-full h-11 rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 pr-11 transition-all focus:outline-none focus:ring-2 ${fieldErrors.password
                   ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/20'
                   : 'border-slate-200 focus:border-brand-crimson focus:ring-brand-crimson/20'
-              }`}
+                }`}
             />
             <button
               type="button"
@@ -153,7 +160,7 @@ export default function Login() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-brand-crimson py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover disabled:cursor-not-allowed disabled:opacity-60 transition-all active:scale-[0.99]"
+          className="w-full h-12 mt-2 flex items-center justify-center gap-2 rounded-xl bg-brand-crimson text-sm font-bold text-white shadow-sm hover:bg-brand-crimson-hover disabled:cursor-not-allowed disabled:opacity-60 transition-all active:scale-[0.99]"
         >
           {loading ? (
             <>

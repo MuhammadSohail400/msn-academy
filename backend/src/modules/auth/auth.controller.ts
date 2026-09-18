@@ -17,7 +17,7 @@ export class AuthController {
 
       res.status(201).json(
         ApiResponse.created(
-          { user: result.user },
+          { user: result.user, accessToken: result.accessToken, refreshToken: result.refreshToken },
           'Account created successfully. Welcome to MSN Academy!'
         )
       );
@@ -36,7 +36,7 @@ export class AuthController {
 
       res.status(200).json(
         ApiResponse.ok(
-          { user: result.user },
+          { user: result.user, accessToken: result.accessToken, refreshToken: result.refreshToken },
           'Authentication successful. Welcome back!'
         )
       );

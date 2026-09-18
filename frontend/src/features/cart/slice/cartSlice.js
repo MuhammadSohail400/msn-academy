@@ -14,8 +14,9 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWi
 
 export const addToCart = createAsyncThunk('cart/addToCart', async (courseId, { rejectWithValue }) => {
   try {
-    const res = await cartService.addItem(courseId);
-    return res.data; // { totalItems, subtotal, total }
+    await cartService.addItem(courseId);
+    const res = await cartService.getCart();
+    return res.data;
   } catch (err) {
     return rejectWithValue(err.message || 'Failed to add item');
   }
@@ -23,8 +24,9 @@ export const addToCart = createAsyncThunk('cart/addToCart', async (courseId, { r
 
 export const removeFromCart = createAsyncThunk('cart/removeFromCart', async (courseId, { rejectWithValue }) => {
   try {
-    const res = await cartService.removeItem(courseId);
-    return { courseId, summary: res.data };
+    await cartService.removeItem(courseId);
+    const res = await cartService.getCart();
+    return res.data;
   } catch (err) {
     return rejectWithValue(err.message || 'Failed to remove item');
   }
@@ -83,29 +85,48 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    const syncCartState = (state, data) => {
+      state.isLoading = false;
+      state.id = data?.id ?? null;
+      state.items = data?.items ?? [];
+      state.appliedCoupon = data?.appliedCoupon ?? null;
+      state.subtotal = data?.subtotal ?? 0;
+      state.discount = data?.discount ?? 0;
+      state.total = data?.total ?? 0;
+      state.currency = data?.currency ?? 'PKR';
+    };
+
     // fetchCart — load full server cart
     builder
       .addCase(fetchCart.pending, (state) => { state.isLoading = true; state.error = null; })
       .addCase(fetchCart.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const data = action.payload;
-        state.id = data?.id ?? null;
-        state.items = data?.items ?? [];
-        state.appliedCoupon = data?.appliedCoupon ?? null;
-        state.subtotal = data?.subtotal ?? 0;
-        state.discount = data?.discount ?? 0;
-        state.total = data?.total ?? 0;
-        state.currency = data?.currency ?? 'PKR';
+        syncCartState(state, action.payload);
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
 
-    // removeFromCart — optimistically remove then sync
+    // addToCart — add item & sync full cart
     builder
+      .addCase(addToCart.pending, (state) => { state.isLoading = true; state.error = null; })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        syncCartState(state, action.payload);
+      })
+      .addCase(addToCart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+
+    // removeFromCart — remove item & sync full cart
+    builder
+      .addCase(removeFromCart.pending, (state) => { state.isLoading = true; })
       .addCase(removeFromCart.fulfilled, (state, action) => {
-        state.items = state.items.filter((i) => i.courseId !== action.payload.courseId);
+        syncCartState(state, action.payload);
+      })
+      .addCase(removeFromCart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
 
     // emptyCart

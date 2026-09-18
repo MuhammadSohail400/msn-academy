@@ -68,29 +68,37 @@ export default function OrderPending() {
     if (!txRef.trim() || txRef.trim().length < 5) {
       newErrors.txRef = 'Transaction reference must be at least 5 characters';
     }
+    let cleanUrl = receiptUrl.trim().replace(/[,;]+$/, '');
+    if (cleanUrl) {
+      try {
+        new URL(cleanUrl);
+      } catch {
+        newErrors.receiptUrl = 'Please enter a valid URL (e.g. https://drive.google.com/...)';
+      }
+    }
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    if (!paymentId) {
-      setGlobalError('Payment record not found. Please contact support.');
-      return;
-    }
+    const activePaymentId = paymentId || state?.orderId || 'latest';
 
     setGlobalError('');
     setErrors({});
     setSubmitting(true);
     try {
-      await paymentService.submitProof(paymentId, {
+      await paymentService.submitProof(activePaymentId, {
         transactionReference: txRef.trim(),
-        receiptScreenshotUrl: receiptUrl.trim() || undefined,
+        receiptScreenshotUrl: cleanUrl || undefined,
       });
       setSubmitted(true);
     } catch (err) {
       if (err.errors?.length > 0) {
         const mapped = {};
-        err.errors.forEach((e) => { if (e.field) mapped[e.field === 'transactionReference' ? 'txRef' : e.field] = e.message; });
+        err.errors.forEach((e) => {
+          if (e.field) mapped[e.field === 'transactionReference' ? 'txRef' : e.field] = e.message;
+        });
         setErrors(mapped);
       } else {
         setGlobalError(err.message || 'Failed to submit proof. Please try again.');
@@ -239,6 +247,7 @@ export default function OrderPending() {
                     className="w-full rounded-xl border border-slate-200 bg-white pl-10 pr-4 py-2.5 text-sm placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
                   />
                 </div>
+                <FieldError message={errors.receiptUrl} />
               </div>
 
               <button

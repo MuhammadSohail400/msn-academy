@@ -60,14 +60,14 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-3xl bg-white border border-slate-200/90 shadow-sm p-8 sm:p-10 transition-all">
+    <div className="w-full max-w-[480px] rounded-3xl bg-white border border-slate-200/90 shadow-sm p-6 sm:p-8 transition-all">
       {!success ? (
         <>
           <div className="mb-6">
             <h1 className="font-display text-2xl sm:text-[26px] font-bold tracking-tight text-slate-900">
               Reset Password
             </h1>
-            <p className="mt-1.5 text-xs sm:text-sm text-slate-400">
+            <p className="mt-1 text-xs sm:text-sm text-slate-400">
               Enter a new secure password for your student account.
             </p>
           </div>
@@ -111,7 +111,7 @@ export default function ResetPassword() {
                     if (fieldErrors.password) setFieldErrors({ ...fieldErrors, password: '' });
                   }}
                   placeholder="Minimum 8 characters"
-                  className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 pr-11 transition-all focus:outline-none focus:ring-2 ${
+                  className={`w-full h-11 rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 pr-11 transition-all focus:outline-none focus:ring-2 ${
                     fieldErrors.password
                       ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/20'
                       : 'border-slate-200 focus:border-brand-crimson focus:ring-brand-crimson/20'
@@ -149,7 +149,7 @@ export default function ResetPassword() {
                     if (fieldErrors.confirmPassword) setFieldErrors({ ...fieldErrors, confirmPassword: '' });
                   }}
                   placeholder="Re-enter your new password"
-                  className={`w-full rounded-xl border px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 pr-11 transition-all focus:outline-none focus:ring-2 ${
+                  className={`w-full h-11 rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 pr-11 transition-all focus:outline-none focus:ring-2 ${
                     fieldErrors.confirmPassword
                       ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/20'
                       : 'border-slate-200 focus:border-brand-crimson focus:ring-brand-crimson/20'
@@ -173,7 +173,7 @@ export default function ResetPassword() {
             <button
               type="submit"
               disabled={loading || !token}
-              className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl bg-brand-crimson py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover disabled:cursor-not-allowed disabled:opacity-60 transition-all active:scale-[0.99]"
+              className="w-full h-12 mt-2 flex items-center justify-center gap-2 rounded-xl bg-brand-crimson text-sm font-bold text-white shadow-sm hover:bg-brand-crimson-hover disabled:cursor-not-allowed disabled:opacity-60 transition-all active:scale-[0.99]"
             >
               {loading ? (
                 <>

@@ -65,10 +65,28 @@ export class PaymentService {
     paymentId: string,
     input: SubmitProofInput
   ): Promise<Record<string, unknown>> {
-    const payment = await Payment.findOne({
-      _id: new Types.ObjectId(paymentId),
-      userId: new Types.ObjectId(userId),
-    });
+    let payment = null;
+
+    if (paymentId && Types.ObjectId.isValid(paymentId)) {
+      payment = await Payment.findOne({
+        _id: new Types.ObjectId(paymentId),
+        userId: new Types.ObjectId(userId),
+      });
+
+      if (!payment) {
+        payment = await Payment.findOne({
+          orderId: new Types.ObjectId(paymentId),
+          userId: new Types.ObjectId(userId),
+        });
+      }
+    }
+
+    if (!payment) {
+      payment = await Payment.findOne({
+        userId: new Types.ObjectId(userId),
+        status: { $in: ['PENDING', 'UNDER_REVIEW'] },
+      }).sort({ createdAt: -1 });
+    }
 
     if (!payment) {
       throw ApiError.notFound('Payment record not found.');

@@ -42,7 +42,7 @@ export default function CourseCard({ course }) {
   const badgeClass = BADGE_STYLES[badge] || 'bg-brand-navy text-white font-bold';
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
+    <div className="flex flex-col h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
       {/* Thumbnail + Badges */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900">
         <img
@@ -93,12 +93,12 @@ export default function CourseCard({ course }) {
         </Link>
 
         {/* Description */}
-        <p className="mt-1.5 text-xs text-slate-500 line-clamp-2 leading-relaxed min-h-[2.5rem]">
+        <p className="mt-1.5 text-xs text-slate-500 line-clamp-2 leading-relaxed h-10 overflow-hidden">
           {subtitle}
         </p>
 
         {/* Metrics Row */}
-        <div className="mt-4 flex items-center gap-3 text-xs text-slate-500">
+        <div className="mt-3 flex items-center gap-3 text-xs text-slate-500">
           <div className="flex items-center gap-1">
             <BookOpen className="h-3.5 w-3.5 text-slate-400" />
             <span>{totalLectures} lessons</span>
@@ -113,8 +113,8 @@ export default function CourseCard({ course }) {
           </div>
         </div>
 
-        {/* Price Row */}
-        <div className="mt-5 border-t border-slate-100 pt-4 flex items-baseline justify-between">
+        {/* Price Row (anchored to bottom) */}
+        <div className="mt-auto pt-4 border-t border-slate-100 flex items-baseline justify-between">
           <div className="font-display text-base sm:text-lg font-extrabold text-slate-900">
             PKR {price.toLocaleString()}
           </div>
@@ -124,18 +124,18 @@ export default function CourseCard({ course }) {
         </div>
 
         {/* CTA Button */}
-        <div className="mt-4">
+        <div className="mt-3">
           {isComingSoon ? (
             <button
               disabled
-              className="w-full rounded-xl bg-slate-100 py-2.5 text-center text-xs sm:text-sm font-semibold text-slate-400 cursor-not-allowed"
+              className="w-full h-11 flex items-center justify-center rounded-xl bg-slate-100 text-center text-xs sm:text-sm font-semibold text-slate-400 cursor-not-allowed"
             >
               Coming Soon
             </button>
           ) : (
             <Link
               to={`/courses/${slug}`}
-              className="block w-full rounded-xl bg-brand-crimson py-2.5 text-center text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors"
+              className="w-full h-11 flex items-center justify-center rounded-xl bg-brand-crimson text-center text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors"
             >
               View Course
             </Link>

@@ -96,22 +96,22 @@ export default function Register() {
   };
 
   return (
-    <div className="w-full max-w-xl rounded-3xl bg-white border border-slate-200/90 shadow-sm p-8 sm:p-10 transition-all">
-      <div className="mb-6">
+    <div className="w-full max-w-[480px] rounded-3xl bg-white border border-slate-200/90 shadow-sm p-6 sm:p-8 transition-all">
+      <div className="mb-5">
         <h1 className="font-display text-2xl sm:text-[26px] font-bold tracking-tight text-slate-900">
           Create Account
         </h1>
-        <p className="mt-1.5 text-xs sm:text-sm text-slate-400">
+        <p className="mt-1 text-xs sm:text-sm text-slate-400">
           Join MSN Academy and start learning today.
         </p>
       </div>
 
       {/* Social Auth Buttons matching Figma Create Account.png */}
-      <div className="space-y-2.5 mb-6">
+      <div className="space-y-2.5 mb-5">
         <button
           type="button"
           onClick={() => setSubmitError('Social sign-up with Google will be enabled soon. Please register using email.')}
-          className="w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white py-3 text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
+          className="w-full h-11 flex items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
         >
           {/* Google G Logo */}
           <svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -138,7 +138,7 @@ export default function Register() {
         <button
           type="button"
           onClick={() => setSubmitError('Social sign-up with Apple will be enabled soon. Please register using email.')}
-          className="w-full flex items-center justify-center gap-3 rounded-xl bg-black py-3 text-xs sm:text-sm font-semibold text-white hover:bg-neutral-800 transition-colors shadow-2xs"
+          className="w-full h-11 flex items-center justify-center gap-3 rounded-xl bg-black text-xs sm:text-sm font-semibold text-white hover:bg-neutral-800 transition-colors shadow-2xs"
         >
           {/* Apple Logo */}
           <svg className="h-4 w-4 fill-current" viewBox="0 0 170 170">
@@ -168,7 +168,7 @@ export default function Register() {
               value={formData.firstName}
               onChange={(e) => handleChange('firstName', e.target.value)}
               placeholder="First name"
-              className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 ${
+              className={`w-full h-11 rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 ${
                 fieldErrors.firstName
                   ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/20'
                   : 'border-slate-200 focus:border-brand-crimson focus:ring-brand-crimson/20'
@@ -188,7 +188,7 @@ export default function Register() {
               value={formData.lastName}
               onChange={(e) => handleChange('lastName', e.target.value)}
               placeholder="Last name"
-              className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 ${
+              className={`w-full h-11 rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 ${
                 fieldErrors.lastName
                   ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/20'
                   : 'border-slate-200 focus:border-brand-crimson focus:ring-brand-crimson/20'
@@ -211,7 +211,7 @@ export default function Register() {
             onChange={(e) => handleChange('email', e.target.value)}
             placeholder="you@example.com"
             autoComplete="email"
-            className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 ${
+            className={`w-full h-11 rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 ${
               fieldErrors.email
                 ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/20'
                 : 'border-slate-200 focus:border-brand-crimson focus:ring-brand-crimson/20'
@@ -232,7 +232,7 @@ export default function Register() {
             value={formData.phoneNumber}
             onChange={(e) => handleChange('phoneNumber', e.target.value)}
             placeholder="+92 XXX XXX XXXX"
-            className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:border-brand-crimson focus:outline-none focus:ring-2 focus:ring-brand-crimson/20"
+            className="w-full h-11 rounded-xl border border-slate-200 px-4 text-sm text-slate-900 placeholder:text-slate-400 transition-all focus:border-brand-crimson focus:outline-none focus:ring-2 focus:ring-brand-crimson/20"
           />
         </div>
 
@@ -247,7 +247,7 @@ export default function Register() {
               value={formData.password}
               onChange={(e) => handleChange('password', e.target.value)}
               placeholder="Minimum 8 characters"
-              className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 pr-11 transition-all focus:outline-none focus:ring-2 ${
+              className={`w-full h-11 rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 pr-11 transition-all focus:outline-none focus:ring-2 ${
                 fieldErrors.password
                   ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/20'
                   : 'border-slate-200 focus:border-brand-crimson focus:ring-brand-crimson/20'
@@ -278,7 +278,7 @@ export default function Register() {
               value={formData.confirmPassword}
               onChange={(e) => handleChange('confirmPassword', e.target.value)}
               placeholder="Re-enter your password"
-              className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 pr-11 transition-all focus:outline-none focus:ring-2 ${
+              className={`w-full h-11 rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 pr-11 transition-all focus:outline-none focus:ring-2 ${
                 fieldErrors.confirmPassword
                   ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/20'
                   : 'border-slate-200 focus:border-brand-crimson focus:ring-brand-crimson/20'
@@ -327,7 +327,7 @@ export default function Register() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-3 flex items-center justify-center gap-2 rounded-xl bg-brand-crimson py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover disabled:cursor-not-allowed disabled:opacity-60 transition-all active:scale-[0.99]"
+          className="w-full h-12 mt-2 flex items-center justify-center gap-2 rounded-xl bg-brand-crimson text-sm font-bold text-white shadow-sm hover:bg-brand-crimson-hover disabled:cursor-not-allowed disabled:opacity-60 transition-all active:scale-[0.99]"
         >
           {loading ? (
             <>

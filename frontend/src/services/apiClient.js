@@ -11,8 +11,31 @@ const apiClient = axios.create({
   },
 });
 
+// Persistent guest session identifier for cart and discovery
+export function getGuestSessionId() {
+  if (typeof window === 'undefined') return '';
+  let id = localStorage.getItem('guest_session_id');
+  if (!id) {
+    id = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : 'guest_' + Math.random().toString(36).substring(2) + Date.now();
+    localStorage.setItem('guest_session_id', id);
+  }
+  return id;
+}
+
 apiClient.interceptors.request.use((config) => {
   config.headers['X-Client-Timestamp'] = new Date().toISOString();
+  const guestSessionId = getGuestSessionId();
+  if (guestSessionId) {
+    config.headers['x-guest-session-id'] = guestSessionId;
+  }
+  if (typeof window !== 'undefined') {
+    const authToken = localStorage.getItem('auth_token');
+    if (authToken) {
+      config.headers['Authorization'] = `Bearer ${authToken}`;
+    }
+  }
   return config;
 });
 

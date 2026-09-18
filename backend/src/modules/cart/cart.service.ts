@@ -42,13 +42,31 @@ export class CartService {
     if (userId) {
       cart = await Cart.findOne({ userId: new Types.ObjectId(userId) });
 
-      // If user has no cart, but was browsing as a guest, claim the guest cart!
-      if (!cart && guestSessionId) {
-        cart = await Cart.findOne({ guestSessionId, userId: null });
-        if (cart) {
-          cart.userId = new Types.ObjectId(userId);
-          cart.guestSessionId = null;
-          await cart.save();
+      // If browsing as a guest, claim or merge the guest cart into the user cart!
+      if (guestSessionId) {
+        const guestCart = await Cart.findOne({ guestSessionId, userId: null });
+        if (guestCart && guestCart.items.length > 0) {
+          if (!cart) {
+            cart = guestCart;
+            cart.userId = new Types.ObjectId(userId);
+            cart.guestSessionId = null;
+            await cart.save();
+          } else {
+            // Merge guest cart items into existing user cart
+            for (const gItem of guestCart.items) {
+              const exists = cart.items.some(
+                (i) => i.courseId.toString() === gItem.courseId.toString()
+              );
+              if (!exists) {
+                cart.items.push(gItem);
+              }
+            }
+            if (guestCart.appliedPromoCode && !cart.appliedPromoCode) {
+              cart.appliedPromoCode = guestCart.appliedPromoCode;
+            }
+            await cart.save();
+            await Cart.deleteOne({ _id: guestCart._id });
+          }
         }
       }
 
