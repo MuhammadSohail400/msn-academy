@@ -26,7 +26,7 @@ export default function LmsSidebar() {
 
   const handleSignOut = async () => {
     await dispatch(logoutUser());
-    navigate('/');
+    navigate('/login?signedOut=true');
   };
 
   const linkClass = ({ isActive }) =>

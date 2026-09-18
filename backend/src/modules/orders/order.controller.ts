@@ -10,7 +10,8 @@ export class OrderController {
   public static async checkout(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const userId = req.user!.id;
-      const result = await OrderService.checkout(userId, req.body);
+      const guestSessionId = (req.headers['x-guest-session-id'] as string) || req.cookies?.guest_session_id;
+      const result = await OrderService.checkout(userId, req.body, guestSessionId);
 
       res.status(201).json(ApiResponse.created(result, 'Order created successfully'));
     } catch (error) {

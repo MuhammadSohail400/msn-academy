@@ -13,7 +13,13 @@ export const submitProofSchema = z.object({
     .trim()
     .min(4, 'Transaction reference/TID must be at least 4 characters')
     .max(100, 'Transaction reference cannot exceed 100 characters'),
-  receiptScreenshotUrl: z.string().trim().url('Receipt screenshot must be a valid URL').optional(),
+  receiptScreenshotUrl: z
+    .string()
+    .trim()
+    .url('Receipt screenshot must be a valid URL')
+    .optional()
+    .or(z.literal(''))
+    .nullable(),
 });
 
 export const adminReviewPaymentSchema = z.object({
@@ -27,7 +33,9 @@ export const getPaymentParamsSchema = z.object({
   paymentId: z
     .string()
     .trim()
-    .regex(/^[0-9a-fA-F]{24}$/, 'Payment ID must be a valid 24-character ObjectId'),
+    .refine((val) => val === 'latest' || /^[0-9a-fA-F]{24}$/.test(val), {
+      message: 'Payment ID must be a valid 24-character ObjectId or "latest"',
+    }),
 });
 
 export const paymentWebhookSchema = z.object({

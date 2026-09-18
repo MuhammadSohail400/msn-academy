@@ -9,8 +9,19 @@ import { useSelector } from 'react-redux';
  * preserved in ?redirect= so they can be sent back after logging in.
  */
 export default function ProtectedRoute({ children }) {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { isAuthenticated, isInitialAuthChecked, isLoading } = useSelector((state) => state.auth);
   const location = useLocation();
+
+  if (!isInitialAuthChecked || isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-crimson border-t-transparent" />
+          <p className="text-sm font-medium text-gray-500">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (

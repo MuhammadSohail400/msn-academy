@@ -18,8 +18,8 @@ router.post('/forgot-password', validateRequest({ body: forgotPasswordSchema }),
 router.post('/reset-password', validateRequest({ body: resetPasswordSchema }), AuthController.resetPassword);
 router.post('/refresh', AuthController.refresh);
 
-// Protected Authentication Endpoints
-router.post('/logout', authGuard, AuthController.logout);
+// Authentication Endpoints
+router.post('/logout', AuthController.logout);
 router.get('/me', authGuard, AuthController.getMe);
 
 export default router;

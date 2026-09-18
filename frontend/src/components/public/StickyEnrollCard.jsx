@@ -28,13 +28,18 @@ export default function StickyEnrollCard({ course }) {
   const isInCart = cartItems.some((item) => item.courseId === id);
   const isEnrolled = course?.isEnrolled === true;
 
-  const handleEnrollNow = () => {
-    if (!isAuthenticated) { navigate('/login'); return; }
-    navigate(`/checkout?courseId=${id}`);
+  const handleEnrollNow = async () => {
+    if (!isInCart) {
+      try {
+        await dispatch(addToCart(id)).unwrap();
+      } catch {
+        // Continue to checkout even if item was already in cart
+      }
+    }
+    navigate('/checkout');
   };
 
   const handleAddToCart = async () => {
-    if (!isAuthenticated) { navigate('/login'); return; }
     if (isInCart) { navigate('/cart'); return; }
     try {
       setAddingToCart(true);

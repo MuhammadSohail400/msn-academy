@@ -14,6 +14,7 @@ import {
 import { closeCartDrawer } from '../../store/slices/uiSlice';
 import {
   removeFromCart,
+  emptyCart,
   applyPromoCode,
 } from '../../features/cart/slice/cartSlice';
 
@@ -32,6 +33,7 @@ export default function CartDrawer() {
   const [promoMessage, setPromoMessage] = useState('');
   const [promoError, setPromoError] = useState('');
   const [removingId, setRemovingId] = useState(null);
+  const [clearing, setClearing] = useState(false);
 
   if (!isOpen) return null;
 
@@ -40,11 +42,21 @@ export default function CartDrawer() {
   };
 
   const handleRemove = async (courseId) => {
+    if (!courseId) return;
     setRemovingId(courseId);
     try {
       await dispatch(removeFromCart(courseId)).unwrap();
     } finally {
       setRemovingId(null);
+    }
+  };
+
+  const handleClearAll = async () => {
+    setClearing(true);
+    try {
+      await dispatch(emptyCart()).unwrap();
+    } finally {
+      setClearing(false);
     }
   };
 
@@ -67,11 +79,7 @@ export default function CartDrawer() {
 
   const handleProceedCheckout = () => {
     handleClose();
-    if (isAuthenticated) {
-      navigate('/checkout');
-    } else {
-      navigate('/login?redirect=/checkout');
-    }
+    navigate('/checkout');
   };
 
   return (
@@ -94,13 +102,27 @@ export default function CartDrawer() {
                 {items?.length || 0} {items?.length === 1 ? 'item' : 'items'} in your cart
               </p>
             </div>
-            <button
-              onClick={handleClose}
-              className="rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
-              aria-label="Close cart"
-            >
-              <X className="h-5 w-5" />
-            </button>
+            <div className="flex items-center gap-2">
+              {items && items.length > 0 && (
+                <button
+                  type="button"
+                  disabled={clearing}
+                  onClick={handleClearAll}
+                  className="text-xs text-slate-500 hover:text-rose-600 font-medium transition-colors px-2 py-1 rounded hover:bg-rose-50 flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                  title="Remove all items from cart"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                  <span>{clearing ? 'Clearing...' : 'Clear all'}</span>
+                </button>
+              )}
+              <button
+                onClick={handleClose}
+                className="rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
+                aria-label="Close cart"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
           </div>
 
           {/* Cart Items Body */}
@@ -128,21 +150,24 @@ export default function CartDrawer() {
               </div>
             ) : (
               items.map((item) => {
-                const course = item.course || item;
-                const courseId = course._id || course.id;
+                const courseId = item.courseId || item._id || item.id || item.course?._id || item.course?.id;
                 const isRemoving = removingId === courseId;
+                const thumbnail = item.thumbnail || item.course?.thumbnail;
+                const title = item.title || item.course?.title;
+                const price = item.price ?? item.course?.price ?? 0;
+                const category = item.category || item.course?.category;
 
                 return (
                   <div
-                    key={courseId}
+                    key={courseId || Math.random()}
                     className="relative flex items-center gap-3.5 rounded-xl border border-slate-200/80 p-3.5 bg-white shadow-2xs hover:border-slate-300 transition-all"
                   >
                     {/* Thumbnail */}
                     <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-slate-100 border border-slate-200">
-                      {course.thumbnail ? (
+                      {thumbnail ? (
                         <img
-                          src={course.thumbnail}
-                          alt={course.title}
+                          src={thumbnail}
+                          alt={title}
                           className="h-full w-full object-cover"
                         />
                       ) : (
@@ -154,16 +179,16 @@ export default function CartDrawer() {
 
                     {/* Course Info */}
                     <div className="flex-1 min-w-0 pr-6">
-                      {course.category && (
+                      {category && (
                         <span className="inline-block rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-1">
-                          {course.category}
+                          {category}
                         </span>
                       )}
                       <h4 className="truncate text-xs sm:text-sm font-bold text-slate-900 leading-tight">
-                        {course.title}
+                        {title}
                       </h4>
                       <p className="mt-1 font-bold text-sm text-brand-crimson">
-                        {currency} {(course.price || 0).toLocaleString()}
+                        {currency} {Number(price).toLocaleString()}
                       </p>
                     </div>
 
@@ -172,7 +197,7 @@ export default function CartDrawer() {
                       type="button"
                       disabled={isRemoving}
                       onClick={() => handleRemove(courseId)}
-                      className="absolute right-3 top-3 text-slate-400 hover:text-rose-600 transition-colors p-1 rounded-full hover:bg-slate-100"
+                      className="absolute right-3 top-3 text-slate-400 hover:text-rose-600 transition-colors p-1.5 rounded-full hover:bg-slate-100 cursor-pointer"
                       title="Remove course"
                     >
                       {isRemoving ? (
@@ -254,7 +279,7 @@ export default function CartDrawer() {
               <button
                 type="button"
                 onClick={handleProceedCheckout}
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-crimson py-3 text-sm font-bold text-white shadow-sm hover:bg-brand-crimson-hover transition-all active:scale-[0.98]"
+                className="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-brand-crimson text-sm font-bold text-white shadow-sm hover:bg-brand-crimson-hover transition-all active:scale-[0.98]"
               >
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="h-4 w-4" />

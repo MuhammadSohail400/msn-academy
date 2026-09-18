@@ -46,13 +46,17 @@ export class OrderService {
   /**
    * Converts active shopping cart into an immutable order ledger entry.
    */
-  public static async checkout(userId: string, input: CheckoutInput): Promise<Record<string, unknown>> {
+  public static async checkout(
+    userId: string,
+    input: CheckoutInput,
+    guestSessionId?: string
+  ): Promise<Record<string, unknown>> {
     const user = await User.findById(userId);
     if (!user) {
       throw ApiError.unauthorized('User not found.');
     }
 
-    const cart = await CartService.findOrCreateCart(userId);
+    const cart = await CartService.findOrCreateCart(userId, guestSessionId);
     const summary = await CartService.getFormattedCart(cart);
 
     if (summary.items.length === 0) {
@@ -94,7 +98,7 @@ export class OrderService {
     });
 
     // Create payment tracking record
-    await Payment.create({
+    const payment = await Payment.create({
       orderId: order._id,
       userId: new Types.ObjectId(userId),
       paymentMethod: input.paymentMethod,
@@ -125,6 +129,7 @@ export class OrderService {
         paymentMethod: order.paymentMethod,
         createdAt: order.createdAt.toISOString(),
       },
+      paymentId: payment._id.toString(),
       paymentDetails,
     };
   }

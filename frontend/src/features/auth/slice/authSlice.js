@@ -15,7 +15,7 @@ export const fetchMe = createAsyncThunk('auth/fetchMe', async (_, { rejectWithVa
 export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, { rejectWithValue }) => {
   try {
     const res = await authService.login(credentials);
-    return res.data.user;
+    return res.data; // { user, accessToken, refreshToken }
   } catch (err) {
     return rejectWithValue(err.message || 'Login failed');
   }
@@ -24,26 +24,39 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, 
 export const registerUser = createAsyncThunk('auth/registerUser', async (data, { rejectWithValue }) => {
   try {
     const res = await authService.register(data);
-    return res.data.user;
+    return res.data; // { user, accessToken, refreshToken }
   } catch (err) {
     return rejectWithValue(err.message || 'Registration failed');
   }
 });
 
-export const logoutUser = createAsyncThunk('auth/logoutUser', async (_, { rejectWithValue }) => {
+export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
   try {
     await authService.logout();
-    return null;
-  } catch (err) {
-    return rejectWithValue(err.message || 'Logout failed');
+  } catch {
+    // Graceful offline/network logout fallback
   }
+  return null;
 });
 
 // ─── Slice ────────────────────────────────────────────────────────────────────
 
+const getInitialUser = () => {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem('user');
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
+
+const savedUser = getInitialUser();
+
 const initialState = {
-  user: null,
-  isAuthenticated: false,
+  user: savedUser,
+  isAuthenticated: !!savedUser,
+  isInitialAuthChecked: !!savedUser,
   isLoading: false,
   error: null,
 };
@@ -53,13 +66,26 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials(state, action) {
-      state.user = action.payload;
+      const payload = action.payload;
+      state.user = payload.user || payload;
       state.isAuthenticated = true;
+      state.isInitialAuthChecked = true;
       state.error = null;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('user', JSON.stringify(state.user));
+        if (payload.accessToken) {
+          localStorage.setItem('auth_token', payload.accessToken);
+        }
+      }
     },
     clearCredentials(state) {
       state.user = null;
       state.isAuthenticated = false;
+      state.isInitialAuthChecked = true;
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('user');
+        localStorage.removeItem('auth_token');
+      }
     },
     setAuthLoading(state, action) {
       state.isLoading = action.payload;
@@ -78,11 +104,22 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.isInitialAuthChecked = true;
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(action.payload));
+        }
       })
       .addCase(fetchMe.rejected, (state) => {
         state.isLoading = false;
-        state.user = null;
-        state.isAuthenticated = false;
+        const hasToken = typeof window !== 'undefined' && localStorage.getItem('auth_token');
+        if (!hasToken) {
+          state.user = null;
+          state.isAuthenticated = false;
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem('user');
+          }
+        }
+        state.isInitialAuthChecked = true;
       });
 
     // loginUser
@@ -93,8 +130,16 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload;
+        const payload = action.payload;
+        state.user = payload.user || payload;
         state.isAuthenticated = true;
+        state.isInitialAuthChecked = true;
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(state.user));
+          if (payload.accessToken) {
+            localStorage.setItem('auth_token', payload.accessToken);
+          }
+        }
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -109,8 +154,16 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload;
+        const payload = action.payload;
+        state.user = payload.user || payload;
         state.isAuthenticated = true;
+        state.isInitialAuthChecked = true;
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(state.user));
+          if (payload.accessToken) {
+            localStorage.setItem('auth_token', payload.accessToken);
+          }
+        }
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -122,7 +175,22 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.isAuthenticated = false;
+        state.isInitialAuthChecked = true;
         state.error = null;
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('user');
+          localStorage.removeItem('auth_token');
+        }
+      })
+      .addCase(logoutUser.rejected, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.isInitialAuthChecked = true;
+        state.error = null;
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('user');
+          localStorage.removeItem('auth_token');
+        }
       });
   },
 });

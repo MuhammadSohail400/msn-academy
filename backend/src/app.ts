@@ -22,7 +22,14 @@ export const createApp = (): Application => {
       origin: [env.CORS_ORIGIN, env.CLIENT_URL, 'http://localhost:5173'],
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-Client-Timestamp'],
+      allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'X-Requested-With',
+        'X-Client-Timestamp',
+        'x-guest-session-id',
+        'X-Guest-Session-Id',
+      ],
     })
   );
 

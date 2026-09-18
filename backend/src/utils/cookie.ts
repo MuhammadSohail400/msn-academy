@@ -7,7 +7,7 @@ export const ACCESS_TOKEN_COOKIE_OPTIONS: CookieOptions = {
   httpOnly: true,
   secure: isProduction,
   sameSite: isProduction ? 'strict' : 'lax',
-  maxAge: 15 * 60 * 1000, // 15 minutes
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days (prevents premature session expiration)
   path: '/',
 };
 
