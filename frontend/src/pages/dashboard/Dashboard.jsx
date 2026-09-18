@@ -60,9 +60,9 @@ export default function Dashboard() {
 
   // Continue Learning course fallback to match Figma `dashboard.png`
   const continueLearningCourse = summary?.recentActivity?.[0] || {
-    courseId: enrollments[0]?.course?._id || 'demo-1',
-    courseTitle: enrollments[0]?.course?.title || 'Data Analytics',
-    lessonTitle: 'Introduction & Fundamentals · Setting Up Your Environment',
+    courseId: enrollments[0]?.courseId || enrollments[0]?.course?._id || 'demo-1',
+    courseTitle: enrollments[0]?.title || enrollments[0]?.course?.title || 'Data Analytics',
+    lessonTitle: enrollments[0]?.lastAccessedLesson?.title || 'Introduction & Fundamentals · Setting Up Your Environment',
     progressPercentage: enrollments[0]?.progressPercentage || 35,
   };
 
@@ -258,28 +258,30 @@ export default function Dashboard() {
         </div>
 
         <div className="space-y-3">
-          {displayCourses.map((item) => {
+          {displayCourses.map((item, idx) => {
             const course = item.course || item;
+            const courseId = item.courseId || course._id || item._id || `course-${idx}`;
+            const courseTitle = course.title || item.title || 'Course';
             const progress = item.progressPercentage || 0;
-            const isCompleted = item.status === 'COMPLETED' || progress === 100;
+            const isCompleted = item.isCompleted || item.status === 'COMPLETED' || progress === 100;
 
             return (
               <div
-                key={item._id || course._id}
+                key={item.enrollmentId || item._id || courseId}
                 className="rounded-2xl border border-slate-200/80 bg-white p-4 sm:p-5 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-slate-300 transition-all"
               >
                 <div className="flex items-center gap-4 min-w-0">
                   <div className="h-12 w-16 sm:h-14 sm:w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100 border border-slate-200">
                     <img
-                      src={course.thumbnail || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&auto=format&fit=crop&q=80'}
-                      alt={course.title}
+                      src={course.thumbnail || item.thumbnail || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&auto=format&fit=crop&q=80'}
+                      alt={courseTitle}
                       className="h-full w-full object-cover"
                     />
                   </div>
 
                   <div className="flex-1 min-w-0 space-y-2">
                     <h4 className="truncate font-display text-sm sm:text-base font-bold text-slate-900">
-                      {course.title}
+                      {courseTitle}
                     </h4>
 
                     {/* Progress Bar */}
@@ -309,7 +311,7 @@ export default function Dashboard() {
                     </Link>
                   ) : (
                     <Link
-                      to={`/learn/${course._id}`}
+                      to={`/learn/${courseId}`}
                       className="inline-flex items-center gap-1.5 rounded-xl bg-brand-navy px-5 py-2 text-xs font-semibold text-white hover:bg-brand-navy/90 transition-colors whitespace-nowrap"
                     >
                       <span>Continue</span>

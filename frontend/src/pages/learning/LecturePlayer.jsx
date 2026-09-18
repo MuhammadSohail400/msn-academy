@@ -10,6 +10,7 @@ import {
   Lock,
   Download,
   AlertCircle,
+  Award,
 } from 'lucide-react';
 import learningService from '../../services/learningService';
 import VideoPlayer from '../../components/learning/VideoPlayer';

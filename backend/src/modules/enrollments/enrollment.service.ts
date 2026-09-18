@@ -135,6 +135,12 @@ export class EnrollmentService {
           course.totalLectures ||
           1;
 
+        const enrolledDate = enrollment.enrolledAt || enrollment.createdAt || new Date();
+        const enrolledIso =
+          enrolledDate instanceof Date
+            ? enrolledDate.toISOString()
+            : new Date(enrolledDate).toISOString();
+
         formattedList.push({
           enrollmentId: enrollment._id.toString(),
           courseId: course._id.toString(),
@@ -146,7 +152,7 @@ export class EnrollmentService {
           completedLecturesCount: enrollment.completedLectures?.length || 0,
           isCompleted: enrollment.status === 'COMPLETED',
           lastAccessedLesson: lastLesson,
-          enrolledAt: enrollment.enrolledAt.toISOString(),
+          enrolledAt: enrolledIso,
         });
       }
     }
@@ -203,12 +209,18 @@ export class EnrollmentService {
           lessonTitle = course.modules[0].lectures[0].title;
         }
 
+        const lastWatched = e.updatedAt || e.enrolledAt || new Date();
+        const lastWatchedIso =
+          lastWatched instanceof Date
+            ? lastWatched.toISOString()
+            : new Date(lastWatched).toISOString();
+
         return {
           courseId: course._id.toString(),
           courseTitle: course.title,
           lessonTitle,
           progressPercentage: e.progressPercentage || 0,
-          lastWatchedAt: e.updatedAt.toISOString(),
+          lastWatchedAt: lastWatchedIso,
         };
       })
       .filter(Boolean);
