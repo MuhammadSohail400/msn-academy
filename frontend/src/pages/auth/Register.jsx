@@ -160,10 +160,12 @@ export default function Register() {
         {/* Name Fields (2 Columns) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+            <label htmlFor="register-first-name" className="block text-xs font-semibold text-slate-700 mb-1.5">
               First Name
             </label>
             <input
+              id="register-first-name"
+              name="firstName"
               type="text"
               value={formData.firstName}
               onChange={(e) => handleChange('firstName', e.target.value)}
@@ -180,10 +182,12 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+            <label htmlFor="register-last-name" className="block text-xs font-semibold text-slate-700 mb-1.5">
               Last Name
             </label>
             <input
+              id="register-last-name"
+              name="lastName"
               type="text"
               value={formData.lastName}
               onChange={(e) => handleChange('lastName', e.target.value)}
@@ -202,10 +206,12 @@ export default function Register() {
 
         {/* Email Address */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+          <label htmlFor="register-email" className="block text-xs font-semibold text-slate-700 mb-1.5">
             Email Address
           </label>
           <input
+            id="register-email"
+            name="email"
             type="email"
             value={formData.email}
             onChange={(e) => handleChange('email', e.target.value)}
@@ -224,10 +230,12 @@ export default function Register() {
 
         {/* Phone Number */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+          <label htmlFor="register-phone" className="block text-xs font-semibold text-slate-700 mb-1.5">
             Phone Number
           </label>
           <input
+            id="register-phone"
+            name="phoneNumber"
             type="tel"
             value={formData.phoneNumber}
             onChange={(e) => handleChange('phoneNumber', e.target.value)}
@@ -238,11 +246,13 @@ export default function Register() {
 
         {/* Password */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+          <label htmlFor="register-password" className="block text-xs font-semibold text-slate-700 mb-1.5">
             Password
           </label>
           <div className="relative">
             <input
+              id="register-password"
+              name="password"
               type={showPassword ? 'text' : 'password'}
               value={formData.password}
               onChange={(e) => handleChange('password', e.target.value)}
@@ -269,11 +279,13 @@ export default function Register() {
 
         {/* Confirm Password */}
         <div>
-          <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+          <label htmlFor="register-confirm-password" className="block text-xs font-semibold text-slate-700 mb-1.5">
             Confirm Password
           </label>
           <div className="relative">
             <input
+              id="register-confirm-password"
+              name="confirmPassword"
               type={showConfirmPassword ? 'text' : 'password'}
               value={formData.confirmPassword}
               onChange={(e) => handleChange('confirmPassword', e.target.value)}
@@ -300,8 +312,10 @@ export default function Register() {
 
         {/* Terms Checkbox */}
         <div className="pt-1">
-          <label className="flex items-start gap-2.5 cursor-pointer select-none">
+          <label htmlFor="register-agree-terms" className="flex items-start gap-2.5 cursor-pointer select-none">
             <input
+              id="register-agree-terms"
+              name="agreeTerms"
               type="checkbox"
               checked={formData.agreeTerms}
               onChange={(e) => handleChange('agreeTerms', e.target.checked)}

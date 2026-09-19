@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Clock,
@@ -11,6 +11,7 @@ import {
   CreditCard,
   Hash,
   Link2,
+  BookOpen,
 } from 'lucide-react';
 import paymentService from '../../services/paymentService';
 
@@ -33,13 +34,13 @@ function Step({ label, active, done }) {
           done
             ? 'border-emerald-500 bg-emerald-500 text-white'
             : active
-            ? 'border-brand-crimson bg-brand-crimson text-white'
+            ? 'border-brand-crimson bg-brand-crimson text-white animate-pulse'
             : 'border-slate-300 bg-white text-slate-400'
         }`}
       >
         {done ? <CheckCircle2 className="h-4 w-4" /> : null}
       </div>
-      <span className={`text-[10px] font-semibold ${active ? 'text-brand-crimson' : done ? 'text-emerald-600' : 'text-slate-400'}`}>
+      <span className={`text-[10px] font-semibold ${active ? 'text-brand-crimson font-bold' : done ? 'text-emerald-600' : 'text-slate-400'}`}>
         {label}
       </span>
     </div>
@@ -50,23 +51,99 @@ export default function OrderPending() {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  // state comes from Checkout.jsx navigate call
-  const orderNumber  = state?.orderNumber   || '';
-  const paymentId    = state?.paymentId     || null;
-  const paymentDetails = state?.paymentDetails || null; // { bankName, accountTitle, accountNumber, iban }
+  // Try to restore previous pending payment info from sessionStorage on refresh
+  const cached = (() => {
+    try {
+      return JSON.parse(sessionStorage.getItem('msn_pending_payment') || '{}');
+    } catch {
+      return {};
+    }
+  })();
 
-  const [txRef, setTxRef] = useState('');
+  const orderNumber = state?.orderNumber || cached.orderNumber || '';
+  const initialPaymentId = state?.paymentId || cached.paymentId || null;
+  const paymentDetails = state?.paymentDetails || cached.paymentDetails || {
+    bankName: 'Meezan Bank Limited',
+    accountTitle: 'MSN Academy Pvt Ltd',
+    accountNumber: '01010102938475',
+    iban: 'PK45MEZN0001010102938475',
+  };
+
+  const [paymentId, setPaymentId] = useState(initialPaymentId);
+  const [paymentStatus, setPaymentStatus] = useState(cached.status || 'PENDING'); // PENDING | UNDER_REVIEW | APPROVED | REJECTED
+  const [txRef, setTxRef] = useState(cached.transactionReference || '');
   const [receiptUrl, setReceiptUrl] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState(true);
+  const [submitted, setSubmitted] = useState(
+    Boolean(cached.status === 'UNDER_REVIEW' || cached.status === 'APPROVED')
+  );
   const [errors, setErrors] = useState({});
   const [globalError, setGlobalError] = useState('');
+
+  // Persist order details to sessionStorage whenever state or status changes
+  useEffect(() => {
+    const infoToStore = {
+      orderId: state?.orderId || cached.orderId,
+      orderNumber: orderNumber,
+      paymentId: paymentId || state?.paymentId || cached.paymentId,
+      paymentDetails,
+      status: paymentStatus,
+      transactionReference: txRef,
+    };
+    sessionStorage.setItem('msn_pending_payment', JSON.stringify(infoToStore));
+  }, [state, orderNumber, paymentId, paymentDetails, paymentStatus, txRef]);
+
+  // Fetch real payment status from backend on mount or page refresh
+  useEffect(() => {
+    let isMounted = true;
+    async function checkStatus() {
+      setLoadingStatus(true);
+      try {
+        const idToCheck = paymentId || state?.paymentId || cached.paymentId || 'latest';
+        const res = await paymentService.getPaymentStatus(idToCheck);
+        if (res?.data && isMounted) {
+          const { status, transactionReference, paymentId: fetchedId } = res.data;
+          if (fetchedId) setPaymentId(fetchedId);
+          setPaymentStatus(status);
+          if (transactionReference) setTxRef(transactionReference);
+
+          if (status === 'UNDER_REVIEW' || status === 'APPROVED') {
+            setSubmitted(true);
+          } else {
+            setSubmitted(false);
+          }
+
+          // Sync cache
+          sessionStorage.setItem(
+            'msn_pending_payment',
+            JSON.stringify({
+              orderNumber,
+              paymentId: fetchedId || idToCheck,
+              paymentDetails,
+              status,
+              transactionReference,
+            })
+          );
+        }
+      } catch (err) {
+        console.warn('Could not fetch payment status:', err);
+      } finally {
+        if (isMounted) setLoadingStatus(false);
+      }
+    }
+
+    checkStatus();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleSubmitProof = async (e) => {
     e.preventDefault();
     const newErrors = {};
-    if (!txRef.trim() || txRef.trim().length < 5) {
-      newErrors.txRef = 'Transaction reference must be at least 5 characters';
+    if (!txRef.trim() || txRef.trim().length < 4) {
+      newErrors.txRef = 'Transaction reference must be at least 4 characters';
     }
     let cleanUrl = receiptUrl.trim().replace(/[,;]+$/, '');
     if (cleanUrl) {
@@ -82,17 +159,30 @@ export default function OrderPending() {
       return;
     }
 
-    const activePaymentId = paymentId || state?.orderId || 'latest';
+    const activePaymentId = paymentId || state?.paymentId || cached.paymentId || 'latest';
 
     setGlobalError('');
     setErrors({});
     setSubmitting(true);
     try {
-      await paymentService.submitProof(activePaymentId, {
+      const res = await paymentService.submitProof(activePaymentId, {
         transactionReference: txRef.trim(),
         receiptScreenshotUrl: cleanUrl || undefined,
       });
       setSubmitted(true);
+      setPaymentStatus('UNDER_REVIEW');
+      if (res?.data?.paymentId) setPaymentId(res.data.paymentId);
+
+      sessionStorage.setItem(
+        'msn_pending_payment',
+        JSON.stringify({
+          orderNumber,
+          paymentId: res?.data?.paymentId || activePaymentId,
+          paymentDetails,
+          status: 'UNDER_REVIEW',
+          transactionReference: txRef.trim(),
+        })
+      );
     } catch (err) {
       if (err.errors?.length > 0) {
         const mapped = {};
@@ -108,6 +198,10 @@ export default function OrderPending() {
     }
   };
 
+  const isProofSubmitted = submitted || paymentStatus === 'UNDER_REVIEW' || paymentStatus === 'APPROVED';
+  const isUnderReview = paymentStatus === 'UNDER_REVIEW';
+  const isApproved = paymentStatus === 'APPROVED';
+
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-start px-4 py-10">
       {/* Logo */}
@@ -121,12 +215,22 @@ export default function OrderPending() {
         {/* Top — Status icon + heading */}
         <div className="p-8 text-center space-y-4 border-b border-slate-100">
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-amber-50">
-            <Clock className="h-10 w-10 text-amber-500" strokeWidth={2} />
+            {isApproved ? (
+              <CheckCircle2 className="h-10 w-10 text-emerald-500" strokeWidth={2} />
+            ) : (
+              <Clock className="h-10 w-10 text-amber-500" strokeWidth={2} />
+            )}
           </div>
           <div className="space-y-1.5">
-            <h1 className="font-display text-2xl font-extrabold text-brand-navy">Payment Pending</h1>
-            <p className="text-sm font-semibold text-brand-crimson">
-              Your payment is awaiting verification.
+            <h1 className="font-display text-2xl font-extrabold text-brand-navy">
+              {isApproved ? 'Payment Approved!' : 'Payment Pending'}
+            </h1>
+            <p className={`text-sm font-semibold ${isApproved ? 'text-emerald-600' : 'text-brand-crimson'}`}>
+              {isApproved
+                ? 'Your payment has been verified. Access granted!'
+                : isUnderReview
+                ? 'Proof received. Your payment is under admin review.'
+                : 'Your payment is awaiting verification.'}
             </p>
             {orderNumber && (
               <p className="text-xs text-slate-400 font-mono">{orderNumber}</p>
@@ -136,18 +240,30 @@ export default function OrderPending() {
           {/* Timeline stepper */}
           <div className="flex items-start justify-between pt-2 px-2">
             <Step label="Order Placed" done />
-            <div className="flex-1 mt-3 h-0.5 bg-brand-crimson mx-1" />
-            <Step label="Proof Submitted" active={submitted} done={submitted} />
-            <div className="flex-1 mt-3 h-0.5 bg-slate-200 mx-1" />
-            <Step label="Under Review" />
-            <div className="flex-1 mt-3 h-0.5 bg-slate-200 mx-1" />
-            <Step label="Access Granted" />
+            <div className={`flex-1 mt-3 h-0.5 mx-1 transition-colors ${isProofSubmitted ? 'bg-emerald-500' : 'bg-slate-200'}`} />
+            <Step
+              label="Proof Submitted"
+              done={isProofSubmitted}
+              active={!isProofSubmitted}
+            />
+            <div className={`flex-1 mt-3 h-0.5 mx-1 transition-colors ${isApproved ? 'bg-emerald-500' : isUnderReview ? 'bg-brand-crimson' : 'bg-slate-200'}`} />
+            <Step
+              label="Under Review"
+              active={isUnderReview}
+              done={isApproved}
+            />
+            <div className={`flex-1 mt-3 h-0.5 mx-1 transition-colors ${isApproved ? 'bg-emerald-500' : 'bg-slate-200'}`} />
+            <Step
+              label="Access Granted"
+              done={isApproved}
+              active={false}
+            />
           </div>
         </div>
 
         <div className="p-6 space-y-5">
           {/* Bank Account Details */}
-          {paymentDetails && (
+          {!isApproved && paymentDetails && (
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
                 Transfer Payment To
@@ -179,19 +295,36 @@ export default function OrderPending() {
             </div>
           )}
 
-          {/* Info message */}
-          <p className="text-xs text-slate-500 leading-relaxed text-center">
-            Manual payments may take up to 24 hours to verify. Submit your transaction
-            reference below to speed up the process.
-          </p>
-
-          {/* Submitted success */}
-          {submitted ? (
+          {/* Approved State Celebration */}
+          {isApproved ? (
+            <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-5 text-center space-y-3">
+              <CheckCircle2 className="h-10 w-10 text-emerald-600 mx-auto" />
+              <div className="space-y-1">
+                <h3 className="text-base font-bold text-emerald-900">Enrollment Active!</h3>
+                <p className="text-xs text-emerald-700 leading-relaxed">
+                  Your manual transfer has been approved by admin. You have full access to all lectures, materials, and assessments.
+                </p>
+              </div>
+              <button
+                onClick={() => navigate('/my-courses')}
+                className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 transition-colors"
+              >
+                <BookOpen className="h-4 w-4" />
+                <span>Go to My Courses →</span>
+              </button>
+            </div>
+          ) : isUnderReview || submitted ? (
+            /* Under Review / Submitted state */
             <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-4 text-center space-y-2">
               <CheckCircle2 className="h-8 w-8 text-emerald-500 mx-auto" />
               <p className="text-sm font-bold text-emerald-800">Proof Submitted!</p>
+              {txRef && (
+                <p className="text-xs font-mono font-medium text-emerald-700">
+                  Ref: <span className="font-bold">{txRef}</span>
+                </p>
+              )}
               <p className="text-xs text-emerald-600">
-                Your payment is now under review. You'll receive an email once verified.
+                Your payment is now under admin review. Verification typically takes up to 24 hours.
               </p>
               <Link
                 to="/orders"
@@ -203,7 +336,13 @@ export default function OrderPending() {
           ) : (
             /* Proof submission form */
             <form onSubmit={handleSubmitProof} className="space-y-4" noValidate>
-              <h3 className="text-sm font-bold text-slate-800">Submit Payment Proof</h3>
+              <div className="space-y-1">
+                <h3 className="text-sm font-bold text-slate-800">Submit Payment Proof</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Manual payments take up to 24 hours to verify. Submit your transaction
+                  reference below to speed up the process.
+                </p>
+              </div>
 
               {globalError && (
                 <div className="flex items-start gap-2 rounded-xl bg-rose-50 border border-rose-200 px-3 py-2.5 text-xs text-rose-700">
@@ -215,7 +354,7 @@ export default function OrderPending() {
               {/* Transaction Reference */}
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                  Transaction Reference <span className="text-rose-500">*</span>
+                  Transaction Reference / TID <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -269,18 +408,6 @@ export default function OrderPending() {
             <LayoutDashboard className="h-4 w-4" />
             <span>Return to Dashboard</span>
           </button>
-
-          {/* Preview state switcher */}
-          <div className="pt-1 border-t border-slate-100 text-center">
-            <p className="text-[10px] text-slate-400 mb-1.5">Preview payment states:</p>
-            <div className="flex items-center justify-center gap-3 text-xs font-semibold">
-              <Link to="/order/success" className="text-emerald-600 hover:underline">Success</Link>
-              <span className="text-slate-300">·</span>
-              <Link to="/order/failed" className="text-rose-500 hover:underline">Failed</Link>
-              <span className="text-slate-300">·</span>
-              <span className="text-amber-500">Pending</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>

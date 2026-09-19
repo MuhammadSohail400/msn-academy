@@ -4,7 +4,7 @@ import { Search, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight } fro
 import CourseCard from '../../components/public/CourseCard';
 import courseService from '../../services/courseService';
 
-const CATEGORIES = [
+const DEFAULT_CATEGORIES = [
   'All',
   'Data Science',
   'Artificial Intelligence',
@@ -27,6 +27,7 @@ const SORT_MAP = {
 export default function CourseCatalog() {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'All');
   const [selectedLevel, setSelectedLevel] = useState('All Levels');
@@ -38,6 +39,27 @@ export default function CourseCatalog() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+
+  // Fetch dynamic categories from backend
+  useEffect(() => {
+    let isMounted = true;
+    courseService.getCategories()
+      .then((res) => {
+        if (!isMounted) return;
+        const data = res?.data || res;
+        if (Array.isArray(data) && data.length > 0) {
+          const catNames = data.map((c) => (typeof c === 'string' ? c : c.name)).filter(Boolean);
+          const uniqueCats = Array.from(new Set(catNames));
+          setCategories(['All', ...uniqueCats]);
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed to load dynamic categories:', err?.message || err);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Debounced search input (400ms delay)
   const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
@@ -166,7 +188,7 @@ export default function CourseCatalog() {
                 Category
               </h4>
               <div className="space-y-2">
-                {CATEGORIES.map((cat) => {
+                {categories.map((cat) => {
                   const isChecked = selectedCategory === cat;
                   return (
                     <label

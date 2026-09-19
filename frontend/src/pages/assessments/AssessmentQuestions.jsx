@@ -101,23 +101,24 @@ export default function AssessmentQuestions() {
   }, [secondsLeft, attemptId]);
 
   const currentQuestion = questions[currentIndex] || null;
+  const currentQId = currentQuestion ? (currentQuestion.questionId || currentQuestion.id || currentQuestion._id) : null;
 
   // Handle Option Click (Autosaves immediately)
   const handleSelectOption = async (optionKey) => {
-    if (!currentQuestion || !attemptId) return;
+    if (!currentQuestion || !attemptId || !currentQId) return;
 
     dispatch(
       setAnswer({
-        questionId: currentQuestion.id,
+        questionId: currentQId,
         selectedOptionKey: optionKey,
       })
     );
 
     try {
       await assessmentService.recordAnswer(attemptId, {
-        questionId: currentQuestion.id,
+        questionId: currentQId,
         selectedOptionKey: optionKey,
-        isFlagged: Boolean(flags[currentQuestion.id]),
+        isFlagged: Boolean(flags[currentQId]),
       });
     } catch (err) {
       console.error('Autosave answer error:', err);
@@ -126,19 +127,30 @@ export default function AssessmentQuestions() {
 
   // Handle Flag Toggle (Autosaves immediately)
   const handleToggleFlag = async () => {
-    if (!currentQuestion || !attemptId) return;
+    if (!currentQuestion || !attemptId || !currentQId) return;
 
-    const newFlag = !flags[currentQuestion.id];
-    dispatch(toggleFlag(currentQuestion.id));
+    const newFlag = !flags[currentQId];
+    dispatch(toggleFlag(currentQId));
 
     try {
       await assessmentService.recordAnswer(attemptId, {
-        questionId: currentQuestion.id,
-        selectedOptionKey: answers[currentQuestion.id] || null,
+        questionId: currentQId,
+        selectedOptionKey: answers[currentQId] || null,
         isFlagged: newFlag,
       });
     } catch (err) {
       console.error('Autosave flag error:', err);
+    }
+  };
+
+  const handleSwitchToReview = async () => {
+    setViewMode('REVIEW');
+    if (attemptId) {
+      try {
+        await assessmentService.getReview(attemptId);
+      } catch (e) {
+        console.warn('Server review sync notice:', e);
+      }
     }
   };
 
@@ -202,9 +214,9 @@ export default function AssessmentQuestions() {
     );
   }
 
-  const answeredCount = questions.filter((q) => answers[q.id] != null).length;
+  const answeredCount = questions.filter((q) => answers[q.questionId || q.id || q._id] != null).length;
   const unansweredCount = questions.length - answeredCount;
-  const flaggedCount = questions.filter((q) => flags[q.id]).length;
+  const flaggedCount = questions.filter((q) => flags[q.questionId || q.id || q._id]).length;
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
@@ -214,7 +226,7 @@ export default function AssessmentQuestions() {
         secondsLeft={secondsLeft}
         onReviewSubmit={() => {
           if (viewMode === 'QUESTION') {
-            setViewMode('REVIEW');
+            handleSwitchToReview();
           } else {
             setIsSubmitModalOpen(true);
           }
@@ -268,35 +280,37 @@ export default function AssessmentQuestions() {
                   type="button"
                   onClick={handleToggleFlag}
                   className={`flex items-center gap-1.5 rounded-xl border px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-                    flags[currentQuestion?.id]
+                    flags[currentQId]
                       ? 'border-amber-300 bg-amber-50 text-amber-800'
                       : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'
                   }`}
                 >
                   <Flag
                     className={`h-3.5 w-3.5 ${
-                      flags[currentQuestion?.id] ? 'fill-amber-500 text-amber-500' : 'text-gray-400'
+                      flags[currentQId] ? 'fill-amber-500 text-amber-500' : 'text-gray-400'
                     }`}
                   />
-                  <span>{flags[currentQuestion?.id] ? 'Flagged' : 'Flag for Review'}</span>
+                  <span>{flags[currentQId] ? 'Flagged' : 'Flag for Review'}</span>
                 </button>
               </div>
 
               {/* Question Statement Card */}
               <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-sm">
                 <h2 className="font-display text-lg sm:text-xl font-bold text-gray-900 leading-snug">
-                  {currentQuestion?.prompt || 'Question Statement'}
+                  {currentQuestion?.prompt || currentQuestion?.text || 'Question Statement'}
                 </h2>
               </div>
 
               {/* Options A / B / C / D */}
               <div className="space-y-3">
                 {currentQuestion?.options?.map((option) => {
-                  const isSelected = answers[currentQuestion.id] === option.key;
+                  const isSelected = answers[currentQId] === option.key;
 
                   return (
                     <div
                       key={option.key}
+                      data-testid="question-option"
+                      data-option-key={option.key}
                       onClick={() => handleSelectOption(option.key)}
                       className={`group flex items-center gap-4 rounded-2xl p-4 sm:p-5 cursor-pointer transition-all ${
                         isSelected
@@ -355,7 +369,7 @@ export default function AssessmentQuestions() {
                   <Button
                     variant="primary"
                     size="md"
-                    onClick={() => setViewMode('REVIEW')}
+                    onClick={handleSwitchToReview}
                     className="px-6 !bg-brand-crimson hover:!bg-brand-crimson-dark text-white font-semibold shadow-sm"
                   >
                     Review & Submit
@@ -392,9 +406,10 @@ export default function AssessmentQuestions() {
               {/* Number Grid */}
               <div className="grid grid-cols-5 gap-2 max-h-[320px] overflow-y-auto pr-1">
                 {questions.map((q, idx) => {
+                  const qId = q.questionId || q.id || q._id;
                   const isCurrent = idx === currentIndex;
-                  const isAnswered = answers[q.id] != null;
-                  const isFlagged = Boolean(flags[q.id]);
+                  const isAnswered = answers[qId] != null;
+                  const isFlagged = Boolean(flags[qId]);
 
                   let btnClasses = 'bg-gray-100 text-gray-700 hover:bg-gray-200';
                   if (isCurrent) {
@@ -407,7 +422,7 @@ export default function AssessmentQuestions() {
 
                   return (
                     <button
-                      key={q.id}
+                      key={qId}
                       type="button"
                       onClick={() => dispatch(setCurrentIndex(idx))}
                       className={`h-9 w-full rounded-xl text-xs font-bold transition-transform hover:scale-105 active:scale-95 flex items-center justify-center relative ${btnClasses}`}
@@ -441,7 +456,7 @@ export default function AssessmentQuestions() {
               <Button
                 variant="primary"
                 size="md"
-                onClick={() => setViewMode('REVIEW')}
+                onClick={handleSwitchToReview}
                 className="w-full !bg-brand-crimson hover:!bg-brand-crimson-dark text-white rounded-xl shadow-sm text-xs font-bold py-2.5"
               >
                 Review & Submit
@@ -468,9 +483,10 @@ export default function AssessmentQuestions() {
 
             <div className="grid grid-cols-5 gap-2">
               {questions.map((q, idx) => {
+                const qId = q.questionId || q.id || q._id;
                 const isCurrent = idx === currentIndex;
-                const isAnswered = answers[q.id] != null;
-                const isFlagged = Boolean(flags[q.id]);
+                const isAnswered = answers[qId] != null;
+                const isFlagged = Boolean(flags[qId]);
 
                 let btnClasses = 'bg-gray-100 text-gray-700';
                 if (isCurrent) {
@@ -483,7 +499,7 @@ export default function AssessmentQuestions() {
 
                 return (
                   <button
-                    key={q.id}
+                    key={qId}
                     type="button"
                     onClick={() => {
                       dispatch(setCurrentIndex(idx));
@@ -503,7 +519,7 @@ export default function AssessmentQuestions() {
               size="md"
               onClick={() => {
                 setIsMobileNavigatorOpen(false);
-                setViewMode('REVIEW');
+                handleSwitchToReview();
               }}
               className="w-full !bg-brand-crimson text-white text-xs font-bold py-3 mt-3"
             >

@@ -5,7 +5,6 @@ import {
   AlertCircle,
   Flag,
   ArrowLeft,
-  ChevronRight,
   ArrowRight,
 } from 'lucide-react';
 import Button from '../ui/Button';
@@ -19,9 +18,10 @@ export default function ReviewAndSubmitView({
   onOpenSubmitModal,
   isSubmitting = false,
 }) {
-  const answeredCount = questions.filter((q) => answers[q.id] != null).length;
+  const getQId = (q) => q?.questionId || q?.id || q?._id;
+  const answeredCount = questions.filter((q) => answers[getQId(q)] != null).length;
   const unansweredCount = questions.length - answeredCount;
-  const flaggedQuestions = questions.filter((q) => flags[q.id]);
+  const flaggedQuestions = questions.filter((q) => flags[getQId(q)]);
   const flaggedCount = flaggedQuestions.length;
 
   return (
@@ -89,8 +89,9 @@ export default function ReviewAndSubmitView({
         {/* Tile Grid */}
         <div className="grid grid-cols-5 sm:grid-cols-10 gap-2.5 sm:gap-3">
           {questions.map((q, idx) => {
-            const isAnswered = answers[q.id] != null;
-            const isFlagged = Boolean(flags[q.id]);
+            const qId = getQId(q);
+            const isAnswered = answers[qId] != null;
+            const isFlagged = Boolean(flags[qId]);
 
             let tileClasses = 'bg-gray-100 text-gray-700 hover:bg-gray-200';
             if (isFlagged) {
@@ -101,7 +102,7 @@ export default function ReviewAndSubmitView({
 
             return (
               <button
-                key={q.id}
+                key={qId}
                 type="button"
                 onClick={() => onSelectQuestion(idx)}
                 className={`relative flex h-11 w-full sm:h-12 items-center justify-center rounded-xl text-sm sm:text-base font-bold transition-transform hover:scale-105 active:scale-95 ${tileClasses}`}
@@ -149,9 +150,10 @@ export default function ReviewAndSubmitView({
           <h4 className="font-display text-sm font-bold text-amber-900">Flagged Questions for Review</h4>
           <div className="divide-y divide-amber-100">
             {flaggedQuestions.map((q) => {
-              const qIdx = questions.findIndex((item) => item.id === q.id);
+              const qId = getQId(q);
+              const qIdx = questions.findIndex((item) => getQId(item) === qId);
               return (
-                <div key={q.id} className="flex items-center justify-between py-2 text-xs sm:text-sm">
+                <div key={qId} className="flex items-center justify-between py-2 text-xs sm:text-sm">
                   <span className="font-medium text-amber-900">Question {qIdx + 1}</span>
                   <button
                     type="button"

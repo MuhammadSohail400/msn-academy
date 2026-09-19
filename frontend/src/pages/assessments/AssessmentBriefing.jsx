@@ -43,8 +43,9 @@ export default function AssessmentBriefing() {
       setBriefing(res?.data || res);
     } catch (err) {
       console.error('Failed to load assessment briefing:', err);
-      const msg = err?.response?.data?.message || err?.message || '';
-      if (msg.includes('100%') || msg.includes('complete') || err?.response?.status === 403) {
+      const msg = err?.message || err?.response?.data?.message || '';
+      const status = err?.status || err?.response?.status;
+      if (status === 403 || msg.includes('100%') || msg.includes('complete')) {
         setIsLockedNotice(true);
         setError(msg || 'You must complete 100% of course lessons before attempting the final assessment.');
       } else {
@@ -80,7 +81,16 @@ export default function AssessmentBriefing() {
       navigate(`/learn/${courseId}/assessment/questions`);
     } catch (err) {
       console.error('Failed to start assessment:', err);
-      const msg = err?.response?.data?.message || 'Failed to start assessment session.';
+      const msg = err?.message || err?.response?.data?.message || 'Failed to start assessment session.';
+      const status = err?.status || err?.response?.status;
+      if (status === 409 || msg.includes('already in progress')) {
+        // Active attempt is running — navigate to exam questions directly
+        navigate(`/learn/${courseId}/assessment/questions`);
+        return;
+      }
+      if (status === 403 || msg.includes('100%') || msg.includes('complete')) {
+        setIsLockedNotice(true);
+      }
       setError(msg);
     } finally {
       setIsStarting(false);
@@ -270,7 +280,7 @@ export default function AssessmentBriefing() {
           isLoading={isStarting}
           className="w-full sm:w-auto !bg-brand-crimson hover:!bg-brand-crimson-dark text-white rounded-xl shadow-md text-base font-bold px-8 py-3.5 flex items-center justify-center gap-2"
         >
-          <span>Start Assessment</span>
+          <span>{briefing?.hasActiveAttempt ? 'Resume Assessment' : 'Start Assessment'}</span>
           <ArrowRight className="h-5 w-5" />
         </Button>
 

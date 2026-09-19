@@ -59,11 +59,11 @@ export default function MyCourses() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2 border-b border-gray-200 pb-1">
+      <div className="flex items-center gap-2 border-b border-gray-200 pb-1 overflow-x-auto no-scrollbar">
         <button
           type="button"
           onClick={() => setActiveTab('ALL')}
-          className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+          className={`rounded-lg px-4 py-2 text-sm font-medium transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'ALL'
               ? 'bg-white shadow-sm text-brand-navy border border-gray-200 font-semibold'
               : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -74,7 +74,7 @@ export default function MyCourses() {
         <button
           type="button"
           onClick={() => setActiveTab('IN_PROGRESS')}
-          className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+          className={`rounded-lg px-4 py-2 text-sm font-medium transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'IN_PROGRESS'
               ? 'bg-white shadow-sm text-brand-navy border border-gray-200 font-semibold'
               : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -85,7 +85,7 @@ export default function MyCourses() {
         <button
           type="button"
           onClick={() => setActiveTab('COMPLETED')}
-          className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+          className={`rounded-lg px-4 py-2 text-sm font-medium transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'COMPLETED'
               ? 'bg-white shadow-sm text-brand-navy border border-gray-200 font-semibold'
               : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -99,12 +99,15 @@ export default function MyCourses() {
       {error && (
         <div className="rounded-xl border border-red-200 bg-red-50 p-4 flex items-center justify-between text-sm text-red-700">
           <div className="flex items-center gap-2">
-            <AlertCircle className="h-5 w-5 text-red-500" />
+            <AlertCircle className="h-5 w-5 flex-shrink-0" />
             <span>{error}</span>
           </div>
-          <Button size="sm" variant="outline" onClick={fetchEnrollments}>
+          <button
+            onClick={fetchEnrollments}
+            className="text-xs font-semibold underline hover:no-underline ml-2"
+          >
             Retry
-          </Button>
+          </button>
         </div>
       )}
 
@@ -128,7 +131,7 @@ export default function MyCourses() {
       )}
 
       {/* Course Cards List */}
-      {!isLoading && !error && displayedList.length > 0 && (
+      {!isLoading && displayedList.length > 0 && (
         <div className="space-y-4">
           {displayedList.map((course) => {
             const isFinished = course.isCompleted || (course.progressPercentage || 0) >= 100;
@@ -141,11 +144,11 @@ export default function MyCourses() {
             return (
               <div
                 key={course.enrollmentId || course.courseId}
-                className="group relative flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-5 rounded-2xl border border-gray-200/80 bg-white p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow"
+                className="group relative flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-5 rounded-2xl border border-gray-200/80 bg-white p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow"
               >
                 {/* Left: Thumbnail & Info */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 flex-1">
-                  <div className="relative w-full sm:w-44 h-36 sm:h-26 overflow-hidden rounded-xl bg-gray-100 flex-shrink-0">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 flex-1 min-w-0">
+                  <div className="relative w-full sm:w-44 h-36 sm:h-28 overflow-hidden rounded-xl bg-gray-100 flex-shrink-0">
                     {course.thumbnail ? (
                       <img
                         src={course.thumbnail}
@@ -204,14 +207,14 @@ export default function MyCourses() {
                 </div>
 
                 {/* Right: Actions */}
-                <div className="flex items-center gap-2 sm:flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-gray-100 justify-end">
+                <div className="flex items-center gap-2 xl:flex-shrink-0 pt-2 xl:pt-0 border-t xl:border-t-0 border-gray-100 justify-end w-full xl:w-auto">
                   {isFinished ? (
                     <div className="flex items-center gap-2 w-full sm:w-auto">
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => navigate(`/certificate`)}
-                        className="flex-1 sm:flex-initial !border-emerald-600 !text-emerald-700 hover:!bg-emerald-50 text-xs font-semibold"
+                        className="flex-1 sm:flex-initial !border-emerald-600 !text-emerald-700 hover:!bg-emerald-50 text-xs font-semibold whitespace-nowrap"
                       >
                         <Award className="mr-1.5 h-4 w-4" />
                         View Certificate
@@ -220,7 +223,7 @@ export default function MyCourses() {
                         variant="secondary"
                         size="sm"
                         onClick={() => navigate(`/learn/${course.courseId}`)}
-                        className="flex-1 sm:flex-initial text-xs font-medium"
+                        className="flex-1 sm:flex-initial text-xs font-medium whitespace-nowrap"
                       >
                         Course Overview
                       </Button>
@@ -230,7 +233,7 @@ export default function MyCourses() {
                       variant="primary"
                       size="md"
                       onClick={() => navigate(continueUrl)}
-                      className="w-full sm:w-auto !bg-brand-crimson hover:!bg-brand-crimson-dark text-white rounded-xl shadow-sm text-sm font-semibold flex items-center justify-center gap-1.5 px-5 py-2.5"
+                      className="w-full sm:w-auto !bg-brand-crimson hover:!bg-brand-crimson-dark text-white rounded-xl shadow-sm text-sm font-semibold flex items-center justify-center gap-1.5 px-5 py-2.5 whitespace-nowrap"
                     >
                       <Play className="h-4 w-4 fill-white" />
                       Continue

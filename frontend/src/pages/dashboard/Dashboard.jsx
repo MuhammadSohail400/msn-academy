@@ -193,8 +193,8 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-start sm:items-center gap-4">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex flex-col xl:flex-row xl:items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 min-w-0 flex-1">
             {/* Thumbnail */}
             <div className="h-16 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100 border border-slate-200">
               <img
@@ -205,20 +205,20 @@ export default function Dashboard() {
             </div>
 
             {/* Course & Lesson details */}
-            <div className="space-y-1">
+            <div className="space-y-1 min-w-0 flex-1 w-full">
               <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-brand-crimson">
                 CURRENTLY LEARNING
               </span>
-              <h3 className="font-display text-base font-bold text-slate-900 leading-tight">
+              <h3 className="font-display text-base font-bold text-slate-900 leading-tight truncate">
                 {continueLearningCourse.courseTitle}
               </h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 truncate">
                 {continueLearningCourse.lessonTitle}
               </p>
 
               {/* Progress bar */}
               <div className="flex items-center gap-3 pt-1">
-                <div className="h-2 w-48 sm:w-64 rounded-full bg-slate-100 overflow-hidden">
+                <div className="h-2 w-full max-w-[180px] sm:max-w-[240px] rounded-full bg-slate-100 overflow-hidden">
                   <div
                     className="h-full rounded-full bg-brand-crimson transition-all duration-500"
                     style={{ width: `${continueLearningCourse.progressPercentage}%` }}
@@ -234,7 +234,7 @@ export default function Dashboard() {
           {/* Resume CTA */}
           <Link
             to={`/learn/${continueLearningCourse.courseId}`}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-crimson px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors whitespace-nowrap active:scale-[0.98]"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-crimson px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors whitespace-nowrap active:scale-[0.98] w-full sm:w-auto self-stretch sm:self-start xl:self-auto shrink-0"
           >
             <PlayCircle className="h-4 w-4" />
             <span>Resume Lesson</span>
