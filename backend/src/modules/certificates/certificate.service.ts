@@ -77,6 +77,28 @@ export class CertificateService {
   }
 
   /**
+   * GET /api/v1/certificates
+   * Fetches all certificates earned by the authenticated user
+   */
+  public static async getMyCertificates(userId: string): Promise<any[]> {
+    const certs = await Certificate.find({
+      userId: new Types.ObjectId(userId),
+      isDeleted: false,
+    }).sort({ issueDate: -1 });
+
+    return certs.map((cert) => ({
+      id: cert._id.toString(),
+      certNumber: cert.certificateNumber,
+      studentName: cert.studentNameSnapshot,
+      courseTitle: cert.courseTitleSnapshot,
+      issuedAt: cert.issueDate.toISOString(),
+      courseId: cert.courseId.toString(),
+      scorePercentage: cert.scoreAchieved,
+      pdfUrl: cert.pdfDownloadUrl,
+    }));
+  }
+
+  /**
    * GET /api/v1/certificates/:certificateId
    */
   public static async getCertificateById(certificateId: string, userId: string): Promise<any> {

@@ -44,6 +44,8 @@ export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
 const getInitialUser = () => {
   if (typeof window === 'undefined') return null;
   try {
+    const token = localStorage.getItem('auth_token');
+    if (!token) return null;
     const raw = localStorage.getItem('user');
     return raw ? JSON.parse(raw) : null;
   } catch {
@@ -111,15 +113,13 @@ const authSlice = createSlice({
       })
       .addCase(fetchMe.rejected, (state) => {
         state.isLoading = false;
-        const hasToken = typeof window !== 'undefined' && localStorage.getItem('auth_token');
-        if (!hasToken) {
-          state.user = null;
-          state.isAuthenticated = false;
-          if (typeof window !== 'undefined') {
-            localStorage.removeItem('user');
-          }
-        }
+        state.user = null;
+        state.isAuthenticated = false;
         state.isInitialAuthChecked = true;
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('user');
+          localStorage.removeItem('auth_token');
+        }
       });
 
     // loginUser

@@ -18,6 +18,12 @@ router.get(
 
 // Protected authenticated routes
 router.get(
+  '/',
+  authGuard,
+  CertificateController.getMyCertificates
+);
+
+router.get(
   '/:certificateId',
   authGuard,
   validateRequest({ params: certificateParamsSchema }),

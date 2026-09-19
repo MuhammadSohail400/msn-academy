@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LmsSidebar from './LmsSidebar';
 import LmsTopBar from './LmsTopBar';
+import LmsMobileDrawer from './LmsMobileDrawer';
 
 // Authenticated LMS shell — Dashboard, My Courses, Learning, Orders, Certificates, Profile
 // Redirects unauthenticated users to /login?redirect=<intended-path>
 export default function LmsLayout() {
   const { isAuthenticated, isInitialAuthChecked, isLoading } = useSelector((state) => state.auth);
   const location = useLocation();
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   if (!isInitialAuthChecked || isLoading) {
     return (
@@ -33,12 +35,18 @@ export default function LmsLayout() {
   return (
     <div className="flex min-h-screen">
       <LmsSidebar />
-      <div className="flex flex-1 flex-col">
-        <LmsTopBar />
-        <main className="flex-1 bg-gray-50 p-4 sm:p-6">
+      <div className="flex flex-1 flex-col min-w-0">
+        <LmsTopBar onMenuClick={() => setMobileDrawerOpen(true)} />
+        <main className="flex-1 min-w-0 bg-gray-50 p-4 sm:p-6">
           <Outlet />
         </main>
       </div>
+
+      <LmsMobileDrawer
+        isOpen={mobileDrawerOpen}
+        onClose={() => setMobileDrawerOpen(false)}
+      />
     </div>
   );
 }
+

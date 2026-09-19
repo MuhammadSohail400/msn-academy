@@ -47,10 +47,15 @@ export const ENDPOINTS = {
     OVERVIEW: (courseId) => `/learning/${courseId}/overview`,
     LESSON: (courseId, lessonId) => `/learning/${courseId}/lessons/${lessonId}`,
     COMPLETE: (courseId, lessonId) => `/learning/${courseId}/lessons/${lessonId}/complete`,
+    PROGRESS: (courseId) => `/learning/${courseId}/progress`,
   },
   ASSESSMENTS: {
+    BRIEFING: (courseId) => `/assessments/${courseId}/briefing`,
     START: (courseId) => `/assessments/${courseId}/start`,
+    ANSWER: (attemptId) => `/assessments/${attemptId}/answer`,
+    REVIEW: (attemptId) => `/assessments/${attemptId}/review`,
     SUBMIT: (attemptId) => `/assessments/${attemptId}/submit`,
+    RESULT: (attemptId) => `/assessments/${attemptId}/result`,
   },
   CERTIFICATES: {
     LIST: '/certificates',

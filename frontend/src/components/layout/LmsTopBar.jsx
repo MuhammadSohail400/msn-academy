@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Bell, ChevronRight, LogOut } from 'lucide-react';
+import { Bell, ChevronRight, LogOut, Menu } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../features/auth/slice/authSlice';
 
-// Breadcrumbs, notifications bell, avatar menu — used inside LmsLayout
-export default function LmsTopBar() {
+// Breadcrumbs, notifications bell, avatar menu, mobile navigation trigger — used inside LmsLayout
+export default function LmsTopBar({ onMenuClick }) {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,19 +20,31 @@ export default function LmsTopBar() {
 
   return (
     <header className="flex h-16 items-center justify-between border-b border-gray-100 bg-white px-4 sm:px-6">
-      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-gray-500">
-        <Link to="/dashboard" className="hover:text-brand-navy">
-          Dashboard
-        </Link>
-        {segments
-          .filter((s) => s !== 'dashboard')
-          .map((segment, i) => (
-            <span key={i} className="flex items-center gap-1.5">
-              <ChevronRight className="h-3.5 w-3.5" />
-              <span className="capitalize text-gray-700">{segment.replace(/-/g, ' ')}</span>
-            </span>
-          ))}
-      </nav>
+      <div className="flex items-center gap-2.5 min-w-0">
+        {/* Mobile Hamburger Trigger */}
+        <button
+          type="button"
+          onClick={onMenuClick}
+          aria-label="Open LMS navigation menu"
+          className="md:hidden flex items-center justify-center rounded-lg p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 truncate">
+          <Link to="/dashboard" className="hover:text-brand-navy shrink-0 font-medium">
+            Dashboard
+          </Link>
+          {segments
+            .filter((s) => s !== 'dashboard')
+            .map((segment, i) => (
+              <span key={i} className="flex items-center gap-1.5 shrink-0">
+                <ChevronRight className="h-3.5 w-3.5 text-gray-400" />
+                <span className="capitalize text-gray-700">{segment.replace(/-/g, ' ')}</span>
+              </span>
+            ))}
+        </nav>
+      </div>
 
       <div className="flex items-center gap-2 sm:gap-3">
         <button aria-label="Notifications" className="relative rounded-full p-2 hover:bg-gray-100 transition-colors">
@@ -60,3 +73,8 @@ export default function LmsTopBar() {
     </header>
   );
 }
+
+LmsTopBar.propTypes = {
+  onMenuClick: PropTypes.func,
+};
+

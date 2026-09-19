@@ -7,9 +7,12 @@ import ToastContainer from './components/feedback/ToastContainer';
 import { fetchMe } from './features/auth/slice/authSlice';
 import './index.css';
 
-// Attempt to hydrate auth session from the server HttpOnly cookie on page load.
-// fetchMe will silently fail (401) if the user is not logged in — which is fine.
-store.dispatch(fetchMe());
+// Attempt to hydrate auth session from the server only if an existing session or token exists in localStorage
+// This prevents unnecessary 401 Unauthorized noise in the browser console for unauthenticated guest visitors.
+const hasLocalAuth = typeof window !== 'undefined' && (localStorage.getItem('auth_token') || localStorage.getItem('user'));
+if (hasLocalAuth) {
+  store.dispatch(fetchMe());
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

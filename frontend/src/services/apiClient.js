@@ -44,10 +44,13 @@ apiClient.interceptors.response.use(
   (error) => {
     const status = error.response?.status;
     const message = error.response?.data?.message || 'Something went wrong. Please try again.';
-    // Forward the structured errors array (used for per-field validation display)
     const errors = error.response?.data?.errors || [];
 
-    // 401 handling (redirect to login etc.) belongs to authSlice/AuthLayout once M1 builds it.
+    if (status === 401 && typeof window !== 'undefined') {
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('user');
+    }
+
     return Promise.reject({ status, message, errors, raw: error });
   }
 );
