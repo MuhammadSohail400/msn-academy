@@ -30,6 +30,15 @@ export const registerUser = createAsyncThunk('auth/registerUser', async (data, {
   }
 });
 
+export const googleLoginUser = createAsyncThunk('auth/googleLoginUser', async (idToken, { rejectWithValue }) => {
+  try {
+    const res = await authService.googleOAuth(idToken);
+    return res.data; // { user, accessToken, refreshToken }
+  } catch (err) {
+    return rejectWithValue(err.response?.data?.message || err.message || 'Google authentication failed');
+  }
+});
+
 export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
   try {
     await authService.logout();
@@ -166,6 +175,30 @@ const authSlice = createSlice({
         }
       })
       .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+
+    // googleLoginUser
+    builder
+      .addCase(googleLoginUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(googleLoginUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const payload = action.payload;
+        state.user = payload.user || payload;
+        state.isAuthenticated = true;
+        state.isInitialAuthChecked = true;
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(state.user));
+          if (payload.accessToken) {
+            localStorage.setItem('auth_token', payload.accessToken);
+          }
+        }
+      })
+      .addCase(googleLoginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

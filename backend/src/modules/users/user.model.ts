@@ -1,13 +1,17 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export type UserRole = 'STUDENT' | 'ADMIN';
+export type AuthProvider = 'LOCAL' | 'GOOGLE' | 'EMAIL';
 
 export interface IUser extends Document {
   _id: mongoose.Types.ObjectId;
   fullName: string;
   email: string;
-  passwordHash: string;
+  passwordHash?: string;
   role: UserRole;
+  googleId?: string;
+  authProvider?: AuthProvider;
+  isGoogleOAuth?: boolean;
   phoneNumber?: string;
   avatarUrl?: string;
   isEmailVerified: boolean;
@@ -37,8 +41,25 @@ const userSchema = new Schema<IUser>(
     },
     passwordHash: {
       type: String,
-      required: [true, 'Password hash is required'],
-      select: false, // Hidden by default from queries
+      required: function (this: IUser) {
+        return !this.authProvider || this.authProvider === 'LOCAL';
+      },
+      select: false,
+    },
+    googleId: {
+      type: String,
+      sparse: true,
+      index: true,
+    },
+    authProvider: {
+      type: String,
+      enum: ['LOCAL', 'EMAIL', 'GOOGLE'],
+      default: 'LOCAL',
+      index: true,
+    },
+    isGoogleOAuth: {
+      type: Boolean,
+      default: false,
     },
     role: {
       type: String,

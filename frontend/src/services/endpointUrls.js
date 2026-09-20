@@ -8,6 +8,7 @@ export const ENDPOINTS = {
     LOGOUT: '/auth/logout',
     FORGOT_PASSWORD: '/auth/forgot-password',
     RESET_PASSWORD: '/auth/reset-password',
+    GOOGLE_OAUTH: '/auth/oauth/google',
     ME: '/auth/me',
   },
   USERS: {

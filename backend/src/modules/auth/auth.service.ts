@@ -1,9 +1,12 @@
 import crypto from 'crypto';
+import { OAuth2Client } from 'google-auth-library';
 import { User, IUser } from '../users/user.model';
 import { hashPassword, verifyPassword } from '../../utils/password';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../../utils/jwt';
 import { ApiError } from '../../utils/ApiError';
 import { RegisterInput, LoginInput } from './auth.validation';
+
+const googleClient = new OAuth2Client();
 
 export interface AuthResult {
   user: IUser;
@@ -52,6 +55,10 @@ export class AuthService {
     const user = await User.findOne({ email: input.email.toLowerCase() }).select('+passwordHash');
     if (!user) {
       throw ApiError.unauthorized('Invalid email or password.');
+    }
+
+    if (!user.passwordHash) {
+      throw ApiError.unauthorized('This account was created using Google Sign-In. Please sign in with Google.');
     }
 
     const isMatch = await verifyPassword(user.passwordHash, input.password);
@@ -159,22 +166,46 @@ export class AuthService {
     let email: string = '';
     let fullName: string = 'Google User';
     let avatarUrl: string | undefined;
+    let googleId: string | undefined;
 
-    try {
-      const parts = idToken.split('.');
-      if (parts.length === 3) {
-        const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf-8'));
-        email = payload.email || '';
-        fullName = payload.name || payload.given_name || (email ? email.split('@')[0] : 'Google User');
-        avatarUrl = payload.picture;
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+
+    if (clientId && idToken !== 'mock_google_token') {
+      try {
+        const ticket = await googleClient.verifyIdToken({
+          idToken,
+          audience: clientId,
+        });
+        const payload = ticket.getPayload();
+        if (payload && payload.email) {
+          email = payload.email;
+          fullName = payload.name || payload.given_name || (email ? email.split('@')[0] : 'Google User');
+          avatarUrl = payload.picture;
+          googleId = payload.sub;
+        }
+      } catch (err: any) {
+        throw ApiError.badRequest('Invalid or expired Google token: ' + (err.message || 'Verification failed'));
       }
-    } catch {
-      // Ignore parse failure and fall back if dev
+    } else {
+      // Fallback decoding for development/testing
+      try {
+        const parts = idToken.split('.');
+        if (parts.length === 3) {
+          const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf-8'));
+          email = payload.email || '';
+          fullName = payload.name || payload.given_name || (email ? email.split('@')[0] : 'Google User');
+          avatarUrl = payload.picture;
+          googleId = payload.sub;
+        }
+      } catch {
+        // Ignore parse failure and fall back if dev
+      }
     }
 
     if (!email && (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test' || !process.env.NODE_ENV)) {
       email = 'google.oauth.student@msnacademy.pk';
       fullName = 'Google Student';
+      googleId = 'mock-google-id-12345';
     }
 
     if (!email) {
@@ -184,17 +215,37 @@ export class AuthService {
     let user = await User.findOne({ email: email.toLowerCase() });
 
     if (!user) {
-      const randomPassword = crypto.randomBytes(32).toString('hex');
-      const hashedPassword = await hashPassword(randomPassword);
-
       user = await User.create({
         fullName,
         email: email.toLowerCase(),
-        passwordHash: hashedPassword,
         role: 'STUDENT',
         isEmailVerified: true,
         avatarUrl,
+        googleId,
+        authProvider: 'GOOGLE',
+        isGoogleOAuth: true,
       });
+    } else {
+      let changed = false;
+      if (!user.googleId && googleId) {
+        user.googleId = googleId;
+        changed = true;
+      }
+      if (!user.avatarUrl && avatarUrl) {
+        user.avatarUrl = avatarUrl;
+        changed = true;
+      }
+      if (!user.isEmailVerified) {
+        user.isEmailVerified = true;
+        changed = true;
+      }
+      if (!user.isGoogleOAuth) {
+        user.isGoogleOAuth = true;
+        changed = true;
+      }
+      if (changed) {
+        await user.save();
+      }
     }
 
     const accessToken = signAccessToken({

@@ -14,12 +14,36 @@ export const createApp = (): Application => {
   const app: Application = express();
 
   // 1. Security Headers
-  app.use(helmet());
+  app.use(
+    helmet({
+      crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+    })
+  );
 
   // 2. CORS Whitelist
+  const staticAllowedOrigins = [
+    env.CORS_ORIGIN,
+    env.CLIENT_URL,
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://localhost:5175',
+  ];
+
   app.use(
     cors({
-      origin: [env.CORS_ORIGIN, env.CLIENT_URL, 'http://localhost:5173'],
+      origin: (origin, callback) => {
+        // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
+        if (!origin) return callback(null, true);
+
+        if (
+          staticAllowedOrigins.includes(origin) ||
+          (env.NODE_ENV === 'development' && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin))
+        ) {
+          return callback(null, true);
+        }
+
+        return callback(new Error(`Origin ${origin} not allowed by CORS`));
+      },
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       allowedHeaders: [

@@ -50,6 +50,14 @@ export const authService = {
     const response = await apiClient.post(ENDPOINTS.AUTH.RESET_PASSWORD, { token, newPassword });
     return response.data;
   },
+
+  /**
+   * POST /auth/oauth/google
+   */
+  async googleOAuth(idToken) {
+    const response = await apiClient.post(ENDPOINTS.AUTH.GOOGLE_OAUTH, { idToken });
+    return response.data;
+  },
 };
 
 export default authService;

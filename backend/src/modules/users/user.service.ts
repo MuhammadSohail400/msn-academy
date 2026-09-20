@@ -41,9 +41,11 @@ export class UserService {
       throw ApiError.notFound('User account not found.');
     }
 
-    const isCurrentValid = await verifyPassword(user.passwordHash, input.currentPassword);
-    if (!isCurrentValid) {
-      throw ApiError.badRequest('Current password provided is incorrect.');
+    if (user.passwordHash) {
+      const isCurrentValid = await verifyPassword(user.passwordHash, input.currentPassword);
+      if (!isCurrentValid) {
+        throw ApiError.badRequest('Current password provided is incorrect.');
+      }
     }
 
     user.passwordHash = await hashPassword(input.newPassword);

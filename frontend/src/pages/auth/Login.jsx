@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Eye, EyeOff, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { loginUser } from '../../features/auth/slice/authSlice';
+import GoogleOAuthButton from '../../components/auth/GoogleOAuthButton';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -59,6 +60,31 @@ export default function Login() {
         <p className="mt-1 text-xs sm:text-sm text-slate-400">
           Welcome back. Sign in to access your learning dashboard.
         </p>
+      </div>
+
+      {/* Social Auth Buttons matching Register & Figma */}
+      <div className="space-y-2.5 mb-5">
+        <GoogleOAuthButton onError={setSubmitError} buttonText="Continue with Google" />
+
+        <button
+          type="button"
+          onClick={() => setSubmitError('Social sign-in with Apple will be enabled soon. Please sign in using email.')}
+          className="w-full h-11 flex items-center justify-center gap-3 rounded-xl bg-black text-xs sm:text-sm font-semibold text-white hover:bg-neutral-800 transition-colors shadow-2xs cursor-pointer"
+        >
+          {/* Apple Logo */}
+          <svg className="h-4 w-4 fill-current" viewBox="0 0 170 170">
+            <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.69-7.85-12-14.44-6.3-9.58-11.2-20.35-14.7-32.32-3.51-11.97-5.26-23.01-5.26-33.12 0-14.88 3.72-27.21 11.16-37 7.44-9.79 17.06-14.79 28.86-15.01 5.38 0 11.45 1.48 18.21 4.44 6.76 2.96 10.99 4.49 12.69 4.59 1.34 0 5.66-1.57 12.96-4.71 7.3-3.14 13.49-4.53 18.57-4.17 14.15 1.02 25.13 6.64 32.94 16.85-12.39 7.45-18.42 17.65-18.09 30.61.32 10.22 4.24 18.73 11.76 25.53 7.52 6.8 16.48 10.66 26.88 11.59-2.34 7.23-5.29 14.54-8.86 21.94zM119.22 31.84c0-7.25 2.65-13.98 7.95-20.19 5.3-6.21 11.83-10.26 19.59-12.15.54 2.11.81 4.14.81 6.09 0 7.26-2.82 14.28-8.46 21.06-5.64 6.78-12.37 10.74-20.19 11.88-.27-2.2-.42-4.13-.42-6.69z" />
+          </svg>
+          <span>Continue with Apple</span>
+        </button>
+      </div>
+
+      {/* Divider */}
+      <div className="relative my-5 flex items-center justify-center">
+        <div className="border-t border-slate-200 w-full" />
+        <span className="bg-white px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400 absolute">
+          Or continue with email
+        </span>
       </div>
 
       {/* Sign Out Success Alert */}
