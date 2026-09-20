@@ -89,7 +89,7 @@ export default function Contact() {
 
   // Helper: highlight the input border red if that field has an error
   const inputClass = (field) =>
-    `w-full rounded-xl border px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 transition-colors ${
+    `w-full h-11 rounded-xl border px-4 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 transition-colors ${
       fieldErrors[field]
         ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500 focus:ring-rose-400'
         : 'border-slate-200 bg-white focus:border-brand-crimson focus:ring-brand-crimson'
@@ -117,7 +117,7 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
 
           {/* Left Column: Form */}
-          <div className="lg:col-span-7 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
+          <div className="lg:col-span-7 rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 shadow-sm">
             <h2 className="font-display text-2xl font-extrabold text-slate-900 mb-6">
               Send Us a Message
             </h2>
@@ -235,7 +235,11 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="Write your message here…"
-                  className={`${inputClass('message')} resize-none`}
+                  className={`w-full rounded-xl border p-4 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 transition-colors resize-none ${
+                    fieldErrors.message
+                      ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500 focus:ring-rose-400'
+                      : 'border-slate-200 bg-white focus:border-brand-crimson focus:ring-brand-crimson'
+                  }`}
                 />
                 <FieldError message={fieldErrors.message} />
               </div>
@@ -245,7 +249,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-crimson py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors disabled:opacity-60"
+                  className="w-full h-11 flex items-center justify-center gap-2 rounded-xl bg-brand-crimson text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors disabled:opacity-60"
                 >
                   {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
                   <span>{submitting ? 'Sending…' : 'Send Message'}</span>
@@ -257,7 +261,7 @@ export default function Contact() {
           {/* Right Column: Contact Information & Response Time Cards */}
           <div className="lg:col-span-5 space-y-6">
             {/* Contact Information Card */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 shadow-sm">
               <h3 className="font-display text-base font-bold text-slate-900 mb-6">
                 Contact Information
               </h3>

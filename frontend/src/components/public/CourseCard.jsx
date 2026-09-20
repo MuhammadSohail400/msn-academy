@@ -98,28 +98,28 @@ export default function CourseCard({ course }) {
         </p>
 
         {/* Metrics Row */}
-        <div className="mt-3 flex items-center gap-3 text-xs text-slate-500">
-          <div className="flex items-center gap-1">
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+          <div className="flex items-center gap-1 shrink-0">
             <BookOpen className="h-3.5 w-3.5 text-slate-400" />
             <span>{totalLectures} lessons</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0">
             <Clock className="h-3.5 w-3.5 text-slate-400" />
             <span>{durationHours} hours</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0">
             <Users className="h-3.5 w-3.5 text-slate-400" />
             <span>{studentsCount}</span>
           </div>
         </div>
 
         {/* Price Row (anchored to bottom) */}
-        <div className="mt-auto pt-4 border-t border-slate-100 flex items-baseline justify-between">
-          <div className="font-display text-base sm:text-lg font-extrabold text-slate-900">
+        <div className="mt-auto pt-4 border-t border-slate-100 flex items-baseline justify-between gap-2">
+          <div className="font-display text-base sm:text-lg font-extrabold text-slate-900 shrink-0">
             PKR {price.toLocaleString()}
           </div>
-          <div className="text-[11px] text-slate-400">
-            by MSN Academy Instructor
+          <div className="text-[11px] text-slate-400 truncate text-right">
+            by MSN Academy
           </div>
         </div>
 

@@ -6,9 +6,9 @@ export default function PublicFooter() {
   return (
     <footer className="border-t border-white/10 bg-brand-navy text-slate-300">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-10">
           {/* Column 1: Brand Info */}
-          <div className="lg:col-span-4 space-y-4">
+          <div className="sm:col-span-2 lg:col-span-4 space-y-4">
             <Link to="/" className="flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-white/5 font-display text-sm font-bold text-white shadow-inner">
                 MSN
@@ -61,7 +61,7 @@ export default function PublicFooter() {
           </div>
 
           {/* Column 2: Quick Links */}
-          <div className="lg:col-span-2 sm:col-span-1">
+          <div className="sm:col-span-1 lg:col-span-2">
             <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white mb-4">
               Quick Links
             </h4>
@@ -103,7 +103,7 @@ export default function PublicFooter() {
           </div>
 
           {/* Column 3: Courses */}
-          <div className="lg:col-span-3 sm:col-span-1">
+          <div className="sm:col-span-1 lg:col-span-3">
             <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white mb-4">
               Courses
             </h4>
@@ -142,7 +142,7 @@ export default function PublicFooter() {
           </div>
 
           {/* Column 4: Contact */}
-          <div className="lg:col-span-3 space-y-3.5">
+          <div className="sm:col-span-2 lg:col-span-3 space-y-3.5">
             <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white mb-4">
               Contact
             </h4>

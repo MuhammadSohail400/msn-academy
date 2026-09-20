@@ -28,9 +28,9 @@ function FieldError({ message }) {
 // Timeline step
 function Step({ label, active, done }) {
   return (
-    <div className="flex flex-col items-center gap-1.5 text-center">
+    <div className="flex flex-col items-center gap-1.5 text-center flex-1 min-w-0">
       <div
-        className={`flex h-7 w-7 items-center justify-center rounded-full border-2 text-xs font-bold transition-colors ${
+        className={`flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full border-2 text-xs font-bold transition-colors shrink-0 ${
           done
             ? 'border-emerald-500 bg-emerald-500 text-white'
             : active
@@ -38,9 +38,9 @@ function Step({ label, active, done }) {
             : 'border-slate-300 bg-white text-slate-400'
         }`}
       >
-        {done ? <CheckCircle2 className="h-4 w-4" /> : null}
+        {done ? <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> : null}
       </div>
-      <span className={`text-[10px] font-semibold ${active ? 'text-brand-crimson font-bold' : done ? 'text-emerald-600' : 'text-slate-400'}`}>
+      <span className={`text-[9px] sm:text-[10px] font-semibold leading-tight line-clamp-2 max-w-[68px] sm:max-w-none ${active ? 'text-brand-crimson font-bold' : done ? 'text-emerald-600' : 'text-slate-400'}`}>
         {label}
       </span>
     </div>
@@ -213,19 +213,19 @@ export default function OrderPending() {
       <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
 
         {/* Top — Status icon + heading */}
-        <div className="p-8 text-center space-y-4 border-b border-slate-100">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-amber-50">
+        <div className="p-5 sm:p-8 text-center space-y-4 border-b border-slate-100">
+          <div className="mx-auto flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-amber-50">
             {isApproved ? (
-              <CheckCircle2 className="h-10 w-10 text-emerald-500" strokeWidth={2} />
+              <CheckCircle2 className="h-8 w-8 sm:h-10 sm:w-10 text-emerald-500" strokeWidth={2} />
             ) : (
-              <Clock className="h-10 w-10 text-amber-500" strokeWidth={2} />
+              <Clock className="h-8 w-8 sm:h-10 sm:w-10 text-amber-500" strokeWidth={2} />
             )}
           </div>
           <div className="space-y-1.5">
-            <h1 className="font-display text-2xl font-extrabold text-brand-navy">
+            <h1 className="font-display text-xl sm:text-2xl font-extrabold text-brand-navy">
               {isApproved ? 'Payment Approved!' : 'Payment Pending'}
             </h1>
-            <p className={`text-sm font-semibold ${isApproved ? 'text-emerald-600' : 'text-brand-crimson'}`}>
+            <p className={`text-xs sm:text-sm font-semibold ${isApproved ? 'text-emerald-600' : 'text-brand-crimson'}`}>
               {isApproved
                 ? 'Your payment has been verified. Access granted!'
                 : isUnderReview
@@ -238,21 +238,21 @@ export default function OrderPending() {
           </div>
 
           {/* Timeline stepper */}
-          <div className="flex items-start justify-between pt-2 px-2">
+          <div className="flex items-start justify-between pt-2 px-1 sm:px-2">
             <Step label="Order Placed" done />
-            <div className={`flex-1 mt-3 h-0.5 mx-1 transition-colors ${isProofSubmitted ? 'bg-emerald-500' : 'bg-slate-200'}`} />
+            <div className={`flex-1 mt-3 h-0.5 mx-0.5 sm:mx-1 transition-colors ${isProofSubmitted ? 'bg-emerald-500' : 'bg-slate-200'}`} />
             <Step
               label="Proof Submitted"
               done={isProofSubmitted}
               active={!isProofSubmitted}
             />
-            <div className={`flex-1 mt-3 h-0.5 mx-1 transition-colors ${isApproved ? 'bg-emerald-500' : isUnderReview ? 'bg-brand-crimson' : 'bg-slate-200'}`} />
+            <div className={`flex-1 mt-3 h-0.5 mx-0.5 sm:mx-1 transition-colors ${isApproved ? 'bg-emerald-500' : isUnderReview ? 'bg-brand-crimson' : 'bg-slate-200'}`} />
             <Step
               label="Under Review"
               active={isUnderReview}
               done={isApproved}
             />
-            <div className={`flex-1 mt-3 h-0.5 mx-1 transition-colors ${isApproved ? 'bg-emerald-500' : 'bg-slate-200'}`} />
+            <div className={`flex-1 mt-3 h-0.5 mx-0.5 sm:mx-1 transition-colors ${isApproved ? 'bg-emerald-500' : 'bg-slate-200'}`} />
             <Step
               label="Access Granted"
               done={isApproved}
@@ -261,7 +261,7 @@ export default function OrderPending() {
           </div>
         </div>
 
-        <div className="p-6 space-y-5">
+        <div className="p-5 sm:p-6 space-y-5">
           {/* Bank Account Details */}
           {!isApproved && paymentDetails && (
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">

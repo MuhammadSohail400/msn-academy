@@ -22,9 +22,9 @@ export default function PublicHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-brand-navy text-white">
-      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 sm:h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
-        <Link to="/" className="flex items-center gap-2.5">
+        <Link to="/" className="flex items-center gap-2.5 shrink-0">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-white/5 font-display text-sm font-bold tracking-wider text-white shadow-inner">
             MSN
           </div>
@@ -39,7 +39,7 @@ export default function PublicHeader() {
         </Link>
 
         {/* Center Desktop Navigation */}
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-6 xl:gap-8 lg:flex">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
@@ -62,7 +62,7 @@ export default function PublicHeader() {
         </nav>
 
         {/* Right Desktop Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* Shopping Cart Trigger — Opens M3 CartDrawer */}
           <button
             type="button"
@@ -72,7 +72,7 @@ export default function PublicHeader() {
           >
             <ShoppingCart className="h-5 w-5" />
             {cartCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-4.5 min-w-4.5 px-1 items-center justify-center rounded-full bg-brand-crimson text-[10px] font-bold text-white shadow">
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 px-1 items-center justify-center rounded-full bg-brand-crimson text-[10px] font-bold text-white shadow">
                 {cartCount}
               </span>
             )}
@@ -81,7 +81,7 @@ export default function PublicHeader() {
           {/* Student Login Button */}
           <Link
             to={isAuthenticated ? '/dashboard' : '/login'}
-            className="hidden sm:inline-flex h-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 px-4 text-sm font-medium text-white hover:bg-white/10 transition-colors"
+            className="hidden md:inline-flex h-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 px-4 text-sm font-medium text-white hover:bg-white/10 transition-colors"
           >
             {isAuthenticated ? 'Dashboard' : 'Student Login'}
           </Link>
@@ -89,7 +89,7 @@ export default function PublicHeader() {
           {/* Explore Courses Red Button */}
           <Link
             to="/courses"
-            className="hidden sm:inline-flex h-10 items-center justify-center rounded-xl bg-brand-crimson px-5 text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors"
+            className="hidden sm:inline-flex h-10 items-center justify-center rounded-xl bg-brand-crimson px-4 sm:px-5 text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors"
           >
             Explore Courses
           </Link>

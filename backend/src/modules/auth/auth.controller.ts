@@ -129,6 +129,25 @@ export class AuthController {
       next(error);
     }
   }
+
+  /**
+   * POST /api/v1/auth/oauth/google
+   */
+  public static async googleOAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const result = await AuthService.googleOAuth(req.body.idToken);
+      setAuthCookies(res, result.accessToken, result.refreshToken);
+
+      res.status(200).json(
+        ApiResponse.ok(
+          { user: result.user, accessToken: result.accessToken, refreshToken: result.refreshToken },
+          'Google authentication successful. Welcome to MSN Academy!'
+        )
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default AuthController;

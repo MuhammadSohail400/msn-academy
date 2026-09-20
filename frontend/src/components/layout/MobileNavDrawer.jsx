@@ -6,7 +6,7 @@ import { X, LogIn, Compass } from 'lucide-react';
 export default function MobileNavDrawer({ isOpen, onClose, links, isAuthenticated }) {
   return (
     <div
-      className={`fixed inset-0 z-50 lg:hidden ${isOpen ? '' : 'pointer-events-none'}`}
+      className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${isOpen ? 'visible' : 'pointer-events-none invisible'}`}
       aria-hidden={!isOpen}
     >
       <div

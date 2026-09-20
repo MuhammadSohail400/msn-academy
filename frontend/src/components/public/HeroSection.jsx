@@ -49,45 +49,45 @@ export default function HeroSection() {
         </div>
 
         {/* 4 Stats Bar in card */}
-        <div className="mt-16 rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-white shrink-0">
-                <BookOpen className="h-5 w-5 text-brand-crimson" />
+        <div className="mt-12 sm:mt-16 rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-8 backdrop-blur">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+            <div className="flex items-center gap-2.5 sm:gap-4">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-white/10 text-white shrink-0">
+                <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-brand-crimson" />
               </div>
               <div>
-                <div className="font-display text-2xl sm:text-3xl font-bold text-white">10+</div>
-                <div className="text-xs sm:text-sm text-slate-400">Courses</div>
+                <div className="font-display text-xl sm:text-3xl font-bold text-white">10+</div>
+                <div className="text-[11px] sm:text-sm text-slate-400">Courses</div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-white shrink-0">
-                <Users className="h-5 w-5 text-brand-crimson" />
+            <div className="flex items-center gap-2.5 sm:gap-4">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-white/10 text-white shrink-0">
+                <Users className="h-4 w-4 sm:h-5 sm:w-5 text-brand-crimson" />
               </div>
               <div>
-                <div className="font-display text-2xl sm:text-3xl font-bold text-white">1000+</div>
-                <div className="text-xs sm:text-sm text-slate-400">Students</div>
+                <div className="font-display text-xl sm:text-3xl font-bold text-white">1000+</div>
+                <div className="text-[11px] sm:text-sm text-slate-400">Students</div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-white shrink-0">
-                <Award className="h-5 w-5 text-brand-crimson" />
+            <div className="flex items-center gap-2.5 sm:gap-4">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-white/10 text-white shrink-0">
+                <Award className="h-4 w-4 sm:h-5 sm:w-5 text-brand-crimson" />
               </div>
               <div>
-                <div className="font-display text-2xl sm:text-3xl font-bold text-white">34+</div>
-                <div className="text-xs sm:text-sm text-slate-400">Certificates Issued</div>
+                <div className="font-display text-xl sm:text-3xl font-bold text-white">34+</div>
+                <div className="text-[11px] sm:text-sm text-slate-400">Certificates Issued</div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-white shrink-0">
-                <Star className="h-5 w-5 text-amber-400 fill-amber-400" />
+            <div className="flex items-center gap-2.5 sm:gap-4">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-white/10 text-white shrink-0">
+                <Star className="h-4 w-4 sm:h-5 sm:w-5 text-amber-400 fill-amber-400" />
               </div>
               <div>
-                <div className="font-display text-2xl sm:text-3xl font-bold text-white">4.9/5</div>
-                <div className="text-xs sm:text-sm text-slate-400">Average Rating</div>
+                <div className="font-display text-xl sm:text-3xl font-bold text-white">4.9/5</div>
+                <div className="text-[11px] sm:text-sm text-slate-400">Average Rating</div>
               </div>
             </div>
           </div>

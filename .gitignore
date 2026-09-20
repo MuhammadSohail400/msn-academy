@@ -30,3 +30,8 @@ Thumbs.db
 .idea/
 *.zip
 
+# Audit & Test Artifacts
+backend/src/scripts/visual_audit_shots/
+backend/src/scripts/lighthouse_results/
+backend/src/scripts/*_before.json
+

@@ -97,42 +97,6 @@ export default function AssessmentBriefing() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="mx-auto max-w-4xl space-y-6 py-8 animate-pulse">
-        <div className="h-6 w-48 rounded bg-gray-200" />
-        <div className="h-16 w-16 mx-auto rounded-2xl bg-gray-200" />
-        <div className="h-8 w-64 mx-auto rounded bg-gray-200" />
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((n) => (
-            <div key={n} className="h-28 rounded-2xl bg-gray-200" />
-          ))}
-        </div>
-        <div className="h-44 rounded-2xl bg-gray-200" />
-        <div className="h-44 rounded-2xl bg-gray-200" />
-      </div>
-    );
-  }
-
-  if (isLockedNotice) {
-    return (
-      <div className="mx-auto max-w-2xl py-12 px-4 text-center">
-        <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-amber-100 text-amber-600 mb-4">
-          <AlertCircle className="h-8 w-8" />
-        </div>
-        <h2 className="font-display text-2xl font-bold text-gray-900">Assessment Locked</h2>
-        <p className="mt-2 text-sm text-gray-600">
-          {error || 'You must complete 100% of the lessons in this course before taking the final assessment.'}
-        </p>
-        <div className="mt-6 flex justify-center gap-3">
-          <Link to={`/learn/${courseId}`}>
-            <Button variant="primary">Return to Course Curriculum</Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   const courseTitle = briefing?.courseTitle || 'Data Analytics';
 
   return (
@@ -160,6 +124,34 @@ export default function AssessmentBriefing() {
           </p>
         </div>
       </div>
+
+      {isLoading ? (
+        <div className="space-y-6 animate-pulse">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className="h-28 rounded-2xl bg-gray-200" />
+            ))}
+          </div>
+          <div className="h-44 rounded-2xl bg-gray-200" />
+          <div className="h-44 rounded-2xl bg-gray-200" />
+        </div>
+      ) : isLockedNotice ? (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/50 p-8 sm:p-12 text-center max-w-2xl mx-auto shadow-xs">
+          <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-amber-100 text-amber-600 mb-4">
+            <AlertCircle className="h-8 w-8" />
+          </div>
+          <h2 className="font-display text-2xl font-bold text-gray-900">Assessment Locked</h2>
+          <p className="mt-2 text-sm text-gray-600">
+            {error || 'You must complete 100% of the lessons in this course before taking the final assessment.'}
+          </p>
+          <div className="mt-6 flex justify-center gap-3">
+            <Link to={`/learn/${courseId}`}>
+              <Button variant="primary">Return to Course Curriculum</Button>
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <>
 
       {/* 4 Stat Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -292,6 +284,8 @@ export default function AssessmentBriefing() {
           Back to Course
         </Link>
       </div>
+      </>
+      )}
     </div>
   );
 }

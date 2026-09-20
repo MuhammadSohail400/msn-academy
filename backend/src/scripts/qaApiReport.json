@@ -1,0 +1,801 @@
+{
+  "generatedAt": "2026-09-18T14:08:55.759Z",
+  "totalDocumentedEndpoints": 44,
+  "testedCount": 44,
+  "passedCount": 44,
+  "failedCount": 0,
+  "endpoints": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/register",
+      "section": "Authentication",
+      "description": "Student account registration",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        201
+      ],
+      "lastStatus": 201,
+      "lastRequestData": {
+        "fullName": "Hassan Raza",
+        "email": "qa.student.1789740454119@msnacademy.pk",
+        "password": "SecurePass@123",
+        "phoneNumber": "+923001234567"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Account created successfully. Welcome to MSN Academy!\",\"data\":{\"user\":{\"fullName\":\"Hassan Raza\",\"email\":\"qa.student.1789740454119@msnacademy.pk\",\"role\":\"STUDENT\",\"phoneNumbe",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "section": "Authentication",
+      "description": "Student & admin login",
+      "tested": true,
+      "callCount": 4,
+      "statuses": [
+        401,
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "email": "student.phase3@msnacademy.pk",
+        "password": "Password@123"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Authentication successful. Welcome back!\",\"data\":{\"user\":{\"_id\":\"6aa8d586e7f4e58501022ec1\",\"fullName\":\"Hamza Khan Updated\",\"email\":\"student.phase3@msnacademy.pk\",\"role\":\"STU",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/auth/logout",
+      "section": "Authentication",
+      "description": "Student session logout",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Signed out successfully.\",\"data\":null,\"meta\":{\"timestamp\":\"2026-09-18T14:07:44.025Z\"}}",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "section": "Authentication",
+      "description": "Active session validation",
+      "tested": true,
+      "callCount": 13,
+      "statuses": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Current session profile retrieved.\",\"data\":{\"user\":{\"_id\":\"6aa8d586e7f4e58501022ec1\",\"fullName\":\"Hamza Khan Updated\",\"email\":\"student.phase3@msnacademy.pk\",\"role\":\"STUDENT\",",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/auth/forgot-password",
+      "section": "Authentication",
+      "description": "Password reset initiation",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "email": "student.phase3@msnacademy.pk"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"If an account exists with this email address, password recovery instructions have been sent.\",\"data\":{\"debugResetToken\":\"79c5ccc2f2c015d08354e552f3a8d69938112f81b81675b1ab8c",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/auth/reset-password",
+      "section": "Authentication",
+      "description": "Password reset confirmation",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "token": "79c5ccc2f2c015d08354e552f3a8d69938112f81b81675b1ab8cdec7ab686a75",
+        "newPassword": "Password@123"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Your password has been successfully reset. Please sign in with your new password.\",\"data\":null,\"meta\":{\"timestamp\":\"2026-09-18T14:07:51.175Z\"}}",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/auth/oauth/google",
+      "section": "Authentication",
+      "description": "Google OAuth authentication",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "idToken": "mock_google_id_token_xyz"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Google authentication successful. Welcome to MSN Academy!\",\"data\":{\"user\":{\"_id\":\"6aad41116683046582427f30\",\"fullName\":\"Google Student\",\"email\":\"google.oauth.student@msnacad",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/users/profile",
+      "section": "Users & Profile",
+      "description": "Student profile retrieval",
+      "tested": true,
+      "callCount": 2,
+      "statuses": [
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"User profile retrieved successfully.\",\"data\":{\"user\":{\"_id\":\"6aa8d586e7f4e58501022ec1\",\"fullName\":\"Hamza Khan Updated\",\"email\":\"student.phase3@msnacademy.pk\",\"role\":\"STUDENT",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "PUT",
+      "endpoint": "/users/profile",
+      "section": "Users & Profile",
+      "description": "Student profile mutation",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "fullName": "Hamza Khan Updated",
+        "phoneNumber": "+923001234567"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Profile details updated successfully.\",\"data\":{\"user\":{\"_id\":\"6aa8d586e7f4e58501022ec1\",\"fullName\":\"Hamza Khan Updated\",\"email\":\"student.phase3@msnacademy.pk\",\"role\":\"STUDEN",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "PUT",
+      "endpoint": "/users/password",
+      "section": "Users & Profile",
+      "description": "Password update",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "currentPassword": "Password@123",
+        "newPassword": "Password@123"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Password updated successfully.\",\"data\":null,\"meta\":{\"timestamp\":\"2026-09-18T14:08:10.343Z\"}}",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/courses",
+      "section": "Course Catalog",
+      "description": "Public catalog with search, filter, pagination",
+      "tested": true,
+      "callCount": 5,
+      "statuses": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Courses fetched successfully\",\"data\":[{\"id\":\"6aa6409465a4d4b52ff76683\",\"title\":\"Applied Data Analytics with Power BI & Python\",\"slug\":\"applied-data-analytics-power-bi\",\"subt",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/courses/:slug",
+      "section": "Course Catalog",
+      "description": "Course details by slug",
+      "tested": true,
+      "callCount": 4,
+      "statuses": [
+        200,
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Course details fetched successfully\",\"data\":{\"id\":\"6aa6409465a4d4b52ff76683\",\"title\":\"Applied Data Analytics with Power BI & Python\",\"slug\":\"applied-data-analytics-power-bi\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/courses/:courseId/syllabus",
+      "section": "Course Catalog",
+      "description": "Public syllabus structure",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Syllabus fetched successfully\",\"data\":{\"courseId\":\"6aa6409465a4d4b52ff7668f\",\"courseTitle\":\"Freelancing & Global Client Acquisition\",\"totalModules\":1,\"totalLectures\":1,\"modu",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/categories",
+      "section": "Course Catalog",
+      "description": "Category metadata list",
+      "tested": true,
+      "callCount": 3,
+      "statuses": [
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Categories fetched successfully\",\"data\":[{\"name\":\"Web Development\",\"slug\":\"web-development\",\"courseCount\":1},{\"name\":\"Artificial Intelligence\",\"slug\":\"artificial-intelligenc",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/contact",
+      "section": "Marketing",
+      "description": "Public inquiry submission",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        201
+      ],
+      "lastStatus": 201,
+      "lastRequestData": {
+        "fullName": "Taimur Raza",
+        "email": "taimur.raza@example.com",
+        "phone": "",
+        "subject": "Inquiry regarding corporate training programs",
+        "message": "Inquiry regarding corporate training programs and assessment schedules."
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Thank you! Your message has been received. Our team will contact you shortly.\",\"data\":{\"inquiryId\":\"6aad4598b3e34dddb2e1c9ec\"},\"meta\":{\"timestamp\":\"2026-09-18T14:07:20.477Z\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/cart",
+      "section": "Cart Operations",
+      "description": "Guest & user cart retrieval",
+      "tested": true,
+      "callCount": 23,
+      "statuses": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Cart retrieved successfully\",\"data\":{\"id\":\"6aa8d6f682f7ce15e3283299\",\"items\":[{\"courseId\":\"6aa6409465a4d4b52ff7668f\",\"title\":\"Freelancing & Global Client Acquisition\",\"slug\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/cart/items",
+      "section": "Cart Operations",
+      "description": "Add course to cart",
+      "tested": true,
+      "callCount": 3,
+      "statuses": [
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "courseId": "6aa6409465a4d4b52ff7668f"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Course added to cart\",\"data\":{\"totalItems\":1,\"subtotal\":5000,\"total\":5000},\"meta\":{\"timestamp\":\"2026-09-18T14:08:11.489Z\"}}",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "DELETE",
+      "endpoint": "/cart/items/:courseId",
+      "section": "Cart Operations",
+      "description": "Remove single item from cart",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Item removed from cart\",\"data\":{\"totalItems\":1,\"subtotal\":12000,\"total\":10800},\"meta\":{\"timestamp\":\"2026-09-18T14:07:33.148Z\"}}",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "DELETE",
+      "endpoint": "/cart",
+      "section": "Cart Operations",
+      "description": "Clear active cart",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Cart cleared successfully\",\"data\":null,\"meta\":{\"timestamp\":\"2026-09-18T14:07:33.305Z\"}}",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/cart/promo",
+      "section": "Cart Operations",
+      "description": "Validate & apply coupon discount",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "code": "MSN10"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Coupon applied successfully\",\"data\":{\"code\":\"MSN10\",\"discountPercentage\":10,\"discountAmount\":1200,\"newTotal\":10800},\"meta\":{\"timestamp\":\"2026-09-18T14:07:31.857Z\"}}",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/orders/checkout",
+      "section": "Orders & Checkout",
+      "description": "Place order and initialize payment",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        201
+      ],
+      "lastStatus": 201,
+      "lastRequestData": {
+        "paymentMethod": "BANK_TRANSFER",
+        "notes": "Automated QA verification order"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Order created successfully\",\"data\":{\"order\":{\"id\":\"6aad45d0b3e34dddb2e1c9f4\",\"orderNumber\":\"MSN-ORD-00032\",\"status\":\"PENDING\",\"items\":[{\"courseId\":\"6aa6409465a4d4b52ff7668f\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/orders",
+      "section": "Orders & Checkout",
+      "description": "Student order history list",
+      "tested": true,
+      "callCount": 2,
+      "statuses": [
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Order history retrieved\",\"data\":[{\"id\":\"6aad45d0b3e34dddb2e1c9f4\",\"orderNumber\":\"MSN-ORD-00032\",\"status\":\"PENDING\",\"totalAmount\":5000,\"currency\":\"PKR\",\"itemsCount\":1,\"paymen",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/orders/:orderId",
+      "section": "Orders & Checkout",
+      "description": "Single order details",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Order details retrieved\",\"data\":{\"id\":\"6aad45d0b3e34dddb2e1c9f4\",\"orderNumber\":\"MSN-ORD-00032\",\"status\":\"PENDING\",\"subtotal\":5000,\"discount\":0,\"totalAmount\":5000,\"currency\":",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/payments/create",
+      "section": "Payments",
+      "description": "Initialize payment gateway/instructions",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        201
+      ],
+      "lastStatus": 201,
+      "lastRequestData": {
+        "orderId": "6aad45d0b3e34dddb2e1c9f4"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Payment record initialized\",\"data\":{\"paymentId\":\"6aad45d0b3e34dddb2e1c9f5\",\"orderId\":\"6aad45d0b3e34dddb2e1c9f4\",\"amount\":5000,\"currency\":\"PKR\",\"status\":\"PENDING\",\"instructio",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/payments/:paymentId/verify",
+      "section": "Payments",
+      "description": "Submit manual proof of payment",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "transactionReference": "TRX-QA-987654",
+        "receiptScreenshotUrl": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Proof of payment submitted. Verification typically completes within 24 hours.\",\"data\":{\"paymentId\":\"6aad45d0b3e34dddb2e1c9f5\",\"status\":\"UNDER_REVIEW\",\"submittedAt\":\"2026-09-",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/payments/:paymentId",
+      "section": "Payments",
+      "description": "Fetch payment verification status",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Payment status fetched\",\"data\":{\"paymentId\":\"6aad45d0b3e34dddb2e1c9f5\",\"orderId\":\"6aad45d0b3e34dddb2e1c9f4\",\"status\":\"UNDER_REVIEW\",\"amount\":5000,\"transactionReference\":\"TRX",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/payments/webhook",
+      "section": "Payments",
+      "description": "Payment gateway webhook listener",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "orderId": "6aad45d0b3e34dddb2e1c9f4",
+        "transactionId": "TXN-WEBHOOK-9988",
+        "amount": 8500,
+        "status": "PAID"
+      },
+      "lastResponsePreview": "{\"received\":true}",
+      "conformsToEnvelope": false
+    },
+    {
+      "method": "PATCH",
+      "endpoint": "/payments/:paymentId/approve",
+      "section": "Payments (Admin)",
+      "description": "Admin manual payment verification",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "status": "APPROVED"
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Payment approved successfully.\",\"data\":{\"paymentId\":\"6aad45d0b3e34dddb2e1c9f5\",\"orderId\":\"6aad45d0b3e34dddb2e1c9f4\",\"status\":\"APPROVED\",\"verificationNotes\":null,\"verifiedAt\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/student/enrollments",
+      "section": "Enrollments & Student Hub",
+      "description": "Student active and completed courses",
+      "tested": true,
+      "callCount": 8,
+      "statuses": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Enrolled courses retrieved\",\"data\":[{\"enrollmentId\":\"6aa9489d92f9c1584be386ea\",\"courseId\":\"6aa6409465a4d4b52ff7668f\",\"title\":\"Freelancing & Global Client Acquisition\",\"slug\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/student/dashboard-summary",
+      "section": "Enrollments & Student Hub",
+      "description": "Student KPI stats and recent activity",
+      "tested": true,
+      "callCount": 6,
+      "statuses": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Dashboard statistics retrieved\",\"data\":{\"enrolledCoursesCount\":3,\"activeCoursesCount\":2,\"completedCoursesCount\":1,\"certificatesEarnedCount\":1,\"recentActivity\":[{\"courseId\":\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/learning/:courseId/overview",
+      "section": "Learning LMS",
+      "description": "LMS syllabus, progress, & exam status",
+      "tested": true,
+      "callCount": 4,
+      "statuses": [
+        200,
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Course learning overview loaded\",\"data\":{\"courseId\":\"6aa6409465a4d4b52ff7668f\",\"title\":\"Freelancing & Global Client Acquisition\",\"progressPercentage\":100,\"totalLectures\":1,\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/learning/:courseId/lessons/:lessonId",
+      "section": "Learning LMS",
+      "description": "Lecture content, video stream, resources",
+      "tested": true,
+      "callCount": 2,
+      "statuses": [
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Lesson content retrieved\",\"data\":{\"lessonId\":\"6aa6409465a4d4b52ff76691\",\"title\":\"Generalist vs Specialist: How to Stand Out in Global Markets\",\"description\":\"Why clients pay",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/learning/:courseId/lessons/:lessonId/complete",
+      "section": "Learning LMS",
+      "description": "Mark lesson complete & advance progress",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Lesson marked as complete\",\"data\":{\"courseId\":\"6aa6409465a4d4b52ff7668f\",\"lessonId\":\"6aa6409465a4d4b52ff76691\",\"completedLecturesCount\":1,\"totalLectures\":1,\"progressPercenta",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/learning/:courseId/progress",
+      "section": "Learning LMS",
+      "description": "Course completion metrics",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Progress retrieved\",\"data\":{\"courseId\":\"6aa6409465a4d4b52ff7668f\",\"progressPercentage\":100,\"completedLecturesCount\":1,\"totalLectures\":1,\"completedLessonIds\":[\"6aa6409465a4d4",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/assessments/:courseId/briefing",
+      "section": "Timed Assessment Engine",
+      "description": "Exam briefing guidelines and eligibility",
+      "tested": true,
+      "callCount": 2,
+      "statuses": [
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Assessment briefing loaded\",\"data\":{\"assessmentId\":\"6aa986cd422133ec33664915\",\"courseId\":\"6aa6409465a4d4b52ff7668f\",\"courseTitle\":\"Freelancing & Global Client Acquisition\",\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/assessments/:courseId/start",
+      "section": "Timed Assessment Engine",
+      "description": "Start 120-min timed assessment attempt",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        201
+      ],
+      "lastStatus": 201,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Assessment session started. Timer is running.\",\"data\":{\"attemptId\":\"6aad45e5b3e34dddb2e1ca18\",\"startedAt\":\"2026-09-18T14:08:37.286Z\",\"expiresAt\":\"2026-09-18T16:08:37.286Z\",\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/assessments/:attemptId/answer",
+      "section": "Timed Assessment Engine",
+      "description": "Autosave answer option & bookmark flag",
+      "tested": true,
+      "callCount": 11,
+      "statuses": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": {
+        "questionId": "6aa986cd422133ec3366491f",
+        "selectedOptionKey": "A",
+        "isFlagged": false
+      },
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Answer saved\",\"data\":{\"questionId\":\"6aa986cd422133ec3366491f\",\"selectedOptionKey\":\"A\",\"isFlagged\":false},\"meta\":{\"timestamp\":\"2026-09-18T14:08:42.051Z\"}}",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/assessments/:attemptId/review",
+      "section": "Timed Assessment Engine",
+      "description": "Review summary grid before submission",
+      "tested": true,
+      "callCount": 2,
+      "statuses": [
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Attempt review summary loaded\",\"data\":{\"attemptId\":\"6aad45e5b3e34dddb2e1ca18\",\"remainingSeconds\":7193,\"totalQuestions\":10,\"answeredCount\":10,\"unansweredCount\":0,\"flaggedCoun",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "POST",
+      "endpoint": "/assessments/:attemptId/submit",
+      "section": "Timed Assessment Engine",
+      "description": "Submit exam and evaluate score immediately",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Assessment evaluated successfully\",\"data\":{\"attemptId\":\"6aad45e5b3e34dddb2e1ca18\",\"totalQuestions\":10,\"correctAnswersCount\":10,\"scorePercentage\":100,\"passingPercentage\":70,\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/assessments/:attemptId/result",
+      "section": "Timed Assessment Engine",
+      "description": "Assessment scorecard and certificate trigger",
+      "tested": true,
+      "callCount": 2,
+      "statuses": [
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Assessment result retrieved\",\"data\":{\"attemptId\":\"6aad45e5b3e34dddb2e1ca18\",\"courseTitle\":\"Freelancing & Global Client Acquisition\",\"totalQuestions\":10,\"correctAnswersCount\"",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/certificates",
+      "section": "Certificates",
+      "description": "Student earned certificates",
+      "tested": true,
+      "callCount": 3,
+      "statuses": [
+        200,
+        200,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Certificates retrieved successfully\",\"data\":[{\"id\":\"6aad45eeb3e34dddb2e1ca25\",\"certNumber\":\"MSN-2026-00005\",\"studentName\":\"Hamza Khan Updated\",\"courseTitle\":\"Freelancing & G",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/certificates/:certificateId",
+      "section": "Certificates",
+      "description": "Single certificate record",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Certificate retrieved successfully\",\"data\":{\"id\":\"6aad45eeb3e34dddb2e1ca25\",\"certificateNumber\":\"MSN-2026-00005\",\"studentName\":\"Hamza Khan Updated\",\"courseTitle\":\"Freelancin",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/certificates/:certificateId/download",
+      "section": "Certificates",
+      "description": "Download PDF certificate asset",
+      "tested": true,
+      "callCount": 1,
+      "statuses": [
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Download link generated\",\"data\":{\"downloadUrl\":\"https://storage.msnacademy.pk/certificates/MSN-2026-00005.pdf?token=exp1789740834108_siga590f5e5\",\"expiresInSeconds\":300},\"me",
+      "conformsToEnvelope": true
+    },
+    {
+      "method": "GET",
+      "endpoint": "/certificates/verify/:certificateNumber",
+      "section": "Certificates",
+      "description": "Public certificate authenticity check",
+      "tested": true,
+      "callCount": 2,
+      "statuses": [
+        404,
+        200
+      ],
+      "lastStatus": 200,
+      "lastRequestData": null,
+      "lastResponsePreview": "{\"success\":true,\"message\":\"Certificate verified successfully\",\"data\":{\"isValid\":true,\"certificateNumber\":\"MSN-2026-00005\",\"studentName\":\"Hamza Khan Updated\",\"courseTitle\":\"Freelancing & Global Client ",
+      "conformsToEnvelope": true
+    }
+  ]
+}

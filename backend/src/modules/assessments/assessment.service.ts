@@ -22,7 +22,7 @@ export class AssessmentService {
     const enrollment = await Enrollment.findOne({
       userId: new Types.ObjectId(userId),
       courseId: new Types.ObjectId(courseId),
-      status: 'ACTIVE',
+      status: { $in: ['ACTIVE', 'COMPLETED'] },
     });
 
     if (!enrollment) {
@@ -42,11 +42,21 @@ export class AssessmentService {
       throw ApiError.notFound('Assessment has not been configured for this course yet.');
     }
 
-    const previousAttempts = await AssessmentAttempt.find({
-      userId: new Types.ObjectId(userId),
-      courseId: new Types.ObjectId(courseId),
-      status: { $in: ['SUBMITTED', 'EXPIRED'] },
-    }).sort({ startedAt: -1 });
+    const [previousAttempts, activeAttempt] = await Promise.all([
+      AssessmentAttempt.find({
+        userId: new Types.ObjectId(userId),
+        courseId: new Types.ObjectId(courseId),
+        status: { $in: ['SUBMITTED', 'EXPIRED'] },
+      }).sort({ startedAt: -1 }),
+      AssessmentAttempt.findOne({
+        userId: new Types.ObjectId(userId),
+        courseId: new Types.ObjectId(courseId),
+        status: 'IN_PROGRESS',
+      }),
+    ]);
+
+    const now = new Date();
+    const hasActiveAttempt = Boolean(activeAttempt && now < activeAttempt.expiresAt);
 
     return {
       assessmentId: assessment._id.toString(),
@@ -57,6 +67,8 @@ export class AssessmentService {
       passingPercentage: assessment.passMarkPercentage,
       isCourseCompleted: true,
       canAttempt: true,
+      hasActiveAttempt,
+      activeAttemptId: hasActiveAttempt ? activeAttempt!._id.toString() : null,
       previousAttempts: previousAttempts.map((a) => ({
         attemptId: a._id.toString(),
         scorePercentage: a.scorePercentage ?? 0,
@@ -73,7 +85,7 @@ export class AssessmentService {
     const enrollment = await Enrollment.findOne({
       userId: new Types.ObjectId(userId),
       courseId: new Types.ObjectId(courseId),
-      status: 'ACTIVE',
+      status: { $in: ['ACTIVE', 'COMPLETED'] },
     });
 
     if (!enrollment) {
@@ -104,8 +116,27 @@ export class AssessmentService {
 
     if (activeAttempt) {
       if (now < activeAttempt.expiresAt) {
-        // Return 409 Conflict with active attemptId
-        throw ApiError.conflict(`An active assessment session is already in progress (Attempt ID: ${activeAttempt._id})`);
+        // Active attempt is still valid — return existing attempt so student resumes smoothly
+        return {
+          attemptId: activeAttempt._id.toString(),
+          startedAt: activeAttempt.startedAt.toISOString(),
+          expiresAt: activeAttempt.expiresAt.toISOString(),
+          timeLimitMinutes: assessment.timeLimitMinutes,
+          totalQuestions: assessment.questions.length,
+          questions: assessment.questions.map((q) => ({
+            questionId: q._id.toString(),
+            questionText: q.questionText,
+            options: q.options,
+          })),
+          answers: activeAttempt.responses.reduce((acc: any, r: any) => {
+            if (r.selectedOptionKey) acc[r.questionId.toString()] = r.selectedOptionKey;
+            return acc;
+          }, {}),
+          flags: activeAttempt.responses.reduce((acc: any, r: any) => {
+            if (r.isFlagged) acc[r.questionId.toString()] = true;
+            return acc;
+          }, {}),
+        };
       } else {
         // Active attempt expired; mark as expired
         activeAttempt.status = 'EXPIRED';

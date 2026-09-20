@@ -54,15 +54,36 @@ export class PaymentController {
   }
 
   /**
+   * GET /api/v1/payments
+   */
+  public static async getAllPayments(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const requester = { id: req.user!.id, role: req.user!.role };
+      const { status, page, limit } = req.query;
+      const result = await PaymentService.getAllPayments(requester, {
+        status: status as string | undefined,
+        page: page ? Number(page) : undefined,
+        limit: limit ? Number(limit) : undefined,
+      });
+
+      res.status(200).json(ApiResponse.ok(result, 'Payments retrieved successfully'));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
    * PATCH /api/v1/payments/:paymentId/admin-review
    */
   public static async adminReview(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const adminId = req.user!.id;
       const paymentId = req.params.paymentId as string;
-      const result = await PaymentService.adminReview(paymentId, adminId, req.body);
+      const status = req.body?.status || 'APPROVED';
+      const verificationNotes = req.body?.verificationNotes || req.body?.notes;
+      const result = await PaymentService.adminReview(paymentId, adminId, { status, verificationNotes });
 
-      res.status(200).json(ApiResponse.ok(result, `Payment ${req.body.status.toLowerCase()} successfully.`));
+      res.status(200).json(ApiResponse.ok(result, `Payment ${status.toLowerCase()} successfully.`));
     } catch (error) {
       next(error);
     }

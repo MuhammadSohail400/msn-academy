@@ -3,14 +3,26 @@ import cartService from '../../../services/cartService';
 
 // ─── Async Thunks ────────────────────────────────────────────────────────────
 
-export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWithValue }) => {
-  try {
-    const res = await cartService.getCart();
-    return res.data; // { id, items, appliedCoupon, subtotal, discount, total, currency }
-  } catch (err) {
-    return rejectWithValue(err.message || 'Failed to fetch cart');
+export const fetchCart = createAsyncThunk(
+  'cart/fetchCart',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await cartService.getCart();
+      return res.data; // { id, items, appliedCoupon, subtotal, discount, total, currency }
+    } catch (err) {
+      return rejectWithValue(err.message || 'Failed to fetch cart');
+    }
+  },
+  {
+    condition: (force, { getState }) => {
+      const { cart } = getState();
+      if (force === true) return true;
+      if (cart.isLoading) return false;
+      if (cart.isInitialized) return false;
+      return true;
+    },
   }
-});
+);
 
 export const addToCart = createAsyncThunk('cart/addToCart', async (courseId, { rejectWithValue }) => {
   try {
@@ -52,15 +64,25 @@ export const applyPromoCode = createAsyncThunk('cart/applyPromoCode', async (cod
 
 // ─── Slice ────────────────────────────────────────────────────────────────────
 
+const loadCachedCart = () => {
+  try {
+    const raw = typeof window !== 'undefined' ? localStorage.getItem('msn_cart_cache') : null;
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return null;
+};
+const cachedCart = loadCachedCart();
+
 const initialState = {
-  id: null,
-  items: [],            // [{ courseId, title, slug, thumbnail, price, originalPrice }]
-  appliedCoupon: null,  // { code, discountPercentage, discountAmount }
-  subtotal: 0,
-  discount: 0,
-  total: 0,
-  currency: 'PKR',
+  id: cachedCart?.id ?? null,
+  items: cachedCart?.items ?? [],
+  appliedCoupon: cachedCart?.appliedCoupon ?? null,
+  subtotal: cachedCart?.subtotal ?? 0,
+  discount: cachedCart?.discount ?? 0,
+  total: cachedCart?.total ?? 0,
+  currency: cachedCart?.currency ?? 'PKR',
   isLoading: false,
+  isInitialized: !!cachedCart,
   error: null,
 };
 
@@ -82,11 +104,17 @@ const cartSlice = createSlice({
       state.subtotal = 0;
       state.discount = 0;
       state.total = 0;
+      try {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('msn_cart_cache');
+        }
+      } catch (e) {}
     },
   },
   extraReducers: (builder) => {
     const syncCartState = (state, data) => {
       state.isLoading = false;
+      state.isInitialized = true;
       state.id = data?.id ?? null;
       state.items = data?.items ?? [];
       state.appliedCoupon = data?.appliedCoupon ?? null;
@@ -94,6 +122,22 @@ const cartSlice = createSlice({
       state.discount = data?.discount ?? 0;
       state.total = data?.total ?? 0;
       state.currency = data?.currency ?? 'PKR';
+      try {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(
+            'msn_cart_cache',
+            JSON.stringify({
+              id: state.id,
+              items: state.items,
+              appliedCoupon: state.appliedCoupon,
+              subtotal: state.subtotal,
+              discount: state.discount,
+              total: state.total,
+              currency: state.currency,
+            })
+          );
+        }
+      } catch (e) {}
     };
 
     // fetchCart — load full server cart
@@ -104,6 +148,7 @@ const cartSlice = createSlice({
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.isLoading = false;
+        state.isInitialized = true;
         state.error = action.payload;
       });
 

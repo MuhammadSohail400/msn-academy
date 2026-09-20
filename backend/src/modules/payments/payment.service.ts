@@ -121,10 +121,20 @@ export class PaymentService {
    * Retrieves payment verification status.
    */
   public static async getPaymentStatus(userId: string, paymentId: string): Promise<Record<string, unknown>> {
-    const payment = await Payment.findOne({
-      _id: new Types.ObjectId(paymentId),
-      userId: new Types.ObjectId(userId),
-    }).lean();
+    let payment: any = null;
+
+    if (paymentId && paymentId !== 'latest' && /^[0-9a-fA-F]{24}$/.test(paymentId)) {
+      payment = await Payment.findOne({
+        _id: new Types.ObjectId(paymentId),
+        userId: new Types.ObjectId(userId),
+      }).lean();
+    }
+
+    if (!payment) {
+      payment = await Payment.findOne({
+        userId: new Types.ObjectId(userId),
+      }).sort({ createdAt: -1 }).lean();
+    }
 
     if (!payment) {
       throw ApiError.notFound('Payment record not found.');
@@ -137,6 +147,74 @@ export class PaymentService {
       amount: payment.amount,
       transactionReference: payment.transactionReference,
       verifiedAt: payment.verifiedAt ? payment.verifiedAt.toISOString() : null,
+    };
+  }
+
+  /**
+   * Retrieves all payments (Admin view or Student's own payments).
+   */
+  public static async getAllPayments(
+    requester: { id: string; role: string },
+    query: { status?: string; page?: number; limit?: number }
+  ): Promise<Record<string, unknown>> {
+    const page = Math.max(1, Number(query.page) || 1);
+    const limit = Math.min(100, Math.max(1, Number(query.limit) || 20));
+    const skip = (page - 1) * limit;
+
+    const filter: Record<string, unknown> = {};
+    if (requester.role !== 'ADMIN') {
+      filter.userId = new Types.ObjectId(requester.id);
+    }
+    if (query.status) {
+      if (query.status.includes(',')) {
+        filter.status = { $in: query.status.split(',').map((s) => s.trim().toUpperCase()) };
+      } else {
+        filter.status = query.status.trim().toUpperCase();
+      }
+    }
+
+    const [payments, total] = await Promise.all([
+      Payment.find(filter)
+        .populate('userId', 'fullName email phoneNumber')
+        .populate('orderId', 'orderNumber totalAmount items')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Payment.countDocuments(filter),
+    ]);
+
+    const formatted = payments.map((p: any) => ({
+      paymentId: p._id.toString(),
+      orderId: p.orderId?._id?.toString() || p.orderId?.toString(),
+      orderNumber: p.orderId?.orderNumber || null,
+      student: p.userId
+        ? {
+            id: p.userId._id?.toString() || p.userId.toString(),
+            fullName: p.userId.fullName || 'Student',
+            email: p.userId.email || '',
+            phoneNumber: p.userId.phoneNumber || '',
+          }
+        : null,
+      amount: p.amount,
+      currency: p.currency,
+      paymentMethod: p.paymentMethod,
+      status: p.status,
+      transactionReference: p.transactionReference || null,
+      proofAttachmentUrl: p.proofAttachmentUrl || null,
+      verificationNotes: p.verificationNotes || null,
+      createdAt: p.createdAt ? p.createdAt.toISOString() : null,
+      verifiedAt: p.verifiedAt ? p.verifiedAt.toISOString() : null,
+    }));
+
+    return {
+      payments: formatted,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
     };
   }
 

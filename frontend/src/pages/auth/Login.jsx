@@ -51,7 +51,7 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full max-w-[480px] rounded-3xl bg-white border border-slate-200/90 shadow-sm p-6 sm:p-8 transition-all">
+    <div className="w-full max-w-[480px] rounded-3xl bg-white border border-slate-200/90 shadow-sm p-5 sm:p-8 transition-all">
       <div className="mb-6">
         <h1 className="font-display text-2xl sm:text-[26px] font-bold tracking-tight text-slate-900">
           Student Login

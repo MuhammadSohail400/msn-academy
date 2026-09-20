@@ -22,7 +22,7 @@ export default function Cart() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { items, appliedCoupon, subtotal, discount, total, currency, isLoading, error } =
+  const { items, appliedCoupon, subtotal, discount, total, currency, isLoading, isInitialized, error } =
     useSelector((state) => state.cart);
 
   const [promoCode, setPromoCode] = useState('');
@@ -73,15 +73,21 @@ export default function Cart() {
   };
 
   // ── Loading ───────────────────────────────────────────────────────────────
-  if (isLoading && items.length === 0) {
+  if ((isLoading || !isInitialized) && items.length === 0) {
     return (
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="mb-6">
-          <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">Shopping Cart</h1>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 min-h-[60vh] animate-pulse">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-200">
+          <div>
+            <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Shopping Cart
+            </h1>
+            <div className="h-4 w-28 bg-slate-200 rounded mt-1" />
+          </div>
         </div>
-        <div className="space-y-3.5 max-w-2xl">
-          {[...Array(2)].map((_, i) => (
-            <div key={i} className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 animate-pulse">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column (Items) */}
+          <div className="lg:col-span-8 space-y-3.5">
+            <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4">
               <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl bg-slate-200 shrink-0" />
               <div className="flex-1 space-y-2">
                 <div className="h-3 bg-slate-200 rounded w-1/4" />
@@ -89,7 +95,24 @@ export default function Cart() {
                 <div className="h-4 bg-slate-200 rounded w-1/4" />
               </div>
             </div>
-          ))}
+          </div>
+          {/* Right Column (Summary Skeleton) */}
+          <div className="lg:col-span-4 space-y-4">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
+              <div className="h-5 w-36 bg-slate-200 rounded" />
+              <div className="space-y-3 pt-2">
+                <div className="flex justify-between">
+                  <div className="h-3.5 w-16 bg-slate-200 rounded" />
+                  <div className="h-3.5 w-20 bg-slate-200 rounded" />
+                </div>
+                <div className="flex justify-between border-t border-slate-100 pt-3">
+                  <div className="h-4 w-12 bg-slate-200 rounded" />
+                  <div className="h-5 w-24 bg-slate-200 rounded" />
+                </div>
+              </div>
+              <div className="h-12 w-full rounded-xl bg-slate-200" />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -164,36 +187,36 @@ export default function Cart() {
               {items.map((item) => (
                 <div
                   key={item.courseId}
-                  className="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs transition-shadow hover:shadow-md"
+                  className="flex items-start sm:items-center justify-between gap-3 sm:gap-4 rounded-2xl border border-slate-200 bg-white p-3.5 sm:p-5 shadow-xs transition-shadow hover:shadow-md"
                 >
-                  <div className="flex items-center gap-4 min-w-0">
+                  <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1">
                     {/* Rounded Thumbnail */}
                     {item.thumbnail ? (
                       <img
                         src={item.thumbnail}
                         alt={item.title}
-                        className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl object-cover shrink-0 border border-slate-100"
+                        className="h-14 w-14 sm:h-20 sm:w-20 rounded-xl object-cover shrink-0 border border-slate-100"
                       />
                     ) : (
-                      <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl bg-slate-100 shrink-0 flex items-center justify-center text-xs font-bold text-slate-400">
+                      <div className="h-14 w-14 sm:h-20 sm:w-20 rounded-xl bg-slate-100 shrink-0 flex items-center justify-center text-xs font-bold text-slate-400">
                         MSN
                       </div>
                     )}
 
                     {/* Details */}
-                    <div className="min-w-0 space-y-1">
+                    <div className="min-w-0 flex-1 space-y-1">
                       <span className={`inline-block rounded px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider ${CATEGORY_BADGES[item.category] || 'bg-amber-100 text-amber-800'}`}>
                         {item.badge || item.category || 'BESTSELLER'}
                       </span>
-                      <h3 className="font-display text-sm sm:text-base font-bold text-slate-900 leading-snug truncate">
+                      <h3 className="font-display text-xs sm:text-base font-bold text-slate-900 leading-snug line-clamp-2">
                         {item.title}
                       </h3>
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-display text-base sm:text-lg font-bold text-brand-crimson">
+                      <div className="flex items-baseline gap-2 pt-0.5">
+                        <span className="font-display text-sm sm:text-lg font-bold text-brand-crimson shrink-0">
                           {currency} {Number(item.price).toLocaleString()}
                         </span>
                         {item.originalPrice && item.originalPrice > item.price && (
-                          <span className="text-xs text-slate-400 line-through">
+                          <span className="text-[11px] sm:text-xs text-slate-400 line-through shrink-0">
                             {currency} {Number(item.originalPrice).toLocaleString()}
                           </span>
                         )}
@@ -211,7 +234,7 @@ export default function Cart() {
                     {removingId === item.courseId ? (
                       <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
                     ) : (
-                      <XCircle className="h-6 w-6 stroke-[1.5]" />
+                      <XCircle className="h-5 w-5 sm:h-6 sm:w-6 stroke-[1.5]" />
                     )}
                   </button>
                 </div>
@@ -269,7 +292,7 @@ export default function Cart() {
             </div>
 
             {/* Order Summary Card */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xs space-y-4">
               <h3 className="font-display text-base font-bold text-slate-900">
                 Order Summary
               </h3>

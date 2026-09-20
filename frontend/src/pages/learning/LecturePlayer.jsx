@@ -77,7 +77,7 @@ export default function LecturePlayer() {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-7xl space-y-6 pb-12 animate-pulse">
+      <div className="mx-auto max-w-7xl space-y-6 pb-12 px-4 sm:px-6 lg:px-8 py-6 animate-pulse">
         <div className="h-6 w-72 rounded bg-gray-200" />
         <div className="h-8 w-96 rounded bg-gray-200" />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -93,16 +93,18 @@ export default function LecturePlayer() {
 
   if (error || !lessonData) {
     return (
-      <div className="mx-auto max-w-2xl py-12 px-4 text-center">
-        <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-red-100 text-red-600 mb-4">
-          <AlertCircle className="h-8 w-8" />
-        </div>
-        <h2 className="font-display text-2xl font-bold text-gray-900">Lesson Unavailable</h2>
-        <p className="mt-2 text-sm text-gray-600">{error || 'Could not load lecture contents.'}</p>
-        <div className="mt-6 flex justify-center gap-3">
-          <Link to={`/learn/${courseId}`}>
-            <Button variant="primary">Return to Course Overview</Button>
-          </Link>
+      <div className="mx-auto max-w-7xl space-y-6 pb-12 px-4 sm:px-6 lg:px-8 py-6">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50/40 p-8 sm:p-12 text-center max-w-xl mx-auto shadow-xs">
+          <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-rose-100 text-rose-600 mb-4">
+            <AlertCircle className="h-8 w-8" />
+          </div>
+          <h2 className="font-display text-2xl font-bold text-gray-900">Lesson Unavailable</h2>
+          <p className="mt-2 text-sm text-gray-600">{error || 'Could not load lecture contents.'}</p>
+          <div className="mt-6 flex justify-center gap-3">
+            <Link to={`/learn/${courseId}`}>
+              <Button variant="primary">Return to Course Overview</Button>
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -127,7 +129,7 @@ export default function LecturePlayer() {
   const currentStep = currentLectureIndex >= 0 ? currentLectureIndex + 1 : 1;
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6 pb-12">
+    <div className="mx-auto max-w-7xl space-y-6 pb-12 px-4 sm:px-6 lg:px-8 py-6">
       {/* Top Breadcrumb */}
       <nav className="flex items-center justify-between text-xs sm:text-sm text-gray-500 font-medium">
         <div className="flex items-center gap-2 truncate">

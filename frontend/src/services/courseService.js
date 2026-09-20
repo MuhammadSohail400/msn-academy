@@ -1,6 +1,9 @@
 import apiClient from './apiClient';
 import { ENDPOINTS } from './endpointUrls';
 
+let categoriesCache = null;
+let categoriesPromise = null;
+
 export const courseService = {
   /**
    * GET /courses
@@ -28,11 +31,27 @@ export const courseService = {
   },
 
   /**
-   * GET /categories
+   * GET /categories (in-memory cached)
    */
-  async getCategories() {
-    const response = await apiClient.get(ENDPOINTS.COURSES.CATEGORIES);
-    return response.data;
+  async getCategories(force = false) {
+    if (!force && categoriesCache) {
+      return categoriesCache;
+    }
+    if (!force && categoriesPromise) {
+      return categoriesPromise;
+    }
+    categoriesPromise = apiClient
+      .get(ENDPOINTS.COURSES.CATEGORIES)
+      .then((response) => {
+        categoriesCache = response.data;
+        categoriesPromise = null;
+        return categoriesCache;
+      })
+      .catch((err) => {
+        categoriesPromise = null;
+        throw err;
+      });
+    return categoriesPromise;
   },
 };
 

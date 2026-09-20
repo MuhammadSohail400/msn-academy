@@ -68,8 +68,8 @@ export default function StickyEnrollCard({ course }) {
         </div>
 
         {/* Pricing & CTA Body */}
-        <div className="p-6 space-y-5">
-          <div className="font-display text-3xl font-extrabold text-slate-900">
+        <div className="p-5 sm:p-6 space-y-5">
+          <div className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900">
             {currency} {Number(price).toLocaleString()}
           </div>
 
@@ -81,7 +81,7 @@ export default function StickyEnrollCard({ course }) {
             {isEnrolled ? (
               <button
                 onClick={() => navigate('/my-courses')}
-                className="w-full rounded-xl bg-emerald-600 py-3.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 transition-colors"
+                className="w-full h-11 flex items-center justify-center rounded-xl bg-emerald-600 text-center text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 transition-colors"
               >
                 Go to My Courses
               </button>
@@ -89,7 +89,7 @@ export default function StickyEnrollCard({ course }) {
               <>
                 <button
                   onClick={handleEnrollNow}
-                  className="w-full rounded-xl bg-brand-crimson py-3.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors"
+                  className="w-full h-11 flex items-center justify-center rounded-xl bg-brand-crimson text-center text-sm font-semibold text-white shadow-sm hover:bg-brand-crimson-hover transition-colors"
                 >
                   Enroll Now
                 </button>
@@ -97,7 +97,7 @@ export default function StickyEnrollCard({ course }) {
                 <button
                   onClick={handleAddToCart}
                   disabled={addingToCart}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl border border-slate-300 py-3 text-center text-sm font-medium text-slate-800 hover:bg-slate-50 transition-colors disabled:opacity-60"
+                  className="w-full h-11 flex items-center justify-center gap-2 rounded-xl border border-slate-300 text-center text-sm font-medium text-slate-800 hover:bg-slate-50 transition-colors disabled:opacity-60"
                 >
                   {addingToCart ? (
                     <Loader2 className="h-4 w-4 animate-spin" />

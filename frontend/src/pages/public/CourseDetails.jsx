@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import StickyEnrollCard from '../../components/public/StickyEnrollCard';
 import CourseCard from '../../components/public/CourseCard';
+import CourseDetailsSkeleton from '../../components/public/CourseDetailsSkeleton';
 import courseService from '../../services/courseService';
 
 export default function CourseDetails() {
@@ -23,14 +24,14 @@ export default function CourseDetails() {
   const [openModuleIndex, setOpenModuleIndex] = useState(0);
   const [course, setCourse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
     async function loadCourse() {
-      setIsLoading(true);
-      setError('');
       try {
+        setIsLoading(true);
+        setError(null);
         const res = await courseService.getCourseBySlug(slug);
         if (!cancelled) {
           setCourse(res.data);
@@ -49,14 +50,7 @@ export default function CourseDetails() {
 
   // ── Loading State ──────────────────────────────────────────────────────────
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 animate-spin text-brand-crimson" />
-          <p className="text-sm text-slate-500">Loading course…</p>
-        </div>
-      </div>
-    );
+    return <CourseDetailsSkeleton />;
   }
 
   // ── Error State ────────────────────────────────────────────────────────────
@@ -313,8 +307,8 @@ export default function CourseDetails() {
             </div>
           </div>
 
-          {/* Right Sticky Sidebar */}
-          <div className="lg:col-span-4 sticky top-28">
+          {/* Right Sticky Sidebar — on mobile/tablet it appears before long syllabus */}
+          <div className="lg:col-span-4 order-first lg:order-last lg:sticky lg:top-28">
             <StickyEnrollCard course={course} />
           </div>
         </div>

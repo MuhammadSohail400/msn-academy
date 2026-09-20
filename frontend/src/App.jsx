@@ -1,106 +1,109 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import PageFallback from './components/feedback/PageFallback';
 
-// Layouts
+// Layouts (loaded synchronously to preserve instant shell rendering)
 import PublicLayout from './components/layout/PublicLayout';
 import AuthLayout from './components/layout/AuthLayout';
 import LmsLayout from './components/layout/LmsLayout';
 import ExamLayout from './components/layout/ExamLayout';
 
-// Public pages — M2 (Marketing & Discovery)
-import Home from './pages/public/Home';
-import CourseCatalog from './pages/public/CourseCatalog';
-import CourseDetails from './pages/public/CourseDetails';
-import About from './pages/public/About';
-import Pricing from './pages/public/Pricing';
-import FAQ from './pages/public/FAQ';
-import Contact from './pages/public/Contact';
-import VerifyCertificate from './pages/public/VerifyCertificate';
+// Public pages — M2 (Marketing & Discovery) — Code Split via React.lazy
+const Home = lazy(() => import('./pages/public/Home'));
+const CourseCatalog = lazy(() => import('./pages/public/CourseCatalog'));
+const CourseDetails = lazy(() => import('./pages/public/CourseDetails'));
+const About = lazy(() => import('./pages/public/About'));
+const Pricing = lazy(() => import('./pages/public/Pricing'));
+const FAQ = lazy(() => import('./pages/public/FAQ'));
+const Contact = lazy(() => import('./pages/public/Contact'));
+const VerifyCertificate = lazy(() => import('./pages/public/VerifyCertificate'));
 
-// Auth pages — M1 (Auth, Profile & Dashboard)
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import ForgotPassword from './pages/auth/ForgotPassword';
-import ResetPassword from './pages/auth/ResetPassword';
+// Auth pages — M1 (Auth, Profile & Dashboard) — Code Split
+const Login = lazy(() => import('./pages/auth/Login'));
+const Register = lazy(() => import('./pages/auth/Register'));
+const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/auth/ResetPassword'));
 
-// Dashboard pages — M1 / M4
-import Dashboard from './pages/dashboard/Dashboard';
-import Profile from './pages/dashboard/Profile';
-import MyCourses from './pages/dashboard/MyCourses';
+// Dashboard pages — M1 / M4 — Code Split
+const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
+const Profile = lazy(() => import('./pages/dashboard/Profile'));
+const MyCourses = lazy(() => import('./pages/dashboard/MyCourses'));
 
-// Learning pages — M4
-import CourseOverview from './pages/learning/CourseOverview';
-import LecturePlayer from './pages/learning/LecturePlayer';
+// Learning pages — M4 — Code Split
+const CourseOverview = lazy(() => import('./pages/learning/CourseOverview'));
+const LecturePlayer = lazy(() => import('./pages/learning/LecturePlayer'));
 
-// Assessment pages — M4
-import AssessmentBriefing from './pages/assessments/AssessmentBriefing';
-import AssessmentQuestions from './pages/assessments/AssessmentQuestions';
-import AssessmentResult from './pages/assessments/AssessmentResult';
+// Assessment pages — M4 — Code Split
+const AssessmentBriefing = lazy(() => import('./pages/assessments/AssessmentBriefing'));
+const AssessmentQuestions = lazy(() => import('./pages/assessments/AssessmentQuestions'));
+const AssessmentResult = lazy(() => import('./pages/assessments/AssessmentResult'));
 
-// Checkout pages — M3
-import Cart from './pages/checkout/Cart';
-import Checkout from './pages/checkout/Checkout';
-import OrderSuccess from './pages/checkout/OrderSuccess';
-import OrderPending from './pages/checkout/OrderPending';
-import OrderFailed from './pages/checkout/OrderFailed';
-import OrderHistory from './pages/checkout/OrderHistory';
+// Checkout pages — M3 — Code Split
+const Cart = lazy(() => import('./pages/checkout/Cart'));
+const Checkout = lazy(() => import('./pages/checkout/Checkout'));
+const OrderSuccess = lazy(() => import('./pages/checkout/OrderSuccess'));
+const OrderPending = lazy(() => import('./pages/checkout/OrderPending'));
+const OrderFailed = lazy(() => import('./pages/checkout/OrderFailed'));
+const OrderHistory = lazy(() => import('./pages/checkout/OrderHistory'));
 
-// Certificate pages — M3
-import CertificateView from './pages/certificates/CertificateView';
+// Certificate pages — M3 — Code Split
+const CertificateView = lazy(() => import('./pages/certificates/CertificateView'));
 
-import NotFound from './pages/NotFound';
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Public marketing + commerce pages (M2, M3) */}
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/courses" element={<CourseCatalog />} />
-          <Route path="/courses/:slug" element={<CourseDetails />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/verify" element={<VerifyCertificate />} />
-          <Route path="/verify/:certId" element={<VerifyCertificate />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/order/success" element={<OrderSuccess />} />
-          <Route path="/order/pending" element={<OrderPending />} />
-          <Route path="/order/failed" element={<OrderFailed />} />
-        </Route>
+      <Suspense fallback={<PageFallback />}>
+        <Routes>
+          {/* Public marketing + commerce pages (M2, M3) */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/courses" element={<CourseCatalog />} />
+            <Route path="/courses/:slug" element={<CourseDetails />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/verify" element={<VerifyCertificate />} />
+            <Route path="/verify/:certId" element={<VerifyCertificate />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order/success" element={<OrderSuccess />} />
+            <Route path="/order/pending" element={<OrderPending />} />
+            <Route path="/order/failed" element={<OrderFailed />} />
+          </Route>
 
-        {/* Auth pages (M1) */}
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-        </Route>
+          {/* Auth pages (M1) */}
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+          </Route>
 
-        {/* Authenticated LMS shell (M1 dashboard/profile, M4 learning, assessment briefing & scorecard) */}
-        <Route element={<LmsLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/my-courses" element={<MyCourses />} />
-          <Route path="/orders" element={<OrderHistory />} />
-          <Route path="/certificate" element={<CertificateView />} />
-          <Route path="/certificate/:certId" element={<CertificateView />} />
-          <Route path="/learn/:courseId" element={<CourseOverview />} />
-          <Route path="/learn/:courseId/lesson/:id" element={<LecturePlayer />} />
-          <Route path="/learn/:courseId/assessment" element={<AssessmentBriefing />} />
-          <Route path="/learn/:courseId/assessment/result" element={<AssessmentResult />} />
-        </Route>
+          {/* Authenticated LMS shell (M1 dashboard/profile, M4 learning, assessment briefing & scorecard) */}
+          <Route element={<LmsLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/my-courses" element={<MyCourses />} />
+            <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/certificate" element={<CertificateView />} />
+            <Route path="/certificate/:certId" element={<CertificateView />} />
+            <Route path="/learn/:courseId" element={<CourseOverview />} />
+            <Route path="/learn/:courseId/lesson/:id" element={<LecturePlayer />} />
+            <Route path="/learn/:courseId/assessment" element={<AssessmentBriefing />} />
+            <Route path="/learn/:courseId/assessment/result" element={<AssessmentResult />} />
+          </Route>
 
-        {/* Distraction-free active exam shell (M4 timed engine) */}
-        <Route element={<ExamLayout />}>
-          <Route path="/learn/:courseId/assessment/questions" element={<AssessmentQuestions />} />
-        </Route>
+          {/* Distraction-free active exam shell (M4 timed engine) */}
+          <Route element={<ExamLayout />}>
+            <Route path="/learn/:courseId/assessment/questions" element={<AssessmentQuestions />} />
+          </Route>
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

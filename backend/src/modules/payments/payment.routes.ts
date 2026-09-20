@@ -30,6 +30,7 @@ router.get('/webhook', (_req, res) => {
 // Protected routes require student or admin authentication
 router.use(authGuard);
 
+router.get('/', PaymentController.getAllPayments);
 router.post('/create', validateRequest({ body: createPaymentSchema }), PaymentController.createPayment);
 router.post(
   '/:paymentId/verify',
@@ -45,6 +46,12 @@ router.patch(
   '/:paymentId/admin-review',
   roleGuard('ADMIN'),
   validateRequest({ params: getPaymentParamsSchema, body: adminReviewPaymentSchema }),
+  PaymentController.adminReview
+);
+router.patch(
+  '/:paymentId/approve',
+  roleGuard('ADMIN'),
+  validateRequest({ params: getPaymentParamsSchema }),
   PaymentController.adminReview
 );
 

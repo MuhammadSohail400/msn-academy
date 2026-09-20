@@ -36,27 +36,27 @@ export default function ExamHeader({
       {/* Center: 120-minute countdown timer */}
       {showTimer && (
         <div
-          className={`flex items-center gap-2 rounded-lg px-4 py-1.5 text-sm sm:text-base font-bold tabular-nums tracking-wide shadow-inner ${
+          className={`flex items-center gap-1.5 sm:gap-2 rounded-lg px-2.5 sm:px-4 py-1.5 text-xs sm:text-base font-bold tabular-nums tracking-wide shadow-inner shrink-0 ${
             isLowTime
               ? 'bg-brand-crimson text-white animate-pulse'
               : 'bg-[#1a2942] text-white border border-[#2b3e5d]'
           }`}
           title="Time remaining for this assessment attempt"
         >
-          <Clock className="h-4 w-4 text-gray-300" />
+          <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-300" />
           <span>{formattedTime}</span>
         </div>
       )}
 
       {/* Right: Review & Submit button */}
-      <div>
+      <div className="shrink-0">
         {onReviewSubmit && (
           <Button
             variant="primary"
             size="sm"
             onClick={onReviewSubmit}
             isLoading={isSubmitting}
-            className="!bg-brand-crimson hover:!bg-brand-crimson-dark text-white font-medium px-4 py-2 text-xs sm:text-sm rounded-md shadow-sm"
+            className="!bg-brand-crimson hover:!bg-brand-crimson-dark text-white font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded-md shadow-sm shrink-0"
           >
             {actionText}
           </Button>

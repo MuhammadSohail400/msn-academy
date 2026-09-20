@@ -39,7 +39,7 @@ const PAYMENT_METHODS = [
 export default function Checkout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items, subtotal, discount, total, currency, appliedCoupon, isLoading } = useSelector(
+  const { items, subtotal, discount, total, currency, appliedCoupon, isLoading, isInitialized } = useSelector(
     (state) => state.cart
   );
   const user = useSelector((state) => state.auth.user);
@@ -57,17 +57,51 @@ export default function Checkout() {
   }, [dispatch]);
 
   // Loading skeleton while cart is being fetched
-  if (isLoading && items.length === 0) {
+  if ((isLoading || !isInitialized) && items.length === 0) {
     return (
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20 text-center">
-        <Loader2 className="mx-auto h-8 w-8 animate-spin text-brand-crimson mb-3" />
-        <p className="text-sm text-slate-500">Loading checkout details…</p>
+      <div className="min-h-screen bg-slate-50 pb-16 animate-pulse">
+        {/* Breadcrumb Skeleton */}
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-6">
+          <div className="h-4 w-32 rounded bg-slate-200" />
+        </div>
+
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Left Column Skeleton */}
+            <div className="lg:col-span-8 space-y-5">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
+                <div className="h-5 w-28 bg-slate-200 rounded" />
+                <div className="h-12 w-full bg-slate-100 rounded-xl" />
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
+                <div className="h-5 w-40 bg-slate-200 rounded" />
+                <div className="space-y-3">
+                  <div className="h-16 w-full bg-slate-100 rounded-xl" />
+                  <div className="h-16 w-full bg-slate-100 rounded-xl" />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column Skeleton */}
+            <div className="lg:col-span-4 space-y-4">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
+                <div className="h-5 w-32 bg-slate-200 rounded" />
+                <div className="space-y-3 pt-2">
+                  <div className="h-12 w-full bg-slate-100 rounded-xl" />
+                  <div className="h-4 w-full bg-slate-100 rounded" />
+                  <div className="h-4 w-2/3 bg-slate-100 rounded" />
+                </div>
+                <div className="h-12 w-full bg-slate-200 rounded-xl" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   // Guard: empty cart
-  if (!isLoading && items.length === 0) {
+  if (isInitialized && !isLoading && items.length === 0) {
     return (
       <div className="mx-auto max-w-md px-4 py-20 text-center">
         <h1 className="font-display text-xl font-bold text-slate-900">Your cart is empty</h1>
@@ -133,7 +167,7 @@ export default function Checkout() {
           <div className="lg:col-span-8 space-y-5">
 
             {/* 1. Account card */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm">
               <div className="flex items-center gap-2 mb-5">
                 <User className="h-5 w-5 text-brand-crimson" />
                 <h2 className="font-display text-base font-bold text-slate-900">Account</h2>
@@ -168,14 +202,14 @@ export default function Checkout() {
             </div>
 
             {/* 2. Account Information (pre-filled for logged in users) */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm">
               <h2 className="font-display text-base font-bold text-slate-900 mb-5">
                 Account Information
               </h2>
 
               <div className="space-y-4">
                 {/* First / Last Name row */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-xs font-medium text-slate-600 mb-1.5">First Name</label>
                     <input
@@ -224,7 +258,7 @@ export default function Checkout() {
             </div>
 
             {/* 3. Payment Method card */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm">
               <div className="flex items-center gap-2 mb-5">
                 <CreditCard className="h-5 w-5 text-brand-crimson" />
                 <h2 className="font-display text-base font-bold text-slate-900">Payment Method</h2>
@@ -312,7 +346,7 @@ export default function Checkout() {
 
           {/* ── Right column: Order Summary ──────────────────────────── */}
           <div className="lg:col-span-4 sticky top-24">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-5">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm space-y-5">
               <h3 className="font-display text-base font-bold text-slate-900">Order Summary</h3>
 
               {/* Course items */}
