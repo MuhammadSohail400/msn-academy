@@ -90,12 +90,12 @@ export default function CartDrawer() {
         className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+      <div className="fixed inset-y-0 right-0 max-w-full flex">
+        <div className="w-full sm:w-[420px] max-w-full bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+          <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100">
             <div>
-              <h2 className="font-display text-lg font-bold text-slate-900">
+              <h2 className="font-display text-base sm:text-lg font-bold text-slate-900">
                 Shopping Cart
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
@@ -126,7 +126,7 @@ export default function CartDrawer() {
           </div>
 
           {/* Cart Items Body */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
             {(!items || items.length === 0) ? (
               <div className="py-16 text-center">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-400 mb-4">
@@ -251,7 +251,7 @@ export default function CartDrawer() {
 
           {/* Footer with Summary & Checkout CTA */}
           {items && items.length > 0 && (
-            <div className="border-t border-slate-100 p-6 bg-slate-50/50 space-y-3">
+            <div className="border-t border-slate-100 p-4 sm:p-6 bg-slate-50/50 space-y-3">
               <div className="space-y-1.5 text-xs text-slate-600">
                 <div className="flex justify-between">
                   <span>Subtotal</span>

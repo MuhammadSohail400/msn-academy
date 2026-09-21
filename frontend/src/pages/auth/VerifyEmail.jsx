@@ -122,28 +122,6 @@ export default function VerifyEmail() {
             </p>
           </div>
 
-          {debugCode && (
-            <div className="mb-5 rounded-2xl bg-amber-50 border border-amber-200/80 p-3.5 text-left animate-in fade-in">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-amber-800">
-                  🛠️ Dev Mode Code:{' '}
-                  <span className="font-mono text-sm font-bold tracking-widest text-slate-900 bg-white px-2 py-0.5 rounded border border-amber-200 ml-1">
-                    {debugCode}
-                  </span>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCode(debugCode);
-                    setError('');
-                  }}
-                  className="text-xs font-bold text-red-600 hover:text-red-700 underline cursor-pointer"
-                >
-                  Auto-fill →
-                </button>
-              </div>
-            </div>
-          )}
 
           {error && (
             <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50 p-3.5 text-xs text-rose-700 animate-in fade-in">

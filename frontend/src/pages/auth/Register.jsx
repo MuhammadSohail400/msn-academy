@@ -99,8 +99,7 @@ export default function Register() {
         })
       ).unwrap();
       const registeredEmail = formData.email.trim().toLowerCase();
-      const devCode = result?.debugVerificationCode;
-      navigate(`/verify-email?email=${encodeURIComponent(registeredEmail)}${devCode ? `&code=${devCode}` : ''}`);
+      navigate(`/verify-email?email=${encodeURIComponent(registeredEmail)}`);
     } catch (err) {
       setSubmitError(
         typeof err === 'string'

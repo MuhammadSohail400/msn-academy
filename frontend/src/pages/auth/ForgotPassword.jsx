@@ -128,22 +128,6 @@ export default function ForgotPassword() {
             we have sent instructions to reset your password.
           </p>
 
-          {debugToken && (
-            <div className="mt-5 rounded-2xl bg-amber-50 border border-amber-200/80 p-4 text-left">
-              <div className="flex items-center gap-2 text-amber-800 font-semibold text-xs mb-1">
-                <span>🛠️ Development Quick-Test Link</span>
-              </div>
-              <p className="text-xs text-amber-700 leading-relaxed mb-3">
-                A password reset email has been dispatched via Resend to your inbox. For quick local testing, you can also open the reset screen directly:
-              </p>
-              <Link
-                to={`/reset-password?token=${debugToken}`}
-                className="inline-flex items-center justify-center w-full rounded-xl bg-brand-crimson py-2.5 text-xs font-semibold text-white hover:bg-brand-crimson-hover transition-all shadow-sm"
-              >
-                Reset Password Now →
-              </Link>
-            </div>
-          )}
 
           <div className="mt-6">
             <Link
