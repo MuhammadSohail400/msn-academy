@@ -125,56 +125,58 @@ export default function Dashboard() {
       </div>
 
       {/* 4 KPI Quick Stats Cards matching Figma dashboard.png */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {/* Enrolled */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4 min-h-[96px] h-full">
-          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
-            <BookOpen className="h-6 w-6 stroke-[2]" />
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-5 lg:p-6 shadow-2xs flex items-center gap-2.5 sm:gap-4 min-h-[84px] sm:min-h-[96px] h-full overflow-hidden">
+          <div className="flex h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
+            <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 stroke-[2]" />
           </div>
-          <div>
-            <p className="font-display text-2xl sm:text-3xl font-bold text-slate-900 leading-none">
+          <div className="min-w-0 flex-1">
+            <p className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 leading-none">
               {stats.enrolled}
             </p>
-            <p className="mt-1 text-xs text-slate-500 font-medium">Enrolled</p>
+            <p className="mt-1 text-[11px] sm:text-xs text-slate-500 font-medium truncate">Enrolled</p>
           </div>
         </div>
 
         {/* Completed */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4 min-h-[96px] h-full">
-          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
-            <CheckCircle2 className="h-6 w-6 stroke-[2]" />
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-5 lg:p-6 shadow-2xs flex items-center gap-2.5 sm:gap-4 min-h-[84px] sm:min-h-[96px] h-full overflow-hidden">
+          <div className="flex h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
+            <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6 stroke-[2]" />
           </div>
-          <div>
-            <p className="font-display text-2xl sm:text-3xl font-bold text-slate-900 leading-none">
+          <div className="min-w-0 flex-1">
+            <p className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 leading-none">
               {stats.completed}
             </p>
-            <p className="mt-1 text-xs text-slate-500 font-medium">Completed</p>
+            <p className="mt-1 text-[11px] sm:text-xs text-slate-500 font-medium truncate">Completed</p>
           </div>
         </div>
 
         {/* Certificates */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4 min-h-[96px] h-full">
-          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-purple-50 text-purple-600 border border-purple-100">
-            <Award className="h-6 w-6 stroke-[2]" />
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-5 lg:p-6 shadow-2xs flex items-center gap-2.5 sm:gap-4 min-h-[84px] sm:min-h-[96px] h-full overflow-hidden">
+          <div className="flex h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-xl bg-purple-50 text-purple-600 border border-purple-100">
+            <Award className="h-5 w-5 sm:h-6 sm:w-6 stroke-[2]" />
           </div>
-          <div>
-            <p className="font-display text-2xl sm:text-3xl font-bold text-slate-900 leading-none">
+          <div className="min-w-0 flex-1">
+            <p className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 leading-none">
               {stats.certificates}
             </p>
-            <p className="mt-1 text-xs text-slate-500 font-medium">Certificates</p>
+            <p className="mt-1 text-[11px] sm:text-xs text-slate-500 font-medium truncate">Certificates</p>
           </div>
         </div>
 
         {/* Pending Assessment */}
-        <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-2xs flex items-center gap-4 min-h-[96px] h-full">
-          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
-            <AlertCircle className="h-6 w-6 stroke-[2]" />
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-5 lg:p-6 shadow-2xs flex items-center gap-2.5 sm:gap-4 min-h-[84px] sm:min-h-[96px] h-full overflow-hidden">
+          <div className="flex h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
+            <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 stroke-[2]" />
           </div>
-          <div>
-            <p className="font-display text-2xl sm:text-3xl font-bold text-slate-900 leading-none">
+          <div className="min-w-0 flex-1">
+            <p className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 leading-none">
               {stats.pendingAssessment}
             </p>
-            <p className="mt-1 text-xs text-slate-500 font-medium">Pending Assessment</p>
+            <p className="mt-1 text-[11px] sm:text-xs text-slate-500 font-medium truncate">
+              <span className="hidden sm:inline">Pending </span>Assessments
+            </p>
           </div>
         </div>
       </div>
