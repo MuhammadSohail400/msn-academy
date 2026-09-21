@@ -273,6 +273,16 @@ Priorities are classified using standard MoSCoW notation:
 | **FEAT-MISC-01** | Static Marketing | Contact Us Form | Guest / Student | Must Have | Contact (Desktop & Mobile) | Lead form with Full Name, Email, Subject, Message, and WhatsApp contact link. |
 | **FEAT-MISC-02** | Static Marketing | Categorized FAQ Accordion | Guest / Student | Should Have | FAQs (Desktop & Mobile) | Tabbed filter pills (All, Courses, Enrollment, Payments, LMS, Assessments, Certificates) with accordion items. |
 | **FEAT-MISC-03** | Static Marketing | Transparent Pricing Page | Guest / Student | Should Have | Pricing (Desktop & Mobile) | Overview of one-time pricing philosophy, value inclusions, price catalog, and FAQ section. |
+| **FEAT-NOTIF-01** | Notifications | Email Address Verification | Student | Must Have | Sign-up / Verify Notice | Secure time-limited OTP/link sent upon registration to verify genuine learner identity. |
+| **FEAT-NOTIF-02** | Notifications | Password Recovery Dispatch | Student | Must Have | Forgot Password screen | Dispatches cryptographically signed password reset link valid for 15 minutes. |
+| **FEAT-NOTIF-03** | Notifications | Password Change Security Alert | Student | Must Have | Student Profile | Immediate security alert sent to student email upon password or credential modification. |
+| **FEAT-NOTIF-04** | Notifications | Welcome & Onboarding Guide | Student | Should Have | Registration Completion | Warm welcoming email with student LMS quick-start links and support channels. |
+| **FEAT-NOTIF-05** | Notifications | Order Receipt & Invoice | Guest / Student | Must Have | Payment Success / Orders | Itemized commercial invoice (Order ID, PKR amount, payment rail, courses enrolled). |
+| **FEAT-NOTIF-06** | Notifications | Course Enrollment Confirmation | Student | Must Have | Checkout / Dashboard | Confirmation with immediate "Start Learning" direct deep-link into the course curriculum. |
+| **FEAT-NOTIF-07** | Notifications | Assessment Result & Scorecard | Student | Should Have | Assessment Complete | Performance breakdown with score percentage, pass/fail status, and retake recommendations. |
+| **FEAT-NOTIF-08** | Notifications | Certificate Issuance Alert | Student | Must Have | Assessment Pass | Notification with embedded Certificate ID, PDF download attachment, and public verification link. |
+| **FEAT-NOTIF-09** | Notifications | Contact Inquiry Auto-Reply & Admin Alert | Guest / Student / Admin | Must Have | Contact Us Screen | Automatic confirmation to visitor + urgent lead routing to MSN Academy administrative inbox. |
+| **FEAT-NOTIF-10** | Notifications | Abandoned Cart & Inactivity Nudge | Student | Could Have | Shopping Cart / LMS | Re-engagement reminder for cart abandoned > 2h, and motivational nudge if inactive for 7 days. |
 
 ---
 
@@ -641,6 +651,43 @@ Priorities are classified using standard MoSCoW notation:
 * **Success Condition:** Accurate credential status displayed to public verifier.
 * **Related UI Screens:** `certificate verification.png`, `certificate verification-1.png`, `verification complete.png`, `verification complete-1.png`, `Certificate verification-mobile.png`.
 
+### 8.7 Email, Notification & Communication Services
+
+#### FR-NOTIF-001: User Identity & Account Security Notifications
+* **Description:** Automated delivery of mission-critical identity verification and security alert emails.
+* **Functional Requirements:**
+  1. **Registration Verification:** Upon email/password registration, the system dispatches an email containing a secure 6-digit OTP and direct verification link valid for 24 hours.
+  2. **Password Recovery:** Upon submission of the "Forgot Password" form, dispatches a cryptographically random, single-use token link valid for 15 minutes.
+  3. **Password Changed Confirmation:** Immediately upon any password change or reset, an alert email is sent notifying the user of the timestamp, device, and immediate instructions to contact support if unauthorized.
+  4. **Welcome & Onboarding:** Following successful email verification (or initial Google OAuth login), dispatches a branded welcome email introducing the LMS workspace, course navigation, and community resources.
+* **Failure Handling:** Queue auto-retries 3 times with exponential backoff (10s, 30s, 90s) before alerting administrators.
+
+#### FR-NOTIF-002: Commercial & Transactional Invoicing
+* **Description:** Instant transactional receipts, billing summaries, and payment status alerts for all e-commerce operations.
+* **Functional Requirements:**
+  1. **Order Confirmation & Tax Invoice:** Automatically sent upon successful checkout (or manual payment approval by admin). Email contains Order ID, formatted date, student name, billing address, payment method (Bank Transfer / Easypaisa / JazzCash), itemized course breakdown in PKR, total amount paid, and direct "Go to My Courses" action.
+  2. **Payment Failure Notification:** Dispatched when a payment transaction is declined, providing clear error guidance, alternate payment instructions, and a 1-click cart recovery link.
+  3. **Refund Confirmation:** Dispatched when an administrative refund is processed, outlining the refunded amount, original transaction reference, and bank processing turnaround timeline.
+
+#### FR-NOTIF-003: Academic Milestones & Credential Communications
+* **Description:** Student lifecycle messaging that celebrates progress, communicates examination outcomes, and delivers digital credentials.
+* **Functional Requirements:**
+  1. **Course Enrollment Notice:** Confirms immediate access to curriculum, introducing the instructor, course syllabus structure, and preliminary study resources.
+  2. **Assessment Scorecard:** Dispatched immediately upon assessment submission. Displays student name, course title, percentage scored, passing status ($\ge 70\%$), and targeted advice (retake guidelines if failed, or certificate access if passed).
+  3. **Certificate Issuance Email:** Dispatched when a student achieves $\ge 70\%$ on their final assessment. Includes unique Certificate ID (`MSN-YYYY-NNNN`), high-resolution PDF certificate attachment, LinkedIn 1-click credential sharing URL, and permanent public verification link.
+
+#### FR-NOTIF-004: Public Inquiries & Support Routing
+* **Description:** Two-way message routing ensuring prospective learners receive immediate confirmations while admissions teams receive structured lead data.
+* **Functional Requirements:**
+  1. **Visitor Auto-Reply:** Immediately acknowledges submission of the public Contact Form: *"Thank you for reaching out to MSN Academy. Our admissions advisors will review your query and respond within 24 business hours."*
+  2. **Administrative Inbound Alert:** Routes structured lead details (Full Name, Email, Phone Number, Subject, Message content, Client IP, Timestamp) directly to the admissions and support inbox (`admissions@msnacademy.pk`).
+
+#### FR-NOTIF-005: Student Retention & Lifecycle Nudges
+* **Description:** Automated engagement emails that drive course completion and recover abandoned checkouts.
+* **Functional Requirements:**
+  1. **Abandoned Cart Reminder:** Dispatched 2 hours after a registered learner leaves items in their shopping cart without completing checkout, summarizing selected courses and highlighting one-time pricing.
+  2. **Course Inactivity Nudge:** Dispatched if an enrolled student has not completed any lecture for 7 consecutive days, reminding them of their last completed lesson and estimated time to earn their certificate.
+
 ---
 
 ## 9. End-to-End User Flows
@@ -798,6 +845,37 @@ sequenceDiagram
     else Certificate Not Found
         Registry-->>Pub: Return 404 Not Found
         Pub-->>Employer: Render Red "Certificate Not Found" Alert
+    end
+```
+
+### 9.6 Transactional Email & Asynchronous Notification Pipeline
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Student / Visitor
+    participant App as MSN Academy API (Express)
+    participant Redis as Redis / BullMQ (EmailQueue)
+    participant Worker as Background Email Worker
+    participant Provider as Email Gateway (Resend / SES / Nodemailer)
+    participant Inbox as User / Admin Inbox
+
+    User->>App: Trigger Action (Register / Forgot Password / Checkout / Contact)
+    App->>App: Validate & Process Core Database Transaction
+    App->>Redis: EmailQueue.add(jobType, payload, { priority, attempts: 3 })
+    App-->>User: Return Immediate HTTP Response (< 200ms)
+    
+    note over Redis, Worker: Asynchronous Background Processing
+    Redis->>Worker: Dequeue email job
+    Worker->>Worker: Render responsive HTML template with dynamic variables
+    Worker->>Provider: Send message via SMTP / REST API
+    alt Delivery Successful
+        Provider-->>Worker: Message Accepted (250 OK / messageId)
+        Worker-->>Redis: Mark Job Completed
+        Provider->>Inbox: Deliver styled email to student/admin
+    else Transient Failure (Network / Rate-Limit)
+        Provider-->>Worker: Error (5xx / Timeout)
+        Worker-->>Redis: Retry job with exponential backoff (10s, 30s, 90s)
     end
 ```
 
@@ -1484,6 +1562,38 @@ Each business rule is classified based on whether it is explicitly substantiated
 | **Certificate Copied/Shared**| In-App Toast | Toast: *"Certificate verification link copied to clipboard!"* | Auto-dismisses in 3s. |
 | **Invalid Certificate ID**| Inline Form Alert | Red text: *"Certificate ID not found. Please verify the code and try again."* | Clears upon new query. |
 
+### 15.1 Comprehensive Transactional Email Notification System (Phase 6 / Final Phase Implementation)
+
+> [!NOTE]
+> **Implementation Timeline:** The comprehensive email delivery infrastructure will be implemented in **Phase 6 (Final Phase)** after core frontend workflows and backend domain services are completed. In intermediate development phases, critical credentials/tokens are surfaced via secure development fallback responses and server console logging.
+
+The MSN Academy platform specifies a production-grade transactional email service powered by **Nodemailer** and an enterprise SMTP gateway (e.g. AWS SES, Gmail SMTP with App Passwords, or Mailtrap for staging). All outgoing communications feature responsive HTML templates with MSN Academy branding (Crimson `#C9252C`, Deep Navy `#0B132B`, clean typography, and direct action CTAs).
+
+#### 15.1.1 Email Notification Matrix by Domain
+
+| # | Notification Event | Trigger / Source Endpoint | Target Recipient | Template Purpose & Key Elements | Priority / SLA |
+| :---: | :--- | :--- | :--- | :--- | :---: |
+| **1** | **Password Reset Link** | `POST /api/v1/auth/forgot-password` | Registered Student | 15–60 min single-use reset token with red button: *"Reset Your Password"* (`/reset-password?token=...`). | High / Instant |
+| **2** | **Password Changed Alert** | `PUT /api/v1/users/password` or `POST /api/v1/auth/reset-password` | Student | Security notification confirming password was updated, with timestamp and security hotline. | High / Instant |
+| **3** | **Student Welcome & Onboarding** | `POST /api/v1/auth/register` | New Student | Welcomes student to MSN Academy, provides platform orientation, and links to Course Catalog & LMS Dashboard. | Normal / Async |
+| **4** | **Guest Checkout Credentials** | `POST /api/v1/orders/checkout` (Guest Mode) | Guest Purchaser | Auto-provisions account (`isGuestProvisioned: true`), generates temporary password, and sends login instructions + course access link. | High / Instant |
+| **5** | **Email Verification Link** | `POST /api/v1/auth/verify-email` | New Student | Supports `isEmailVerified` lifecycle with secure one-click confirmation link. | Normal / Async |
+| **6** | **Payment Pending / Bank Instructions** | `POST /api/v1/orders/checkout` or `POST /api/v1/payments/verify-payment` | Student | Triggered on manual Bank Transfer / Easypaisa / JazzCash orders. Itemizes Order ID, payable PKR total, IBAN/Account details, and 24h slip upload instructions. | High / Instant |
+| **7** | **Payment Receipt & Enrollment Confirmed**| Gateway Webhook or Instant Settlement | Student | Itemized official payment receipt with Order ID, course title(s), PKR amount, transaction reference, and primary CTA: *"Start Learning"*. | High / Instant |
+| **8** | **Manual Payment Approved (Admin)** | `PATCH /api/v1/admin/payments/:id/verify` (`APPROVED`) | Student | Alerts student that their bank slip was verified by the admin team and course lectures are unlocked on their dashboard. | High / Instant |
+| **9** | **Manual Payment Rejected** | `PATCH /api/v1/admin/payments/:id/verify` (`REJECTED`) | Student | Alerts student that payment slip could not be verified (e.g. illegible screenshot or mismatched reference) with rejection reason and resubmission link. | High / Instant |
+| **10**| **Assessment Passed & Certificate Issued**| `POST /api/v1/assessments/:id/submit` (Score $\ge 70\%$) | Graduated Student | Celebratory email with final score, Certificate ID (`MSN-YYYY-XXXXX`), public verification link (`/verify/:id`), and *"Download Certificate PDF"* CTA. | High / Instant |
+| **11**| **Course 100% Completion Milestone** | Video curriculum marked complete | Student | Congratulates student on finishing all modules and presents immediate CTA: *"Take Final Assessment"*. | Normal / Async |
+| **12**| **Contact Inquiry Admin Dispatch** | `POST /api/v1/contact` | Admin (`admin@msnacademy.pk`) | Real-time lead dispatch containing sender's full name, email, phone number, subject, and message. | Normal / Instant |
+| **13**| **Contact Inquiry User Auto-Responder** | `POST /api/v1/contact` | Inquiring Visitor | Immediate acknowledgement confirming receipt of message and promising response within 24 hours. | Normal / Async |
+| **14**| **Course Announcement & Updates** | Course Announcement Broadcast | Enrolled Students | Updates students regarding curriculum changes, live Q&A sessions, or new resources. Respects student notification preferences. | Low / Batch |
+
+#### 15.1.2 Student Notification Preference Compliance
+In accordance with `FEAT-PROF-04` and the Student Profile UI (`student Profile-desktop.png`):
+* The platform honors `user.preferences.emailNotifications`.
+* **Marketing & Curriculum Updates (Event #14)** are strictly suppressed when the student toggles email notifications off.
+* **Transactional Security & Financial Emails (Events #1, #2, #4, #6, #7, #8, #9, #10)** are classified as critical system transactions and are always dispatched regardless of preference settings.
+
 ---
 
 ## 16. Search, Filtering & Sorting Specifications
@@ -1706,6 +1816,7 @@ As explicitly specified in `Checkout.png`:
 │ • Dynamic Certificate generation, PDF download, and LinkedIn share     │
 │ • Public Certificate Verification registry with QR code resolution     │
 │ • Order History tracking and Student Profile password management       │
+│ • Phase 6 (Final Phase): Comprehensive Email Delivery System (Nodemailer, SMTP, Branded Templates) │
 └───────────────────────────────────┬────────────────────────────────────┘
                                     │
                                     ▼
@@ -1740,6 +1851,7 @@ As explicitly specified in `Checkout.png`:
 3. **Assessment Question Counts:** The desktop UI displays 10 questions (`Assessmet questions.png`) while the mobile UI displays 30 questions (`asses. Questions-mb.png`). It is assumed that the assessment question pool size is configurable per course.
 4. **Passing Retake Policy:** It is assumed that when a student retakes a passed assessment, their highest score is retained and the original completion date remains intact.
 5. **Certificate QR Resolution:** It is assumed that scanning the QR code on any certificate resolves to `https://msnacademy.com/verify?id={certificateId}`.
+6. **Transactional Email Phasing:** Transactional email sending is slated for implementation as the final milestone (Phase 6). Intermediate development phases utilize console debug logging and API fallback fields.
 
 ### 24.2 Open Questions for Product Leadership & Stakeholders
 1. **Payment Gateway Integration:** Which specific merchant aggregator (e.g., PayFast, Kuickpay, Safepay, JazzCash Direct Merchant API) will be integrated for automated instant digital payments to bypass the 24-hour manual verification lag?
@@ -1756,7 +1868,7 @@ As explicitly specified in `Checkout.png`:
 | **Authentication** | Google Identity Services & Apple Sign-In | Confirmed (UI represented) | 1-click social sign-up and student authentication. |
 | **Local Payment Rails** | Bank Transfer (1Link/IBAN), Easypaisa, JazzCash | Confirmed (UI represented) | Local currency payment settlement in Pakistan. |
 | **Video Streaming CDN** | Cloudflare Stream / Vimeo Pro / AWS CloudFront | Potential / TBC | Secure, adaptive bitrate video delivery for lectures. |
-| **Transactional Email** | SendGrid / AWS SES / Postmark | Confirmed (Flow implied) | Account activation, order receipts, payment verification, certificate delivery. |
+| **Transactional Email** | Nodemailer with SMTP (Gmail App Password, AWS SES, Mailtrap) | Confirmed (Phase 6 Final Milestone) | Account onboarding, password recovery, order receipts, payment approvals, certificate delivery, admin inquiries. |
 | **PDF Generation Engine**| Puppeteer / React-PDF / PDFKit | Confirmed (UI represented) | Server-side vector PDF generation for Certificates of Completion. |
 | **File Storage** | AWS S3 / Cloudflare R2 | Confirmed (UI represented) | Hosting downloadable course slides (.pdf), code (.zip), spreadsheets (.xlsx). |
 | **Public Registry & QR** | QR Code Generator Library (e.g., node-qrcode) | Confirmed (UI represented) | Generation of dynamic scannable QR codes for physical/digital certificates. |

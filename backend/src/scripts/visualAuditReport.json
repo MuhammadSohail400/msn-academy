@@ -1,0 +1,4681 @@
+{
+  "timestamp": "2026-09-20T11:30:09.163Z",
+  "totalChecks": 162,
+  "passedChecks": 162,
+  "failedChecks": 0,
+  "totalIssues": 0,
+  "results": [
+    {
+      "page": "Home",
+      "path": "/",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Home",
+      "path": "/",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Home",
+      "path": "/",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Home",
+      "path": "/",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "View All",
+          "w": 77,
+          "h": 20
+        },
+        {
+          "tag": "a",
+          "text": "Freelancing & Global Client Ac",
+          "w": 306,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "Generative AI & Prompt Enginee",
+          "w": 306,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Home",
+      "path": "/",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "View All",
+          "w": 358,
+          "h": 20
+        },
+        {
+          "tag": "a",
+          "text": "Freelancing & Global Client Ac",
+          "w": 316,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Generative AI & Prompt Enginee",
+          "w": 316,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Home",
+      "path": "/",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "View All",
+          "w": 343,
+          "h": 20
+        },
+        {
+          "tag": "a",
+          "text": "Freelancing & Global Client Ac",
+          "w": 301,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Generative AI & Prompt Enginee",
+          "w": 301,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Course Catalog",
+      "path": "/courses",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Course Catalog",
+      "path": "/courses",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Course Catalog",
+      "path": "/courses",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Course Catalog",
+      "path": "/courses",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Freelancing & Global Client Ac",
+          "w": 306,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "Generative AI & Prompt Enginee",
+          "w": 306,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "Professional Web Development B",
+          "w": 306,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Course Catalog",
+      "path": "/courses",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Freelancing & Global Client Ac",
+          "w": 316,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Generative AI & Prompt Enginee",
+          "w": 316,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Professional Web Development B",
+          "w": 316,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Course Catalog",
+      "path": "/courses",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Freelancing & Global Client Ac",
+          "w": 301,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Generative AI & Prompt Enginee",
+          "w": 301,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Professional Web Development B",
+          "w": 301,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Course Details",
+      "path": "/courses/applied-data-analytics-power-bi",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Course Details",
+      "path": "/courses/applied-data-analytics-power-bi",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Course Details",
+      "path": "/courses/applied-data-analytics-power-bi",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Course Details",
+      "path": "/courses/applied-data-analytics-power-bi",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Courses",
+          "w": 47,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 39,
+          "h": 17
+        }
+      ]
+    },
+    {
+      "page": "Course Details",
+      "path": "/courses/applied-data-analytics-power-bi",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Courses",
+          "w": 47,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Course Details",
+      "path": "/courses/applied-data-analytics-power-bi",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Courses",
+          "w": 47,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "About",
+      "path": "/about",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "About",
+      "path": "/about",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "About",
+      "path": "/about",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "About",
+      "path": "/about",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 61,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 76,
+          "h": 17
+        }
+      ]
+    },
+    {
+      "page": "About",
+      "path": "/about",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 52,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 65,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "About",
+      "path": "/about",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 52,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 65,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Pricing",
+      "path": "/pricing",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Pricing",
+      "path": "/pricing",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Pricing",
+      "path": "/pricing",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Pricing",
+      "path": "/pricing",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Data Analytics",
+          "w": 306,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "AI Automation",
+          "w": 306,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "UI/UX Design",
+          "w": 306,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Pricing",
+      "path": "/pricing",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Data Analytics",
+          "w": 316,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "AI Automation",
+          "w": 316,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "UI/UX Design",
+          "w": 316,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Pricing",
+      "path": "/pricing",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Data Analytics",
+          "w": 301,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "AI Automation",
+          "w": 301,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "UI/UX Design",
+          "w": 301,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "FAQ",
+      "path": "/faq",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "FAQ",
+      "path": "/faq",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "FAQ",
+      "path": "/faq",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "FAQ",
+      "path": "/faq",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 61,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 76,
+          "h": 17
+        }
+      ]
+    },
+    {
+      "page": "FAQ",
+      "path": "/faq",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 52,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 65,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "FAQ",
+      "path": "/faq",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 52,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 65,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Contact",
+      "path": "/contact",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Contact",
+      "path": "/contact",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Contact",
+      "path": "/contact",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Contact",
+      "path": "/contact",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "info@msnacademy.com",
+          "w": 164,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "Message us on WhatsApp",
+          "w": 177,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 39,
+          "h": 17
+        }
+      ]
+    },
+    {
+      "page": "Contact",
+      "path": "/contact",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "info@msnacademy.com",
+          "w": 140,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "Message us on WhatsApp",
+          "w": 151,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Contact",
+      "path": "/contact",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "info@msnacademy.com",
+          "w": 140,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "Message us on WhatsApp",
+          "w": 151,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Verify Certificate",
+      "path": "/verify",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Verify Certificate",
+      "path": "/verify",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Verify Certificate",
+      "path": "/verify",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Verify Certificate",
+      "path": "/verify",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "button",
+          "text": "MSN-DEMO-0001",
+          "w": 86,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "MSN-DEMO-0002",
+          "w": 86,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 39,
+          "h": 17
+        }
+      ]
+    },
+    {
+      "page": "Verify Certificate",
+      "path": "/verify",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "button",
+          "text": "MSN-DEMO-0001",
+          "w": 86,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "MSN-DEMO-0002",
+          "w": 86,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Verify Certificate",
+      "path": "/verify",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "button",
+          "text": "MSN-DEMO-0001",
+          "w": 86,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "MSN-DEMO-0002",
+          "w": 86,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Cart",
+      "path": "/cart",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Cart",
+      "path": "/cart",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Cart",
+      "path": "/cart",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Cart",
+      "path": "/cart",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 61,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 76,
+          "h": 17
+        }
+      ]
+    },
+    {
+      "page": "Cart",
+      "path": "/cart",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 52,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 65,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Cart",
+      "path": "/cart",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 52,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 65,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Login",
+      "path": "/login",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Login",
+      "path": "/login",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Login",
+      "path": "/login",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Login",
+      "path": "/login",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Forgot Password?",
+          "w": 103,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Create Account",
+          "w": 91,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Login",
+      "path": "/login",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Back to Website",
+          "w": 116,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Forgot Password?",
+          "w": 103,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Login",
+      "path": "/login",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Back to Website",
+          "w": 116,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Forgot Password?",
+          "w": 103,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Register",
+      "path": "/register",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Register",
+      "path": "/register",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Register",
+      "path": "/register",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Register",
+      "path": "/register",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Sign In",
+          "w": 40,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Register",
+      "path": "/register",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Back to Website",
+          "w": 116,
+          "h": 24
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Register",
+      "path": "/register",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Back to Website",
+          "w": 116,
+          "h": 24
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Forgot Password",
+      "path": "/forgot-password",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Forgot Password",
+      "path": "/forgot-password",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Forgot Password",
+      "path": "/forgot-password",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Forgot Password",
+      "path": "/forgot-password",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Back to Sign In",
+          "w": 106,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Forgot Password",
+      "path": "/forgot-password",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Back to Website",
+          "w": 116,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Back to Sign In",
+          "w": 106,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Forgot Password",
+      "path": "/forgot-password",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Back to Website",
+          "w": 116,
+          "h": 24
+        },
+        {
+          "tag": "a",
+          "text": "Back to Sign In",
+          "w": 106,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Reset Password",
+      "path": "/reset-password",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Reset Password",
+      "path": "/reset-password",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Reset Password",
+      "path": "/reset-password",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Reset Password",
+      "path": "/reset-password",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Reset Password",
+      "path": "/reset-password",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Back to Website",
+          "w": 116,
+          "h": 24
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Reset Password",
+      "path": "/reset-password",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Back to Website",
+          "w": 116,
+          "h": 24
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 24,
+          "h": 24
+        }
+      ]
+    },
+    {
+      "page": "Checkout",
+      "path": "/checkout",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Checkout",
+      "path": "/checkout",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Checkout",
+      "path": "/checkout",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Checkout",
+      "path": "/checkout",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 61,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 76,
+          "h": 17
+        }
+      ]
+    },
+    {
+      "page": "Checkout",
+      "path": "/checkout",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 52,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 65,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Checkout",
+      "path": "/checkout",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 52,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 65,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Order Pending",
+      "path": "/order/pending",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order Pending",
+      "path": "/order/pending",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order Pending",
+      "path": "/order/pending",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order Pending",
+      "path": "/order/pending",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 61,
+          "h": 17
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 76,
+          "h": 17
+        }
+      ]
+    },
+    {
+      "page": "Order Pending",
+      "path": "/order/pending",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 52,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 65,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Order Pending",
+      "path": "/order/pending",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "About Us",
+          "w": 52,
+          "h": 15
+        },
+        {
+          "tag": "a",
+          "text": "All Courses",
+          "w": 65,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Order Success",
+      "path": "/order/success",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order Success",
+      "path": "/order/success",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order Success",
+      "path": "/order/success",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order Success",
+      "path": "/order/success",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Failed",
+          "w": 35,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Pending",
+          "w": 48,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 39,
+          "h": 17
+        }
+      ]
+    },
+    {
+      "page": "Order Success",
+      "path": "/order/success",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Failed",
+          "w": 35,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Pending",
+          "w": 48,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Order Success",
+      "path": "/order/success",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Failed",
+          "w": 35,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Pending",
+          "w": 48,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Order Failed",
+      "path": "/order/failed",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order Failed",
+      "path": "/order/failed",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order Failed",
+      "path": "/order/failed",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order Failed",
+      "path": "/order/failed",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 1088,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 1088,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 936,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 821,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Success",
+          "w": 49,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Pending",
+          "w": 48,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 39,
+          "h": 17
+        }
+      ]
+    },
+    {
+      "page": "Order Failed",
+      "path": "/order/failed",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 710,
+          "width": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 710,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 558,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 443,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Success",
+          "w": 49,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Pending",
+          "w": 48,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Order Failed",
+      "path": "/order/failed",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "div",
+          "className": "absolute right-0 top-0 h-full w-80 max-w-[85%] bg-brand-navy border-l border-whi",
+          "id": "",
+          "right": 694,
+          "width": 319
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center justify-between border-b border-white/10 px-5 py-5",
+          "id": "",
+          "right": 694,
+          "width": 318
+        },
+        {
+          "tag": "div",
+          "className": "flex items-center gap-2",
+          "id": "",
+          "right": 543,
+          "width": 147
+        },
+        {
+          "tag": "div",
+          "className": "flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-wh",
+          "id": "",
+          "right": 428,
+          "width": 32
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Success",
+          "w": 49,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Pending",
+          "w": 48,
+          "h": 16
+        },
+        {
+          "tag": "a",
+          "text": "Home",
+          "w": 34,
+          "h": 15
+        }
+      ]
+    },
+    {
+      "page": "Dashboard",
+      "path": "/dashboard",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Dashboard",
+      "path": "/dashboard",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Dashboard",
+      "path": "/dashboard",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Dashboard",
+      "path": "/dashboard",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 73,
+          "h": 20
+        },
+        {
+          "tag": "button",
+          "text": "Sign Out",
+          "w": 91,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "View All",
+          "w": 47,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Dashboard",
+      "path": "/dashboard",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "View All",
+          "w": 47,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Dashboard",
+      "path": "/dashboard",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "View All",
+          "w": 47,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "My Courses",
+      "path": "/my-courses",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "My Courses",
+      "path": "/my-courses",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "My Courses",
+      "path": "/my-courses",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "My Courses",
+      "path": "/my-courses",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 73,
+          "h": 20
+        },
+        {
+          "tag": "button",
+          "text": "Course Overview",
+          "w": 123,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Course Overview",
+          "w": 123,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "My Courses",
+      "path": "/my-courses",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "button",
+          "className": "rounded-lg px-4 py-2 text-sm font-medium transition-all whitespace-nowrap shrink",
+          "id": "",
+          "right": 422,
+          "width": 128
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Course Overview",
+          "w": 157,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "My Courses",
+      "path": "/my-courses",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "button",
+          "className": "rounded-lg px-4 py-2 text-sm font-medium transition-all whitespace-nowrap shrink",
+          "id": "",
+          "right": 422,
+          "width": 128
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Course Overview",
+          "w": 150,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Order History",
+      "path": "/orders",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order History",
+      "path": "/orders",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order History",
+      "path": "/orders",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Order History",
+      "path": "/orders",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 73,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "page": "Order History",
+      "path": "/orders",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Order History",
+      "path": "/orders",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Profile",
+      "path": "/profile",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Profile",
+      "path": "/profile",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Profile",
+      "path": "/profile",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Profile",
+      "path": "/profile",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 73,
+          "h": 20
+        },
+        {
+          "tag": "button",
+          "text": "Sign Out",
+          "w": 91,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Edit",
+          "w": 23,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Profile",
+      "path": "/profile",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Edit",
+          "w": 23,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Profile",
+      "path": "/profile",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Edit",
+          "w": 23,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Certificates",
+      "path": "/certificate",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Certificates",
+      "path": "/certificate",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Certificates",
+      "path": "/certificate",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Certificates",
+      "path": "/certificate",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 73,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "page": "Certificates",
+      "path": "/certificate",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Certificates",
+      "path": "/certificate",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Course Overview",
+      "path": "/learn/6aa6409465a4d4b52ff7668f",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Course Overview",
+      "path": "/learn/6aa6409465a4d4b52ff7668f",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Course Overview",
+      "path": "/learn/6aa6409465a4d4b52ff7668f",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Course Overview",
+      "path": "/learn/6aa6409465a4d4b52ff7668f",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 73,
+          "h": 20
+        },
+        {
+          "tag": "a",
+          "text": "My Courses",
+          "w": 81,
+          "h": 20
+        },
+        {
+          "tag": "a",
+          "text": "Rewatch",
+          "w": 50,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Course Overview",
+      "path": "/learn/6aa6409465a4d4b52ff7668f",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "My Courses",
+          "w": 69,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Course Overview",
+      "path": "/learn/6aa6409465a4d4b52ff7668f",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "My Courses",
+          "w": 69,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Lecture Player",
+      "path": "/learn/6aa6409465a4d4b52ff76691/lesson/6aa6409465a4d4b52ff76692",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Lecture Player",
+      "path": "/learn/6aa6409465a4d4b52ff76691/lesson/6aa6409465a4d4b52ff76692",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Lecture Player",
+      "path": "/learn/6aa6409465a4d4b52ff76691/lesson/6aa6409465a4d4b52ff76692",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Lecture Player",
+      "path": "/learn/6aa6409465a4d4b52ff76691/lesson/6aa6409465a4d4b52ff76692",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 919,
+          "width": 218
+        },
+        {
+          "tag": "span",
+          "className": "capitalize text-gray-700",
+          "id": "",
+          "right": 919,
+          "width": 198
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 73,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "page": "Lecture Player",
+      "path": "/learn/6aa6409465a4d4b52ff76691/lesson/6aa6409465a4d4b52ff76692",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 443,
+          "width": 61
+        },
+        {
+          "tag": "svg",
+          "className": "",
+          "id": "",
+          "right": 396,
+          "width": 14
+        },
+        {
+          "tag": "span",
+          "className": "capitalize text-gray-700",
+          "id": "",
+          "right": 443,
+          "width": 41
+        },
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 638,
+          "width": 189
+        },
+        {
+          "tag": "svg",
+          "className": "",
+          "id": "",
+          "right": 463,
+          "width": 14
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Lecture Player",
+      "path": "/learn/6aa6409465a4d4b52ff76691/lesson/6aa6409465a4d4b52ff76692",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 443,
+          "width": 61
+        },
+        {
+          "tag": "svg",
+          "className": "",
+          "id": "",
+          "right": 396,
+          "width": 14
+        },
+        {
+          "tag": "path",
+          "className": "",
+          "id": "",
+          "right": 391,
+          "width": 4
+        },
+        {
+          "tag": "span",
+          "className": "capitalize text-gray-700",
+          "id": "",
+          "right": 443,
+          "width": 41
+        },
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 638,
+          "width": 189
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Assessment Briefing",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Assessment Briefing",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Assessment Briefing",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Assessment Briefing",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 73,
+          "h": 20
+        },
+        {
+          "tag": "a",
+          "text": "Course Overview",
+          "w": 116,
+          "h": 20
+        },
+        {
+          "tag": "a",
+          "text": "Back to Course",
+          "w": 122,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "page": "Assessment Briefing",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 471,
+          "width": 89
+        },
+        {
+          "tag": "svg",
+          "className": "",
+          "id": "",
+          "right": 396,
+          "width": 14
+        },
+        {
+          "tag": "span",
+          "className": "capitalize text-gray-700",
+          "id": "",
+          "right": 471,
+          "width": 69
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "Back to Course",
+          "w": 107,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Assessment Briefing",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 471,
+          "width": 89
+        },
+        {
+          "tag": "svg",
+          "className": "",
+          "id": "",
+          "right": 396,
+          "width": 14
+        },
+        {
+          "tag": "path",
+          "className": "",
+          "id": "",
+          "right": 390,
+          "width": 4
+        },
+        {
+          "tag": "span",
+          "className": "capitalize text-gray-700",
+          "id": "",
+          "right": 471,
+          "width": 69
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        },
+        {
+          "tag": "a",
+          "text": "Back to Course",
+          "w": 107,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "page": "Assessment Questions",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/questions",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Assessment Questions",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/questions",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Assessment Questions",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/questions",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Assessment Questions",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/questions",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "button",
+          "text": "Qs (0/10)",
+          "w": 99,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Flag for Review",
+          "w": 139,
+          "h": 30
+        }
+      ]
+    },
+    {
+      "page": "Assessment Questions",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/questions",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "button",
+          "text": "Review & Submit",
+          "w": 120,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Qs (0/10)",
+          "w": 99,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Flag for Review",
+          "w": 139,
+          "h": 30
+        }
+      ]
+    },
+    {
+      "page": "Assessment Questions",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/questions",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": [
+        {
+          "tag": "button",
+          "text": "Review & Submit",
+          "w": 120,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Qs (0/10)",
+          "w": 99,
+          "h": 28
+        },
+        {
+          "tag": "button",
+          "text": "Flag for Review",
+          "w": 139,
+          "h": 30
+        }
+      ]
+    },
+    {
+      "page": "Assessment Result",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/result",
+      "viewport": "Laptop_1440x900",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Assessment Result",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/result",
+      "viewport": "Desktop_1366x768",
+      "viewportWidth": 1366,
+      "scrollWidth": 1366,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Assessment Result",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/result",
+      "viewport": "TabletLandscape_1024x768",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "passed": true,
+      "overflowingElements": [],
+      "smallTapTargets": []
+    },
+    {
+      "page": "Assessment Result",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/result",
+      "viewport": "TabletPortrait_768x1024",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 795,
+          "width": 61
+        },
+        {
+          "tag": "span",
+          "className": "capitalize text-gray-700",
+          "id": "",
+          "right": 795,
+          "width": 41
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 73,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "page": "Assessment Result",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/result",
+      "viewport": "MobileLarge_390x844",
+      "viewportWidth": 390,
+      "scrollWidth": 390,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 471,
+          "width": 89
+        },
+        {
+          "tag": "svg",
+          "className": "",
+          "id": "",
+          "right": 396,
+          "width": 14
+        },
+        {
+          "tag": "span",
+          "className": "capitalize text-gray-700",
+          "id": "",
+          "right": 471,
+          "width": 69
+        },
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 532,
+          "width": 55
+        },
+        {
+          "tag": "svg",
+          "className": "",
+          "id": "",
+          "right": 491,
+          "width": 14
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        }
+      ]
+    },
+    {
+      "page": "Assessment Result",
+      "path": "/learn/6aa6409465a4d4b52ff7668f/assessment/result",
+      "viewport": "MobileStandard_375x812",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "passed": true,
+      "overflowingElements": [
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 471,
+          "width": 89
+        },
+        {
+          "tag": "svg",
+          "className": "",
+          "id": "",
+          "right": 396,
+          "width": 14
+        },
+        {
+          "tag": "path",
+          "className": "",
+          "id": "",
+          "right": 390,
+          "width": 4
+        },
+        {
+          "tag": "span",
+          "className": "capitalize text-gray-700",
+          "id": "",
+          "right": 471,
+          "width": 69
+        },
+        {
+          "tag": "span",
+          "className": "flex items-center gap-1.5 shrink-0",
+          "id": "",
+          "right": 532,
+          "width": 55
+        }
+      ],
+      "smallTapTargets": [
+        {
+          "tag": "a",
+          "text": "Dashboard",
+          "w": 63,
+          "h": 16
+        },
+        {
+          "tag": "button",
+          "text": "",
+          "w": 36,
+          "h": 28
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "passed": [
+    {
+      "testName": "Home page loaded with title: MSN Academy — Vocational & Technology LMS",
+      "details": ""
+    },
+    {
+      "testName": "Home: Browse Courses CTA button exists",
+      "details": ""
+    },
+    {
+      "testName": "Course Catalog: Search bar typed \"Data\" without crash",
+      "details": ""
+    },
+    {
+      "testName": "Course Catalog: 2 course card links rendered",
+      "details": ""
+    },
+    {
+      "testName": "Course Details: CTA enrollment/cart button rendered",
+      "details": ""
+    },
+    {
+      "testName": "Contact Us: Form empty validation handled",
+      "details": ""
+    },
+    {
+      "testName": "Certificate Verification: Tested invalid certificate lookup gracefully",
+      "details": ""
+    },
+    {
+      "testName": "Protected Route: /dashboard successfully redirected unauthenticated user to /login",
+      "details": ""
+    },
+    {
+      "testName": "Auth: Invalid credentials correctly displays error message",
+      "details": ""
+    },
+    {
+      "testName": "Auth: Login form submitted",
+      "details": ""
+    },
+    {
+      "testName": "Profile: Profile management page loaded",
+      "details": ""
+    },
+    {
+      "testName": "Course Overview: Header and curriculum loaded for course: \"Student Login\"",
+      "details": ""
+    },
+    {
+      "testName": "Responsive: Tablet (768x1024) layout has no horizontal overflow",
+      "details": ""
+    },
+    {
+      "testName": "Responsive: Mobile (375x812) layout has no horizontal overflow",
+      "details": ""
+    }
+  ],
+  "failed": [],
+  "uiIssues": [],
+  "apiIssues": [
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Home (/)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Course Catalog (/courses)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Course Catalog (/courses)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Contact Us (/contact)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Certificate Verification (/verify)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Auth: Login (/login)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Auth: Login (/login)"
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:5173/api/v1/auth/login",
+      "status": 401,
+      "page": "Auth: Login (/login)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Dashboard (/dashboard)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Profile (/profile)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "My Courses (/my-courses)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Course Overview (/learn/6aa6409465a4d4b52ff7668f)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Assessment Briefing (/learn/6aa6409465a4d4b52ff7668f/assessment)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Assessment Briefing (/learn/6aa6409465a4d4b52ff7668f/assessment)"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Responsive Viewports"
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:5173/api/v1/auth/me",
+      "status": 401,
+      "page": "Responsive Viewports"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "page": "Home (/)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Course Catalog (/courses)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Course Catalog (/courses)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Contact Us (/contact)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Certificate Verification (/verify)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Auth: Login (/login)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Auth: Login (/login)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Auth: Login (/login)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Dashboard (/dashboard)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Profile (/profile)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "My Courses (/my-courses)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Course Overview (/learn/6aa6409465a4d4b52ff7668f)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Assessment Briefing (/learn/6aa6409465a4d4b52ff7668f/assessment)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Assessment Briefing (/learn/6aa6409465a4d4b52ff7668f/assessment)",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Responsive Viewports",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "page": "Responsive Viewports",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    }
+  ],
+  "responsiveIssues": []
+}

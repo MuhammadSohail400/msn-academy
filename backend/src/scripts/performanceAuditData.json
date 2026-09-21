@@ -1,0 +1,1867 @@
+{
+  "timestamp": "2026-09-20T12:03:19.497Z",
+  "desktopAuditResults": [
+    {
+      "pageName": "Home",
+      "url": "http://localhost:5173/",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2846,
+      "metrics": {
+        "timeToFirstRender": 356,
+        "fcp": 356,
+        "lcp": 1020,
+        "cls": 0,
+        "tbt": 77,
+        "domContentLoaded": 210,
+        "loadEvent": 212,
+        "responseEnd": 20,
+        "domInteractive": 59,
+        "longTaskCount": 2,
+        "longTasks": [
+          {
+            "startTime": 212,
+            "duration": 80,
+            "name": "self"
+          },
+          {
+            "startTime": 952.2999999970198,
+            "duration": 97,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 58,
+        "requestsByType": {
+          "document": 1,
+          "script": 45,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 4,
+          "image": 5
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/courses",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 117
+          },
+          {
+            "url": "/api/v1/courses?limit=4&sort=popular",
+            "method": "GET",
+            "status": 200,
+            "duration": 135
+          },
+          {
+            "url": "/api/v1/cart",
+            "method": "GET",
+            "status": 200,
+            "duration": 269
+          },
+          {
+            "url": "/api/v1/courses?limit=4&sort=popular",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Courses",
+      "url": "http://localhost:5173/courses",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 3093,
+      "metrics": {
+        "timeToFirstRender": 216,
+        "fcp": 216,
+        "lcp": 548,
+        "cls": 0.0007,
+        "tbt": 0,
+        "domContentLoaded": 160,
+        "loadEvent": 163,
+        "responseEnd": 31,
+        "domInteractive": 68,
+        "longTaskCount": 0,
+        "longTasks": []
+      },
+      "network": {
+        "totalRequests": 58,
+        "requestsByType": {
+          "document": 1,
+          "script": 44,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 4,
+          "image": 6
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/courses",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 74
+          },
+          {
+            "url": "/api/v1/categories",
+            "method": "GET",
+            "status": 200,
+            "duration": 300
+          },
+          {
+            "url": "/api/v1/courses?page=1&limit=9&sort=popular",
+            "method": "GET",
+            "status": 200,
+            "duration": 185
+          },
+          {
+            "url": "/api/v1/courses?page=1&limit=9&sort=popular",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Course Details",
+      "url": "http://localhost:5173/courses/applied-data-analytics-power-bi",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2518,
+      "metrics": {
+        "timeToFirstRender": 332,
+        "fcp": 332,
+        "lcp": 964,
+        "cls": 0,
+        "tbt": 150,
+        "domContentLoaded": 233,
+        "loadEvent": 237,
+        "responseEnd": 18,
+        "domInteractive": 46,
+        "longTaskCount": 9,
+        "longTasks": [
+          {
+            "startTime": 167.70000000298023,
+            "duration": 67,
+            "name": "self"
+          },
+          {
+            "startTime": 239.20000000298023,
+            "duration": 71,
+            "name": "self"
+          },
+          {
+            "startTime": 167.70000000298023,
+            "duration": 67,
+            "name": "self"
+          },
+          {
+            "startTime": 239.20000000298023,
+            "duration": 71,
+            "name": "self"
+          },
+          {
+            "startTime": 167.70000000298023,
+            "duration": 67,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 54,
+        "requestsByType": {
+          "document": 1,
+          "script": 46,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 3,
+          "image": 1
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/courses/applied-data-analytics-power-bi",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 82
+          },
+          {
+            "url": "/api/v1/courses/applied-data-analytics-power-bi",
+            "method": "GET",
+            "status": 200,
+            "duration": 140
+          },
+          {
+            "url": "/api/v1/courses/applied-data-analytics-power-bi",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Login",
+      "url": "http://localhost:5173/login",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2126,
+      "metrics": {
+        "timeToFirstRender": 244,
+        "fcp": 244,
+        "lcp": 576,
+        "cls": 0,
+        "tbt": 20,
+        "domContentLoaded": 176,
+        "loadEvent": 179,
+        "responseEnd": 14,
+        "domInteractive": 32,
+        "longTaskCount": 4,
+        "longTasks": [
+          {
+            "startTime": 122.79999999701977,
+            "duration": 55,
+            "name": "self"
+          },
+          {
+            "startTime": 122.79999999701977,
+            "duration": 55,
+            "name": "self"
+          },
+          {
+            "startTime": 122.79999999701977,
+            "duration": 55,
+            "name": "self"
+          },
+          {
+            "startTime": 122.79999999701977,
+            "duration": 55,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 47,
+        "requestsByType": {
+          "document": 1,
+          "script": 42,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 1
+        },
+        "duplicateApis": [],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 69
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Register",
+      "url": "http://localhost:5173/register",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2264,
+      "metrics": {
+        "timeToFirstRender": 268,
+        "fcp": 268,
+        "lcp": 620,
+        "cls": 0,
+        "tbt": 15,
+        "domContentLoaded": 220,
+        "loadEvent": 223,
+        "responseEnd": 17,
+        "domInteractive": 54,
+        "longTaskCount": 5,
+        "longTasks": [
+          {
+            "startTime": 168.70000000298023,
+            "duration": 53,
+            "name": "self"
+          },
+          {
+            "startTime": 168.70000000298023,
+            "duration": 53,
+            "name": "self"
+          },
+          {
+            "startTime": 168.70000000298023,
+            "duration": 53,
+            "name": "self"
+          },
+          {
+            "startTime": 168.70000000298023,
+            "duration": 53,
+            "name": "self"
+          },
+          {
+            "startTime": 168.70000000298023,
+            "duration": 53,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 47,
+        "requestsByType": {
+          "document": 1,
+          "script": 42,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 1
+        },
+        "duplicateApis": [],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 68
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Contact",
+      "url": "http://localhost:5173/contact",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2230,
+      "metrics": {
+        "timeToFirstRender": 204,
+        "fcp": 204,
+        "lcp": 572,
+        "cls": 0,
+        "tbt": 0,
+        "domContentLoaded": 137,
+        "loadEvent": 140,
+        "responseEnd": 9,
+        "domInteractive": 26,
+        "longTaskCount": 0,
+        "longTasks": []
+      },
+      "network": {
+        "totalRequests": 48,
+        "requestsByType": {
+          "document": 1,
+          "script": 43,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 1
+        },
+        "duplicateApis": [],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 80
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Cart",
+      "url": "http://localhost:5173/cart",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2260,
+      "metrics": {
+        "timeToFirstRender": 276,
+        "fcp": 276,
+        "lcp": 676,
+        "cls": 0,
+        "tbt": 0,
+        "domContentLoaded": 209,
+        "loadEvent": 211,
+        "responseEnd": 18,
+        "domInteractive": 59,
+        "longTaskCount": 0,
+        "longTasks": []
+      },
+      "network": {
+        "totalRequests": 48,
+        "requestsByType": {
+          "document": 1,
+          "script": 42,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 1,
+          "image": 1
+        },
+        "duplicateApis": [],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 72
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Checkout",
+      "url": "http://localhost:5173/checkout",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2276,
+      "metrics": {
+        "timeToFirstRender": 284,
+        "fcp": 284,
+        "lcp": 652,
+        "cls": 0,
+        "tbt": 24,
+        "domContentLoaded": 228,
+        "loadEvent": 230,
+        "responseEnd": 17,
+        "domInteractive": 58,
+        "longTaskCount": 8,
+        "longTasks": [
+          {
+            "startTime": 175,
+            "duration": 53,
+            "name": "self"
+          },
+          {
+            "startTime": 175,
+            "duration": 53,
+            "name": "self"
+          },
+          {
+            "startTime": 175,
+            "duration": 53,
+            "name": "self"
+          },
+          {
+            "startTime": 175,
+            "duration": 53,
+            "name": "self"
+          },
+          {
+            "startTime": 175,
+            "duration": 53,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 49,
+        "requestsByType": {
+          "document": 1,
+          "script": 43,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 1,
+          "image": 1
+        },
+        "duplicateApis": [],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 74
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Dashboard",
+      "url": "http://localhost:5173/dashboard",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 3003,
+      "metrics": {
+        "timeToFirstRender": 264,
+        "fcp": 264,
+        "lcp": 680,
+        "cls": 0,
+        "tbt": 261,
+        "domContentLoaded": 214,
+        "loadEvent": 217,
+        "responseEnd": 13,
+        "domInteractive": 53,
+        "longTaskCount": 18,
+        "longTasks": [
+          {
+            "startTime": 136.40000000596046,
+            "duration": 79,
+            "name": "self"
+          },
+          {
+            "startTime": 136.40000000596046,
+            "duration": 79,
+            "name": "self"
+          },
+          {
+            "startTime": 136.40000000596046,
+            "duration": 79,
+            "name": "self"
+          },
+          {
+            "startTime": 136.40000000596046,
+            "duration": 79,
+            "name": "self"
+          },
+          {
+            "startTime": 136.40000000596046,
+            "duration": 79,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 58,
+        "requestsByType": {
+          "document": 1,
+          "script": 43,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 5,
+          "image": 6
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/student/dashboard-summary",
+            "count": 2
+          },
+          {
+            "url": "/api/v1/student/enrollments",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 90
+          },
+          {
+            "url": "/api/v1/student/dashboard-summary",
+            "method": "GET",
+            "status": 200,
+            "duration": 286
+          },
+          {
+            "url": "/api/v1/student/enrollments",
+            "method": "GET",
+            "status": 200,
+            "duration": 277
+          },
+          {
+            "url": "/api/v1/student/dashboard-summary",
+            "method": "GET",
+            "duration": 0
+          },
+          {
+            "url": "/api/v1/student/enrollments",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "My Courses",
+      "url": "http://localhost:5173/my-courses",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 3232,
+      "metrics": {
+        "timeToFirstRender": 308,
+        "fcp": 308,
+        "lcp": 1076,
+        "cls": 0.0074,
+        "tbt": 170,
+        "domContentLoaded": 247,
+        "loadEvent": 251,
+        "responseEnd": 16,
+        "domInteractive": 55,
+        "longTaskCount": 10,
+        "longTasks": [
+          {
+            "startTime": 181.5,
+            "duration": 67,
+            "name": "self"
+          },
+          {
+            "startTime": 181.5,
+            "duration": 67,
+            "name": "self"
+          },
+          {
+            "startTime": 181.5,
+            "duration": 67,
+            "name": "self"
+          },
+          {
+            "startTime": 181.5,
+            "duration": 67,
+            "name": "self"
+          },
+          {
+            "startTime": 181.5,
+            "duration": 67,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 55,
+        "requestsByType": {
+          "document": 1,
+          "script": 45,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 3,
+          "image": 3
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/student/enrollments",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 123
+          },
+          {
+            "url": "/api/v1/student/enrollments",
+            "method": "GET",
+            "status": 200,
+            "duration": 276
+          },
+          {
+            "url": "/api/v1/student/enrollments",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Learning/Course Overview",
+      "url": "http://localhost:5173/learn/6aa6409465a4d4b52ff7668f",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2211,
+      "metrics": {
+        "timeToFirstRender": 236,
+        "fcp": 236,
+        "lcp": 820,
+        "cls": 0.482,
+        "tbt": 0,
+        "domContentLoaded": 202,
+        "loadEvent": 205,
+        "responseEnd": 16,
+        "domInteractive": 58,
+        "longTaskCount": 0,
+        "longTasks": []
+      },
+      "network": {
+        "totalRequests": 52,
+        "requestsByType": {
+          "document": 1,
+          "script": 45,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 3
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff7668f/overview",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 92
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff7668f/overview",
+            "method": "GET",
+            "status": 200,
+            "duration": 260
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff7668f/overview",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Lecture Player",
+      "url": "http://localhost:5173/learn/6aa6409465a4d4b52ff76691/lesson/6aa6409465a4d4b52ff76692",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2543,
+      "metrics": {
+        "timeToFirstRender": 236,
+        "fcp": 236,
+        "lcp": 768,
+        "cls": 0.3897,
+        "tbt": 0,
+        "domContentLoaded": 199,
+        "loadEvent": 202,
+        "responseEnd": 14,
+        "domInteractive": 52,
+        "longTaskCount": 0,
+        "longTasks": []
+      },
+      "network": {
+        "totalRequests": 55,
+        "requestsByType": {
+          "document": 1,
+          "script": 46,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 5
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/lessons/6aa6409465a4d4b52ff76692",
+            "count": 2
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/overview",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 91
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/lessons/6aa6409465a4d4b52ff76692",
+            "method": "GET",
+            "status": 403,
+            "duration": 158
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/overview",
+            "method": "GET",
+            "status": 403,
+            "duration": 149
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/lessons/6aa6409465a4d4b52ff76692",
+            "method": "GET",
+            "duration": 0
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/overview",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Assessment",
+      "url": "http://localhost:5173/learn/6aa6409465a4d4b52ff7668f/assessment",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2551,
+      "metrics": {
+        "timeToFirstRender": 308,
+        "fcp": 308,
+        "lcp": 1156,
+        "cls": 0.0113,
+        "tbt": 546,
+        "domContentLoaded": 236,
+        "loadEvent": 243,
+        "responseEnd": 18,
+        "domInteractive": 66,
+        "longTaskCount": 26,
+        "longTasks": [
+          {
+            "startTime": 165.59999999403954,
+            "duration": 74,
+            "name": "self"
+          },
+          {
+            "startTime": 165.59999999403954,
+            "duration": 74,
+            "name": "self"
+          },
+          {
+            "startTime": 165.59999999403954,
+            "duration": 74,
+            "name": "self"
+          },
+          {
+            "startTime": 165.59999999403954,
+            "duration": 74,
+            "name": "self"
+          },
+          {
+            "startTime": 165.59999999403954,
+            "duration": 74,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 52,
+        "requestsByType": {
+          "document": 1,
+          "script": 45,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 3
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/assessments/6aa6409465a4d4b52ff7668f/briefing",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 143
+          },
+          {
+            "url": "/api/v1/assessments/6aa6409465a4d4b52ff7668f/briefing",
+            "method": "GET",
+            "status": 200,
+            "duration": 641
+          },
+          {
+            "url": "/api/v1/assessments/6aa6409465a4d4b52ff7668f/briefing",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Assessment Result",
+      "url": "http://localhost:5173/learn/6aa6409465a4d4b52ff7668f/assessment/result",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2484,
+      "metrics": {
+        "timeToFirstRender": 312,
+        "fcp": 312,
+        "lcp": 760,
+        "cls": 0,
+        "tbt": 504,
+        "domContentLoaded": 246,
+        "loadEvent": 251,
+        "responseEnd": 20,
+        "domInteractive": 67,
+        "longTaskCount": 28,
+        "longTasks": [
+          {
+            "startTime": 177.70000000298023,
+            "duration": 71,
+            "name": "self"
+          },
+          {
+            "startTime": 177.70000000298023,
+            "duration": 71,
+            "name": "self"
+          },
+          {
+            "startTime": 177.70000000298023,
+            "duration": 71,
+            "name": "self"
+          },
+          {
+            "startTime": 177.70000000298023,
+            "duration": 71,
+            "name": "self"
+          },
+          {
+            "startTime": 177.70000000298023,
+            "duration": 71,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 50,
+        "requestsByType": {
+          "document": 1,
+          "script": 45,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 1
+        },
+        "duplicateApis": [],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 142
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Certificates",
+      "url": "http://localhost:5173/certificate",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2479,
+      "metrics": {
+        "timeToFirstRender": 316,
+        "fcp": 316,
+        "lcp": 1016,
+        "cls": 0.0032,
+        "tbt": 555,
+        "domContentLoaded": 250,
+        "loadEvent": 255,
+        "responseEnd": 18,
+        "domInteractive": 63,
+        "longTaskCount": 30,
+        "longTasks": [
+          {
+            "startTime": 166,
+            "duration": 86,
+            "name": "self"
+          },
+          {
+            "startTime": 166,
+            "duration": 86,
+            "name": "self"
+          },
+          {
+            "startTime": 166,
+            "duration": 86,
+            "name": "self"
+          },
+          {
+            "startTime": 166,
+            "duration": 86,
+            "name": "self"
+          },
+          {
+            "startTime": 166,
+            "duration": 86,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 50,
+        "requestsByType": {
+          "document": 1,
+          "script": 43,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 3
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/certificates",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 128
+          },
+          {
+            "url": "/api/v1/certificates",
+            "method": "GET",
+            "status": 200,
+            "duration": 146
+          },
+          {
+            "url": "/api/v1/certificates",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Profile",
+      "url": "http://localhost:5173/profile",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2475,
+      "metrics": {
+        "timeToFirstRender": 304,
+        "fcp": 304,
+        "lcp": 736,
+        "cls": 0,
+        "tbt": 256,
+        "domContentLoaded": 246,
+        "loadEvent": 252,
+        "responseEnd": 22,
+        "domInteractive": 68,
+        "longTaskCount": 16,
+        "longTasks": [
+          {
+            "startTime": 183.1000000089407,
+            "duration": 66,
+            "name": "self"
+          },
+          {
+            "startTime": 183.1000000089407,
+            "duration": 66,
+            "name": "self"
+          },
+          {
+            "startTime": 183.1000000089407,
+            "duration": 66,
+            "name": "self"
+          },
+          {
+            "startTime": 183.1000000089407,
+            "duration": 66,
+            "name": "self"
+          },
+          {
+            "startTime": 183.1000000089407,
+            "duration": 66,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 50,
+        "requestsByType": {
+          "document": 1,
+          "script": 43,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 3
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/users/profile",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 125
+          },
+          {
+            "url": "/api/v1/users/profile",
+            "method": "GET",
+            "status": 200,
+            "duration": 135
+          },
+          {
+            "url": "/api/v1/users/profile",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Orders",
+      "url": "http://localhost:5173/orders",
+      "isMobile": false,
+      "throttle": false,
+      "totalLoadTimeMs": 2423,
+      "metrics": {
+        "timeToFirstRender": 256,
+        "fcp": 256,
+        "lcp": 688,
+        "cls": 0.3111,
+        "tbt": 34,
+        "domContentLoaded": 194,
+        "loadEvent": 197,
+        "responseEnd": 14,
+        "domInteractive": 51,
+        "longTaskCount": 17,
+        "longTasks": [
+          {
+            "startTime": 782.9000000059605,
+            "duration": 52,
+            "name": "self"
+          },
+          {
+            "startTime": 782.9000000059605,
+            "duration": 52,
+            "name": "self"
+          },
+          {
+            "startTime": 782.9000000059605,
+            "duration": 52,
+            "name": "self"
+          },
+          {
+            "startTime": 782.9000000059605,
+            "duration": 52,
+            "name": "self"
+          },
+          {
+            "startTime": 782.9000000059605,
+            "duration": 52,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 50,
+        "requestsByType": {
+          "document": 1,
+          "script": 43,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 3
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/orders",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 112
+          },
+          {
+            "url": "/api/v1/orders?page=1&limit=10",
+            "method": "GET",
+            "status": 200,
+            "duration": 227
+          },
+          {
+            "url": "/api/v1/orders?page=1&limit=10",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    }
+  ],
+  "mobileAuditResults": [
+    {
+      "pageName": "Home",
+      "url": "http://localhost:5173/",
+      "isMobile": true,
+      "throttle": true,
+      "totalLoadTimeMs": 10533,
+      "metrics": {
+        "timeToFirstRender": 3632,
+        "fcp": 3632,
+        "lcp": 5896,
+        "cls": 0,
+        "tbt": 69516,
+        "domContentLoaded": 2917,
+        "loadEvent": 2967,
+        "responseEnd": 185,
+        "domInteractive": 905,
+        "longTaskCount": 198,
+        "longTasks": [
+          {
+            "startTime": 1966.5,
+            "duration": 967,
+            "name": "self"
+          },
+          {
+            "startTime": 2973.2000000029802,
+            "duration": 617,
+            "name": "self"
+          },
+          {
+            "startTime": 1966.5,
+            "duration": 967,
+            "name": "self"
+          },
+          {
+            "startTime": 2973.2000000029802,
+            "duration": 617,
+            "name": "self"
+          },
+          {
+            "startTime": 1966.5,
+            "duration": 967,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 58,
+        "requestsByType": {
+          "other": 2,
+          "document": 1,
+          "script": 45,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 3,
+          "image": 4
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/courses",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 722
+          },
+          {
+            "url": "/api/v1/courses?limit=4&sort=popular",
+            "method": "GET",
+            "status": 200,
+            "duration": 335
+          },
+          {
+            "url": "/api/v1/courses?limit=4&sort=popular",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Courses",
+      "url": "http://localhost:5173/courses",
+      "isMobile": true,
+      "throttle": true,
+      "totalLoadTimeMs": 13661,
+      "metrics": {
+        "timeToFirstRender": 4280,
+        "fcp": 4280,
+        "lcp": 6916,
+        "cls": 0,
+        "tbt": 71345,
+        "domContentLoaded": 3536,
+        "loadEvent": 3562,
+        "responseEnd": 211,
+        "domInteractive": 1603,
+        "longTaskCount": 228,
+        "longTasks": [
+          {
+            "startTime": 2662.6000000089407,
+            "duration": 888,
+            "name": "self"
+          },
+          {
+            "startTime": 3578,
+            "duration": 637,
+            "name": "self"
+          },
+          {
+            "startTime": 2662.6000000089407,
+            "duration": 888,
+            "name": "self"
+          },
+          {
+            "startTime": 3578,
+            "duration": 637,
+            "name": "self"
+          },
+          {
+            "startTime": 2662.6000000089407,
+            "duration": 888,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 56,
+        "requestsByType": {
+          "document": 1,
+          "script": 44,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 4,
+          "image": 4
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/courses",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 799
+          },
+          {
+            "url": "/api/v1/categories",
+            "method": "GET",
+            "status": 200,
+            "duration": 615
+          },
+          {
+            "url": "/api/v1/courses?page=1&limit=9&sort=popular",
+            "method": "GET",
+            "status": 200,
+            "duration": 636
+          },
+          {
+            "url": "/api/v1/courses?page=1&limit=9&sort=popular",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Course Details",
+      "url": "http://localhost:5173/courses/applied-data-analytics-power-bi",
+      "isMobile": true,
+      "throttle": true,
+      "totalLoadTimeMs": 10316,
+      "metrics": {
+        "timeToFirstRender": 4220,
+        "fcp": 4220,
+        "lcp": 7704,
+        "cls": 0,
+        "tbt": 54100,
+        "domContentLoaded": 3280,
+        "loadEvent": 3342,
+        "responseEnd": 186,
+        "domInteractive": 1334,
+        "longTaskCount": 200,
+        "longTasks": [
+          {
+            "startTime": 2465.7000000029802,
+            "duration": 830,
+            "name": "self"
+          },
+          {
+            "startTime": 3348.7999999970198,
+            "duration": 95,
+            "name": "self"
+          },
+          {
+            "startTime": 3446.5,
+            "duration": 728,
+            "name": "self"
+          },
+          {
+            "startTime": 2465.7000000029802,
+            "duration": 830,
+            "name": "self"
+          },
+          {
+            "startTime": 3348.7999999970198,
+            "duration": 95,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 54,
+        "requestsByType": {
+          "document": 1,
+          "script": 46,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 3,
+          "image": 1
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/courses/applied-data-analytics-power-bi",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 988
+          },
+          {
+            "url": "/api/v1/courses/applied-data-analytics-power-bi",
+            "method": "GET",
+            "status": 200,
+            "duration": 360
+          },
+          {
+            "url": "/api/v1/courses/applied-data-analytics-power-bi",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Dashboard",
+      "url": "http://localhost:5173/dashboard",
+      "isMobile": true,
+      "throttle": true,
+      "totalLoadTimeMs": 11166,
+      "metrics": {
+        "timeToFirstRender": 3264,
+        "fcp": 3264,
+        "lcp": 6300,
+        "cls": 0.0003,
+        "tbt": 59031,
+        "domContentLoaded": 2804,
+        "loadEvent": 2895,
+        "responseEnd": 212,
+        "domInteractive": 1091,
+        "longTaskCount": 189,
+        "longTasks": [
+          {
+            "startTime": 2221.0999999940395,
+            "duration": 644,
+            "name": "self"
+          },
+          {
+            "startTime": 2903.7999999970198,
+            "duration": 308,
+            "name": "self"
+          },
+          {
+            "startTime": 2221.0999999940395,
+            "duration": 644,
+            "name": "self"
+          },
+          {
+            "startTime": 2903.7999999970198,
+            "duration": 308,
+            "name": "self"
+          },
+          {
+            "startTime": 2221.0999999940395,
+            "duration": 644,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 58,
+        "requestsByType": {
+          "document": 1,
+          "script": 43,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 5,
+          "image": 6
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/student/dashboard-summary",
+            "count": 2
+          },
+          {
+            "url": "/api/v1/student/enrollments",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 482
+          },
+          {
+            "url": "/api/v1/student/dashboard-summary",
+            "method": "GET",
+            "status": 200,
+            "duration": 770
+          },
+          {
+            "url": "/api/v1/student/enrollments",
+            "method": "GET",
+            "status": 200,
+            "duration": 732
+          },
+          {
+            "url": "/api/v1/student/dashboard-summary",
+            "method": "GET",
+            "duration": 0
+          },
+          {
+            "url": "/api/v1/student/enrollments",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Cart",
+      "url": "http://localhost:5173/cart",
+      "isMobile": true,
+      "throttle": true,
+      "totalLoadTimeMs": 10607,
+      "metrics": {
+        "timeToFirstRender": 4520,
+        "fcp": 4520,
+        "lcp": 6772,
+        "cls": 0,
+        "tbt": 55374,
+        "domContentLoaded": 3261,
+        "loadEvent": 3323,
+        "responseEnd": 210,
+        "domInteractive": 945,
+        "longTaskCount": 154,
+        "longTasks": [
+          {
+            "startTime": 2098.8999999910593,
+            "duration": 1195,
+            "name": "self"
+          },
+          {
+            "startTime": 3335.5999999940395,
+            "duration": 1099,
+            "name": "self"
+          },
+          {
+            "startTime": 2098.8999999910593,
+            "duration": 1195,
+            "name": "self"
+          },
+          {
+            "startTime": 3335.5999999940395,
+            "duration": 1099,
+            "name": "self"
+          },
+          {
+            "startTime": 2098.8999999910593,
+            "duration": 1195,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 48,
+        "requestsByType": {
+          "document": 1,
+          "script": 42,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 1,
+          "image": 1
+        },
+        "duplicateApis": [],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 1293
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Checkout",
+      "url": "http://localhost:5173/checkout",
+      "isMobile": true,
+      "throttle": true,
+      "totalLoadTimeMs": 10573,
+      "metrics": {
+        "timeToFirstRender": 3892,
+        "fcp": 3892,
+        "lcp": 6192,
+        "cls": 0,
+        "tbt": 51681,
+        "domContentLoaded": 3046,
+        "loadEvent": 3084,
+        "responseEnd": 219,
+        "domInteractive": 925,
+        "longTaskCount": 161,
+        "longTasks": [
+          {
+            "startTime": 1987.3999999910593,
+            "duration": 1076,
+            "name": "self"
+          },
+          {
+            "startTime": 3101.2000000029802,
+            "duration": 737,
+            "name": "self"
+          },
+          {
+            "startTime": 1987.3999999910593,
+            "duration": 1076,
+            "name": "self"
+          },
+          {
+            "startTime": 3101.2000000029802,
+            "duration": 737,
+            "name": "self"
+          },
+          {
+            "startTime": 1987.3999999910593,
+            "duration": 1076,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 49,
+        "requestsByType": {
+          "document": 1,
+          "script": 43,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 1,
+          "image": 1
+        },
+        "duplicateApis": [],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 877
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Lecture Player",
+      "url": "http://localhost:5173/learn/6aa6409465a4d4b52ff76691/lesson/6aa6409465a4d4b52ff76692",
+      "isMobile": true,
+      "throttle": true,
+      "totalLoadTimeMs": 7849,
+      "metrics": {
+        "timeToFirstRender": 3656,
+        "fcp": 3656,
+        "lcp": 5740,
+        "cls": 0,
+        "tbt": 45048,
+        "domContentLoaded": 3018,
+        "loadEvent": 3069,
+        "responseEnd": 206,
+        "domInteractive": 1167,
+        "longTaskCount": 168,
+        "longTasks": [
+          {
+            "startTime": 2281.4000000059605,
+            "duration": 765,
+            "name": "self"
+          },
+          {
+            "startTime": 3075.2000000029802,
+            "duration": 192,
+            "name": "self"
+          },
+          {
+            "startTime": 3272.6000000089407,
+            "duration": 345,
+            "name": "self"
+          },
+          {
+            "startTime": 2281.4000000059605,
+            "duration": 765,
+            "name": "self"
+          },
+          {
+            "startTime": 3075.2000000029802,
+            "duration": 192,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 55,
+        "requestsByType": {
+          "document": 1,
+          "script": 46,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 5
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/lessons/6aa6409465a4d4b52ff76692",
+            "count": 2
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/overview",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 670
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/lessons/6aa6409465a4d4b52ff76692",
+            "method": "GET",
+            "status": 403,
+            "duration": 353
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/overview",
+            "method": "GET",
+            "status": 403,
+            "duration": 366
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/lessons/6aa6409465a4d4b52ff76692",
+            "method": "GET",
+            "duration": 0
+          },
+          {
+            "url": "/api/v1/learning/6aa6409465a4d4b52ff76691/overview",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    },
+    {
+      "pageName": "Assessment",
+      "url": "http://localhost:5173/learn/6aa6409465a4d4b52ff7668f/assessment",
+      "isMobile": true,
+      "throttle": true,
+      "totalLoadTimeMs": 10892,
+      "metrics": {
+        "timeToFirstRender": 2892,
+        "fcp": 2892,
+        "lcp": 6376,
+        "cls": 0.0481,
+        "tbt": 53475,
+        "domContentLoaded": 2591,
+        "loadEvent": 2634,
+        "responseEnd": 196,
+        "domInteractive": 735,
+        "longTaskCount": 225,
+        "longTasks": [
+          {
+            "startTime": 1817,
+            "duration": 797,
+            "name": "self"
+          },
+          {
+            "startTime": 2645,
+            "duration": 205,
+            "name": "self"
+          },
+          {
+            "startTime": 1817,
+            "duration": 797,
+            "name": "self"
+          },
+          {
+            "startTime": 2645,
+            "duration": 205,
+            "name": "self"
+          },
+          {
+            "startTime": 1817,
+            "duration": 797,
+            "name": "self"
+          }
+        ]
+      },
+      "network": {
+        "totalRequests": 52,
+        "requestsByType": {
+          "document": 1,
+          "script": 45,
+          "stylesheet": 1,
+          "font": 2,
+          "xhr": 3
+        },
+        "duplicateApis": [
+          {
+            "url": "/api/v1/assessments/6aa6409465a4d4b52ff7668f/briefing",
+            "count": 2
+          }
+        ],
+        "apiRequests": [
+          {
+            "url": "/api/v1/auth/me",
+            "method": "GET",
+            "status": 200,
+            "duration": 317
+          },
+          {
+            "url": "/api/v1/assessments/6aa6409465a4d4b52ff7668f/briefing",
+            "method": "GET",
+            "status": 200,
+            "duration": 713
+          },
+          {
+            "url": "/api/v1/assessments/6aa6409465a4d4b52ff7668f/briefing",
+            "method": "GET",
+            "duration": 0
+          }
+        ]
+      }
+    }
+  ],
+  "interactionResults": [
+    {
+      "action": "Search Courses (\"Power BI\")",
+      "durationMs": 9288
+    },
+    {
+      "action": "Filter Category Click (\"Web Development\")",
+      "durationMs": 1419,
+      "success": true
+    },
+    {
+      "action": "Add to Cart Click",
+      "durationMs": 847,
+      "success": true
+    },
+    {
+      "action": "Open Cart Drawer Trigger",
+      "durationMs": 897,
+      "success": true
+    }
+  ]
+}

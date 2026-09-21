@@ -3672,34 +3672,171 @@ Every endpoint in this specification follows this standardized structure:
 
 ---
 
-## 39. Open Questions & Assumptions
+## 39. Transactional Email Triggers & Notification Events Map (Phase 6 / Final Milestone)
 
-### 39.1 Confirmed Specifications
+> [!NOTE]
+> **Phasing Notice:** Outgoing email notifications are scheduled for implementation as the **Final Phase (Phase 6)** milestone. In intermediate development phases, all security tokens (e.g. password recovery) are emitted via development API responses (`debugResetToken`) and terminal console logging to facilitate frictionless end-to-end testing without external SMTP dependencies.
+
+### 39.1 API-to-Email Trigger Mapping
+
+| Endpoint | HTTP Method | Associated Email Trigger | Recipient | Async Dispatched Payload |
+| :--- | :---: | :--- | :--- | :--- |
+| `/auth/register` | `POST` | `sendEmailVerification` | Student | `{ email, recipientName, verificationCode, verificationUrl }` |
+| `/auth/verify-email` | `POST` | `sendWelcomeEmail` | Student | `{ email, recipientName, dashboardUrl, catalogUrl }` |
+| `/auth/forgot-password` | `POST` | `sendPasswordResetEmail` | Student | `{ email, recipientName, resetUrl, expiresIn: "15m" }` |
+| `/auth/reset-password` | `POST` | `sendPasswordChangedAlert`| Student | `{ email, recipientName, timestamp, ipAddress }` |
+| `/users/password` | `PUT` | `sendPasswordChangedAlert`| Student | `{ email, recipientName, timestamp, ipAddress }` |
+| `/orders/checkout` (Guest) | `POST` | `sendGuestProvisionedEmail`| Guest | `{ email, recipientName, tempPassword, orderId }` |
+| `/orders/checkout` (Manual)| `POST` | `sendPaymentPendingEmail` | Student | `{ email, orderId, totalPKR, bankDetails, slipUploadUrl }` |
+| `/payments/webhook` | `POST` | `sendOrderReceiptEmail` | Student | `{ email, orderId, courses, totalPKR, invoiceUrl }` |
+| `/payments/:id/approve` | `PATCH`| `sendPaymentApprovedEmail`| Student | `{ email, orderId, courses, lmsDashboardUrl }` |
+| `/payments/:id/reject` | `PATCH`| `sendPaymentRejectedEmail`| Student | `{ email, orderId, reason, reuploadUrl }` |
+| `/assessments/:id/submit` | `POST` | `sendCertificateEmail` | Graduate | `{ email, studentName, courseName, score, verifyUrl, pdfUrl }` |
+| `/assessments/:id/submit` (Fail)| `POST`| `sendAssessmentFailedEmail`| Student | `{ email, studentName, courseName, score, retakeUrl }` |
+| `/learning/:id/complete` | `POST` | `sendCourseCompletedEmail`| Student | `{ email, studentName, courseName, examBriefingUrl }` |
+| `/contact` | `POST` | `sendContactAdminNotification`| Admin | `{ adminEmail, senderName, senderEmail, phone, subject, message }` |
+| `/contact` | `POST` | `sendContactUserAutoResponder`| Inquirer | `{ senderEmail, senderName, subject, responseSLA: "24h" }` |
+| `/orders/cart/abandoned` | Cron | `sendAbandonedCartNudge` | Student | `{ email, recipientName, cartItems, checkoutUrl }` |
+| `/learning/inactivity` | Cron | `sendInactivityNudge` | Student | `{ email, recipientName, lastLessonTitle, resumeUrl }` |
+
+---
+
+### 39.2 POST /contact
+
+#### Purpose
+Submits a public inquiry or prospective student lead from the Contact Us page, persisting the message, dispatching an immediate auto-reply to the sender, and alerting the administrative inbox.
+
+#### Access
+Public
+
+#### Authentication
+None (Protected via rate limiter: 5 requests / 15 mins per IP)
+
+#### Request Headers
+* `Content-Type: application/json`
+
+#### Request Body
+```json
+{
+  "fullName": "Hamza Tariq",
+  "email": "hamza.tariq@example.com",
+  "phone": "03001234567",
+  "subject": "Inquiry about Data Analytics batch timings",
+  "message": "Assalam o Alaikum, I want to know if the classes have live mentoring sessions on weekends?"
+}
+```
+
+#### Validation Rules
+* `fullName`: string, required, min 3 chars, max 80 chars.
+* `email`: string, required, valid email format.
+* `phone`: string, optional, valid Pakistani phone format (`^03[0-9]{9}$`).
+* `subject`: string, required, min 3 chars, max 150 chars.
+* `message`: string, required, min 10 chars, max 2000 chars.
+
+#### Success Response (HTTP 200 OK)
+```json
+{
+  "success": true,
+  "message": "Thank you for contacting MSN Academy. Your inquiry has been received and our team will respond within 24 hours.",
+  "data": {
+    "inquiryId": "66e9f1a2b3c4d5e6f7a8b9c0",
+    "receivedAt": "2026-09-21T09:00:00.000Z"
+  }
+}
+```
+
+---
+
+### 39.3 POST /auth/verify-email
+
+#### Purpose
+Validates a 6-digit OTP code or verification token sent to the student's email upon registration to mark their account verified.
+
+#### Access
+Public / Authenticated
+
+#### Request Body
+```json
+{
+  "email": "student@example.com",
+  "verificationCode": "482910"
+}
+```
+
+#### Validation Rules
+* `email`: string, required, valid email.
+* `verificationCode`: string, required, exactly 6 digits.
+
+#### Success Response (HTTP 200 OK)
+```json
+{
+  "success": true,
+  "message": "Email verified successfully! Welcome to MSN Academy.",
+  "data": {
+    "isEmailVerified": true
+  }
+}
+```
+
+---
+
+### 39.4 POST /auth/resend-verification
+
+#### Purpose
+Re-issues a fresh 6-digit verification code to the student's email with rate-limit throttling (max 1 request per 60 seconds).
+
+#### Access
+Public / Authenticated
+
+#### Request Body
+```json
+{
+  "email": "student@example.com"
+}
+```
+
+#### Success Response (HTTP 200 OK)
+```json
+{
+  "success": true,
+  "message": "A new verification code has been dispatched to your email address.",
+  "data": {
+    "cooldownSeconds": 60
+  }
+}
+```
+
+---
+
+## 40. Open Questions & Assumptions
+
+### 40.1 Confirmed Specifications
 1. Express.js REST API with `/api/v1` prefix.
 2. Standard response envelope: `{ success, message, data, meta }`.
 3. Stateless JWT authentication over secure `HttpOnly` cookies.
 4. Server-authoritative assessment timer (120 minutes) and 70% passing grade.
 5. Server-side order calculation; client prices are completely untrusted.
 6. Public certificate verification by unique certificate code (`MSN-YYYY-XXXXX`).
+7. Transactional email sending scheduled for Phase 6 (Final Milestone) via Nodemailer & SMTP.
 
-### 39.2 Strongly Implied Technical Inferences
+### 40.2 Strongly Implied Technical Inferences
 1. Video streaming URLs use presigned tokens with a 2-hour expiration window.
 2. An empty cart is auto-initialized on student registration.
 3. Assessment questions are randomized on attempt initialization.
 
-### 39.3 Assumptions
+### 40.3 Assumptions
 1. Currency is strictly Pakistani Rupee (`PKR`) across all course prices.
 2. Students are permitted unlimited assessment retakes upon failure.
 3. Admin audit approval for manual bank transfer automatically creates active student enrollments.
 
-### 39.4 Items To Be Confirmed
+### 40.4 Items To Be Confirmed
 1. **Automated Payment Gateway Provider:** **To Be Confirmed** (Safepay, Kuickpay, or PayFast).
 2. **Video Hosting Infrastructure:** **To Be Confirmed** (Cloudflare Stream vs Vimeo OTT vs AWS S3/CloudFront).
-3. **Transactional Email Service:** **To Be Confirmed** (AWS SES, SendGrid, or Postmark).
+3. **Transactional Email Service Credentials:** **Confirmed via Nodemailer / SMTP** (Scheduled for Phase 6 with Gmail App Password / AWS SES / Mailtrap).
 
 ---
 
-## 40. Final API Architecture Summary
+## 41. Final API Architecture Summary
 
 ```text
 MSN Academy API (/api/v1)

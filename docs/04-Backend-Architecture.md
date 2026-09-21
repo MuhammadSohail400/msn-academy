@@ -1,7 +1,7 @@
 # Backend Architecture Document
 # MSN Academy — Vocational & Technology Learning Management System
 
----
+--- 
 
 ## 1. Document Information
 
@@ -605,14 +605,72 @@ The payment domain uses an adapter pattern to decouple commercial orders from th
 ## 22. Asynchronous Job & Worker Architecture (BullMQ & Redis)
 
 ### 22.1 Objective Justification for Redis & BullMQ
-To maintain API response times under 250ms, time-consuming I/O operations are offloaded from the main Node.js event loop to dedicated **BullMQ** background workers backed by **Redis**:
+To maintain API response times strictly under **200ms**, all network-bound, third-party SMTP/API communications and compute-heavy file generations are offloaded from the main Node.js event loop into dedicated **BullMQ** background queues backed by **Redis (Upstash / Local Redis)**.
 
-| Background Queue | Triggering Event | Worker Operation | Failure & Retry Policy |
-| :--- | :--- | :--- | :--- |
-| **`EmailQueue`** | Registration, Order Placed, Payment Approved, Exam Result | Sends transactional email via SMTP/SendGrid/SES. | 3 retries with exponential backoff (10s, 30s, 90s). |
-| **`CertificateQueue`**| Assessment passed ($\ge 70\%$) | Compiles vector PDF certificate, creates QR code, uploads to S3 bucket. | 3 retries with exponential backoff. |
+| Background Queue | Triggering Event | Worker Operation | Priority Tier | Failure & Retry Policy |
+| :--- | :--- | :--- | :--- | :--- |
+| **`EmailQueue:Critical`** | Registration, Forgot Password, Security Alert | Sends time-sensitive OTP and reset tokens. | High (Priority 1) | 3 retries (exponential: 5s, 15s, 30s) |
+| **`EmailQueue:Transactional`**| Order Completed, Payment Approved/Rejected, Invoice | Delivers itemized receipts and billing statements. | Medium (Priority 2) | 3 retries (exponential: 10s, 30s, 60s) |
+| **`EmailQueue:Academic`** | Quiz Submitted, Certificate Issued, Course Enrolled | Sends scorecards, welcome packets, credential PDFs. | Normal (Priority 3) | 3 retries (exponential: 30s, 60s, 120s) |
+| **`EmailQueue:Engagement`**| Abandoned Cart, Inactivity Nudge, Announcements | Delivers re-engagement and marketing communications.| Low (Priority 4) | 2 retries (linear backoff: 60s) |
+| **`CertificateQueue`** | Assessment Passed ($\ge 70\%$) | Compiles vector PDF certificate, signs QR code, uploads to S3. | Medium | 3 retries with exponential backoff |
 
-*If Redis is unavailable in local development, an in-process synchronous fallback adapter is provided.*
+### 22.2 Detailed EmailQueue Job Specifications
+
+```typescript
+// Core Job Discriminator Types
+export type EmailJobType =
+  | 'auth.verify-email'
+  | 'auth.forgot-password'
+  | 'auth.password-changed'
+  | 'auth.welcome'
+  | 'order.receipt'
+  | 'order.payment-failed'
+  | 'academic.enrollment-confirmed'
+  | 'academic.assessment-result'
+  | 'academic.certificate-issued'
+  | 'contact.inquiry-received'
+  | 'contact.admin-alert'
+  | 'lifecycle.abandoned-cart'
+  | 'lifecycle.inactivity-nudge';
+
+export interface EmailJobData {
+  jobType: EmailJobType;
+  to: string | string[];
+  recipientName: string;
+  subject: string;
+  templateName: string;
+  templateData: Record<string, unknown>;
+  attachments?: Array<{ filename: string; content?: Buffer | string; path?: string }>;
+}
+```
+
+### 22.3 Pluggable Email Provider Abstraction (`IEmailProvider`)
+The email subsystem utilizes an Adapter/Strategy pattern allowing zero-downtime switching between providers:
+
+```typescript
+export interface IEmailProvider {
+  sendEmail(payload: {
+    to: string | string[];
+    subject: string;
+    html: string;
+    text?: string;
+    from?: string;
+    attachments?: Array<{ filename: string; content?: Buffer | string; path?: string }>;
+  }): Promise<{ messageId: string; success: boolean }>;
+}
+
+// Concrete Adapters Supported:
+// 1. ResendAdapter (Recommended for Production: Modern API, high deliverability)
+// 2. NodemailerSmtpAdapter (Gmail SMTP / Custom Host for Development & Staging)
+// 3. AwsSesAdapter (High-volume enterprise scaling)
+```
+
+### 22.4 HTML Template Compilation & Styling System
+* **Responsive Email Templates:** Built with semantic, table-based responsive HTML compatible across Gmail, Apple Mail, Outlook, and mobile clients.
+* **Consistent MSN Academy Branding:** Primary Crimson/Red (`#dc2626`), Slate Typography (`#0f172a`), Soft Grays (`#f8fafc`), and clean rounded buttons.
+* **Variable Interpolation:** Lightweight template engine parsing placeholders (e.g. `{{studentName}}`, `{{orderId}}`, `{{formattedAmount}}`, `{{resetLink}}`).
+* **Synchronous Fallback:** If Redis/BullMQ is down during development, an in-memory direct dispatch fallback ensures development workflows continue unimpeded.
 
 ---
 
@@ -850,9 +908,74 @@ A backend feature is officially considered **Done** and ready for deployment onl
 * **Decision:** Decouple `orders` from `payments` using an adapter architecture supporting manual bank/wallet verification today and automated gateways tomorrow.
 * **Rationale:** Meets immediate domestic Pakistani payment requirements without locking the architecture into a single provider.
 
+### ADR-005: Two-Tier Transactional Email Architecture (Phase 6 Final Milestone)
+* **Decision:** Defer external SMTP email service activation to **Phase 6 (Final Phase)**. During intermediate phases, critical recovery tokens are logged to Pino logger and exposed via secure development responses (`debugResetToken`). In Phase 6, a unified `EmailService` with Nodemailer and optional BullMQ background workers will execute asynchronous dispatches.
+* **Rationale:** Eliminates external network dependencies, spam filtering hurdles, and third-party SMTP credential requirements during early sprint iterations while keeping the production architecture cleanly designed.
+
 ---
 
-## 38. Open Decisions & Technical Assumptions
+## 38. Transactional Email & Asynchronous Notification Architecture (Phase 6 / Final Milestone)
+
+### 38.1 Module Overview & Scheduling
+Transactional emails represent a critical communication layer across authentication security, commercial receipts, and certification delivery. To ensure rapid delivery of core business logic, email infrastructure is scheduled as the **Final Milestone (Phase 6)**.
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│              MSN Academy Email Delivery Pipeline (Phase 6)              │
+│                                                                         │
+│  [Domain Service]                                                       │
+│    (Auth, Orders, Payments, LMS, Contact)                               │
+│         │                                                               │
+│         ▼                                                               │
+│  [EmailService / Dispatcher] ──► Checks user.preferences.emailNotif?    │
+│         │                                                               │
+│    ┌────┴─────────────────────────────┐                                 │
+│    ▼ (Production / SMTP Configured)   ▼ (Development / Fallback)        │
+│  [BullMQ / Redis Job Queue]         [Pino Pretty Console Logger]        │
+│    └──► [Nodemailer SMTP Transport]   └──► Direct URL in Server Console │
+│         ├── AWS SES / Gmail SMTP                                        │
+│         └──► [Student Inbox]                                            │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 38.2 Environment & SMTP Transport Specification
+The `src/config/environment.ts` schema defines non-breaking, optional environment variables with sensible defaults:
+```typescript
+SMTP_HOST: z.string().default('smtp.gmail.com'),
+SMTP_PORT: z.string().default('587').transform((v) => parseInt(v, 10)),
+SMTP_SECURE: z.string().default('false').transform((v) => v === 'true'),
+SMTP_USER: z.string().optional().default(''),
+SMTP_PASS: z.string().optional().default(''),
+EMAIL_FROM: z.string().default('MSN Academy <no-reply@msnacademy.pk>'),
+```
+
+### 38.3 Email Event Catalog & Service Interface
+
+| Domain | Method Name | Trigger Point | Recipient | Key Payload / Variables |
+| :--- | :--- | :--- | :--- | :--- |
+| **Auth** | `sendPasswordResetEmail` | `POST /auth/forgot-password` | Student | `recipientName`, `resetUrl`, `expirationMinutes (15-60m)` |
+| **Auth** | `sendPasswordChangedAlert` | `PUT /users/password`, `/auth/reset-password` | Student | `recipientName`, `timestamp`, `ipAddress` |
+| **Auth** | `sendWelcomeEmail` | `POST /auth/register` | Student | `recipientName`, `loginUrl`, `catalogUrl` |
+| **Auth** | `sendGuestProvisionedEmail`| `POST /orders/checkout` (Guest) | Guest Buyer | `recipientName`, `tempPassword`, `loginUrl`, `orderId` |
+| **Commerce** | `sendPaymentPendingEmail` | Manual Bank Checkout | Student | `orderId`, `totalAmountPKR`, `bankDetails`, `uploadUrl` |
+| **Commerce** | `sendOrderReceiptEmail` | Webhook / Payment Verified | Student | `orderId`, `coursesList`, `totalPaidPKR`, `receiptUrl` |
+| **Commerce** | `sendPaymentApprovedEmail`| Admin verifies bank slip | Student | `orderId`, `courseName`, `lmsDashboardUrl` |
+| **Commerce** | `sendPaymentRejectedEmail`| Admin rejects bank slip | Student | `orderId`, `rejectionReason`, `reuploadUrl` |
+| **LMS** | `sendCertificateEmail` | `POST /assessments/:id/submit` ($\ge 70\%$) | Graduate | `studentName`, `courseName`, `score`, `verifyUrl`, `pdfUrl` |
+| **LMS** | `sendCourseCompletedEmail`| 100% lessons marked done | Student | `studentName`, `courseName`, `examBriefingUrl` |
+| **Support** | `sendContactAdminNotification`| `POST /contact` | Admin | `fullName`, `email`, `phone`, `subject`, `message` |
+| **Support** | `sendContactUserAutoResponder`| `POST /contact` | Inquirer | `fullName`, `subject`, `expectedResponseTime (24h)` |
+
+### 38.4 Responsive HTML Design System
+All templates share a standardized master layout:
+* **Brand Header:** Deep Navy (`#0B132B`) with centered white MSN Academy insignia.
+* **Content Container:** 600px width, clean `#FFFFFF` card, slate typography, generous padding.
+* **Primary Action Button:** High-contrast Crimson (`#C9252C`) with rounded corners (`border-radius: 8px`).
+* **Footer:** Registered academy address, support contact, and notification preference management links.
+
+---
+
+## 39. Open Decisions & Technical Assumptions
 
 ### 38.1 Confirmed Technical Foundations
 1. Express.js REST API with TypeScript running on Node.js LTS.
