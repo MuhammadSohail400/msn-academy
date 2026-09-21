@@ -26,10 +26,14 @@
 
 @layer base {
   body {
-    @apply font-sans text-gray-800 bg-white antialiased;
+    font-family: var(--font-sans);
+    color: #1f2937;
+    background-color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    font-family: var(--font-display);
   }
 
   /* Prevent Chrome/Safari aggressive autofill background coloring */
