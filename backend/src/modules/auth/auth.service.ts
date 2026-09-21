@@ -15,6 +15,7 @@ export interface AuthResult {
   user: IUser;
   accessToken: string;
   refreshToken: string;
+  verificationCode?: string;
 }
 
 export class AuthService {
@@ -65,7 +66,12 @@ export class AuthService {
       id: user._id.toString(),
     });
 
-    return { user, accessToken, refreshToken };
+    return {
+      user,
+      accessToken,
+      refreshToken,
+      verificationCode: process.env.NODE_ENV === 'development' ? verificationCode : undefined,
+    };
   }
 
   /**
@@ -194,11 +200,11 @@ export class AuthService {
   /**
    * Resends fresh 6-digit email verification code.
    */
-  public static async resendVerification(email: string): Promise<void> {
+  public static async resendVerification(email: string): Promise<{ code?: string }> {
     const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       // Return quietly to prevent email enumeration
-      return;
+      return {};
     }
 
     if (user.isEmailVerified) {
@@ -222,6 +228,10 @@ export class AuthService {
       .catch((err) => {
         logger.error({ err: err.message }, 'Failed to dispatch verification email');
       });
+
+    return {
+      code: process.env.NODE_ENV === 'development' ? rawCode : undefined,
+    };
   }
 
   /**

@@ -64,6 +64,10 @@ class EmailService {
 
       if (response.error) {
         logger.error({ error: response.error, to: recipients }, '❌ Resend delivery error');
+        if (response.error.message?.includes('testing emails') || (response.error as any)?.statusCode === 403) {
+          console.log('\n⚠️ [RESEND NOTICE] Free tier only delivers live emails to your registered account (msohailg211@gmail.com).');
+          console.log('To test with any email, the OTP code is printed directly in this terminal.\n');
+        }
         return { success: false, error: response.error.message };
       }
 
@@ -84,6 +88,16 @@ class EmailService {
     code: string,
     verifyUrl?: string
   ): Promise<SendEmailResult> {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('\n=============================================================');
+      console.log(`🔑 [MSN ACADEMY VERIFICATION CODE] For: ${to}`);
+      console.log(`👉 6-Digit OTP: [ ${code} ]`);
+      if (verifyUrl) {
+        console.log(`🔗 Direct Auto-Verify Link: ${verifyUrl}`);
+      }
+      console.log('=============================================================\n');
+    }
+
     const html = getVerificationEmailHtml(fullName, code, verifyUrl);
     return this.sendEmail({
       to,

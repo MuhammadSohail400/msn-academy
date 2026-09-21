@@ -18,6 +18,7 @@ export default function VerifyEmail() {
   const [infoMessage, setInfoMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+  const [debugCode, setDebugCode] = useState(codeParam || '');
 
   // Sync state if query parameters change
   useEffect(() => {
@@ -87,7 +88,11 @@ export default function VerifyEmail() {
 
     setResending(true);
     try {
-      await authService.resendVerification(cleanEmail);
+      const res = await authService.resendVerification(cleanEmail);
+      const codeFromDev = res?.data?.debugVerificationCode || res?.debugVerificationCode;
+      if (codeFromDev) {
+        setDebugCode(codeFromDev);
+      }
       setInfoMessage('A fresh 6-digit verification code has been dispatched to your email.');
       setCooldown(60);
     } catch (err) {
@@ -116,6 +121,29 @@ export default function VerifyEmail() {
               We sent a 6-digit verification code to your email. Enter it below to activate your MSN Academy student account.
             </p>
           </div>
+
+          {debugCode && (
+            <div className="mb-5 rounded-2xl bg-amber-50 border border-amber-200/80 p-3.5 text-left animate-in fade-in">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-amber-800">
+                  🛠️ Dev Mode Code:{' '}
+                  <span className="font-mono text-sm font-bold tracking-widest text-slate-900 bg-white px-2 py-0.5 rounded border border-amber-200 ml-1">
+                    {debugCode}
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCode(debugCode);
+                    setError('');
+                  }}
+                  className="text-xs font-bold text-red-600 hover:text-red-700 underline cursor-pointer"
+                >
+                  Auto-fill →
+                </button>
+              </div>
+            </div>
+          )}
 
           {error && (
             <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50 p-3.5 text-xs text-rose-700 animate-in fade-in">

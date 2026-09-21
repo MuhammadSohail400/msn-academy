@@ -90,7 +90,7 @@ export default function Register() {
 
     setLoading(true);
     try {
-      await dispatch(
+      const result = await dispatch(
         registerUser({
           fullName: `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim(),
           email: formData.email.trim().toLowerCase(),
@@ -99,7 +99,8 @@ export default function Register() {
         })
       ).unwrap();
       const registeredEmail = formData.email.trim().toLowerCase();
-      navigate(`/verify-email?email=${encodeURIComponent(registeredEmail)}`);
+      const devCode = result?.debugVerificationCode;
+      navigate(`/verify-email?email=${encodeURIComponent(registeredEmail)}${devCode ? `&code=${devCode}` : ''}`);
     } catch (err) {
       setSubmitError(
         typeof err === 'string'

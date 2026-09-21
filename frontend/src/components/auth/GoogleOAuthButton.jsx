@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
@@ -13,41 +13,79 @@ export default function GoogleOAuthButton({ onError, buttonText = 'Continue with
   const [isLoading, setIsLoading] = useState(false);
   const [gisReady, setGisReady] = useState(false);
   const googleBtnContainerRef = useRef(null);
+  const lastRenderedWidthRef = useRef(0);
 
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-  const handleGoogleCredentialResponse = async (response) => {
-    if (!response?.credential) {
-      if (onError) onError('No credential received from Google.');
-      return;
-    }
+  const handleGoogleCredentialResponse = useCallback(
+    async (response) => {
+      if (!response?.credential) {
+        if (onError) onError('No credential received from Google.');
+        return;
+      }
 
-    setIsLoading(true);
-    if (onError) onError('');
+      setIsLoading(true);
+      if (onError) onError('');
 
-    try {
-      await dispatch(googleLoginUser(response.credential)).unwrap();
-      navigate(redirectPath);
-    } catch (err) {
-      const message = typeof err === 'string' ? err : err?.message || 'Google sign-in failed. Please try again.';
-      if (onError) onError(message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      try {
+        await dispatch(googleLoginUser(response.credential)).unwrap();
+        navigate(redirectPath);
+      } catch (err) {
+        const message =
+          typeof err === 'string' ? err : err?.message || 'Google sign-in failed. Please try again.';
+        if (onError) onError(message);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [dispatch, navigate, redirectPath, onError]
+  );
 
-  const hasInitializedRef = useRef(false);
   const handleCredentialResponseRef = useRef(handleGoogleCredentialResponse);
   handleCredentialResponseRef.current = handleGoogleCredentialResponse;
 
+  // Render Google GIS button with exact clamped width
+  const renderGoogleButton = useCallback(() => {
+    if (!window.google?.accounts?.id || !googleBtnContainerRef.current) return;
+
+    const container = googleBtnContainerRef.current;
+    const measuredWidth = Math.floor(container.getBoundingClientRect().width || container.clientWidth || 300);
+    // Google GIS requires width between 200px and 400px
+    const clampedWidth = Math.min(Math.max(measuredWidth, 200), 400);
+
+    // Skip redundant renders if width hasn't changed noticeably
+    if (Math.abs(lastRenderedWidthRef.current - clampedWidth) < 4 && gisReady) {
+      return;
+    }
+
+    try {
+      window.google.accounts.id.renderButton(container, {
+        type: 'standard',
+        theme: 'outline',
+        size: 'large',
+        text: 'continue_with',
+        shape: 'rectangular',
+        width: clampedWidth,
+        logo_alignment: 'left',
+      });
+      lastRenderedWidthRef.current = clampedWidth;
+      setGisReady(true);
+    } catch (err) {
+      console.error('Failed to render Google Identity Services button:', err);
+    }
+  }, [gisReady]);
+
+  // Initialize GIS client once available
   useEffect(() => {
     if (!clientId) return;
 
+    let hasInitialized = false;
+
     const initializeGoogleSignIn = () => {
-      if (hasInitializedRef.current) return;
+      if (hasInitialized) return;
       if (window.google?.accounts?.id && googleBtnContainerRef.current) {
         try {
-          hasInitializedRef.current = true;
+          hasInitialized = true;
           window.google.accounts.id.initialize({
             client_id: clientId,
             callback: (res) => handleCredentialResponseRef.current(res),
@@ -55,18 +93,7 @@ export default function GoogleOAuthButton({ onError, buttonText = 'Continue with
             cancel_on_tap_outside: true,
           });
 
-          // Render Google's official sign-in button
-          window.google.accounts.id.renderButton(googleBtnContainerRef.current, {
-            type: 'standard',
-            theme: 'outline',
-            size: 'large',
-            text: 'continue_with',
-            shape: 'rectangular',
-            width: 380,
-            logo_alignment: 'left',
-          });
-
-          setGisReady(true);
+          renderGoogleButton();
         } catch (err) {
           console.error('Failed to initialize Google Identity Services:', err);
         }
@@ -81,14 +108,37 @@ export default function GoogleOAuthButton({ onError, buttonText = 'Continue with
           clearInterval(interval);
           initializeGoogleSignIn();
         }
-      }, 150);
+      }, 100);
       return () => clearInterval(interval);
     }
-  }, [clientId]);
+  }, [clientId, renderGoogleButton]);
+
+  // Responsive resize observer to re-render Google button whenever screen/card width changes
+  useEffect(() => {
+    if (!clientId || !googleBtnContainerRef.current) return;
+
+    let resizeTimer = null;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = Math.floor(entry.contentRect.width);
+        if (width > 0 && Math.abs(width - lastRenderedWidthRef.current) >= 8) {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => {
+            renderGoogleButton();
+          }, 120);
+        }
+      }
+    });
+
+    observer.observe(googleBtnContainerRef.current);
+    return () => {
+      clearTimeout(resizeTimer);
+      observer.disconnect();
+    };
+  }, [clientId, renderGoogleButton]);
 
   const handleCustomButtonClick = async () => {
     if (!clientId) {
-      // In development mode, provide instant test sign-in if no client ID is provided yet
       if (import.meta.env.DEV) {
         setIsLoading(true);
         if (onError) onError('');
@@ -122,12 +172,14 @@ export default function GoogleOAuthButton({ onError, buttonText = 'Continue with
   };
 
   return (
-    <div className="w-full">
-      {/* If Client ID is active and GIS rendered the official button, show it */}
+    <div className="w-full relative flex justify-center">
+      {/* Official GIS container rendered dynamically to fit container width */}
       {clientId && (
         <div
           ref={googleBtnContainerRef}
-          className={`w-full flex justify-center min-h-[44px] ${!gisReady ? 'hidden' : ''}`}
+          className={`w-full max-w-full flex justify-center overflow-hidden min-h-[44px] transition-opacity duration-200 [&>div]:!w-full [&>div]:!max-w-full [&>div]:flex [&>div]:justify-center [&_iframe]:!max-w-full [&_iframe]:!w-full [&_iframe]:!min-w-0 ${
+            !gisReady ? 'invisible absolute inset-0 pointer-events-none' : 'opacity-100'
+          }`}
         />
       )}
 
@@ -167,4 +219,3 @@ export default function GoogleOAuthButton({ onError, buttonText = 'Continue with
     </div>
   );
 }
-

@@ -171,10 +171,13 @@ export class AuthController {
    */
   public static async resendVerification(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      await AuthService.resendVerification(req.body.email);
+      const result = await AuthService.resendVerification(req.body.email);
       res.status(200).json(
         ApiResponse.ok(
-          { cooldownSeconds: 60 },
+          {
+            cooldownSeconds: 60,
+            ...(result?.code ? { debugVerificationCode: result.code } : {}),
+          },
           'If this email belongs to an unverified account, a new verification code has been dispatched.'
         )
       );
