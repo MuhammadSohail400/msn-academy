@@ -148,6 +148,40 @@ export class AuthController {
       next(error);
     }
   }
+
+  /**
+   * POST /api/v1/auth/verify-email
+   */
+  public static async verifyEmail(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      await AuthService.verifyEmail(req.body.email, req.body.code);
+      res.status(200).json(
+        ApiResponse.ok(
+          { isEmailVerified: true },
+          'Email verified successfully! Welcome to MSN Academy.'
+        )
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * POST /api/v1/auth/resend-verification
+   */
+  public static async resendVerification(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      await AuthService.resendVerification(req.body.email);
+      res.status(200).json(
+        ApiResponse.ok(
+          { cooldownSeconds: 60 },
+          'If this email belongs to an unverified account, a new verification code has been dispatched.'
+        )
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default AuthController;

@@ -15,6 +15,8 @@ export interface IUser extends Document {
   phoneNumber?: string;
   avatarUrl?: string;
   isEmailVerified: boolean;
+  emailVerificationCode?: string;
+  emailVerificationExpires?: Date;
   passwordResetToken?: string;
   passwordResetExpires?: Date;
   createdAt: Date;
@@ -80,6 +82,14 @@ const userSchema = new Schema<IUser>(
       type: Boolean,
       default: false,
     },
+    emailVerificationCode: {
+      type: String,
+      select: false,
+    },
+    emailVerificationExpires: {
+      type: Date,
+      select: false,
+    },
     passwordResetToken: {
       type: String,
       select: false,
@@ -94,6 +104,8 @@ const userSchema = new Schema<IUser>(
     toJSON: {
       transform(doc, ret) {
         delete (ret as Record<string, unknown>).passwordHash;
+        delete (ret as Record<string, unknown>).emailVerificationCode;
+        delete (ret as Record<string, unknown>).emailVerificationExpires;
         delete (ret as Record<string, unknown>).passwordResetToken;
         delete (ret as Record<string, unknown>).passwordResetExpires;
         delete (ret as Record<string, unknown>).__v;

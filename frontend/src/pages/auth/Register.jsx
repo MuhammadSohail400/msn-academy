@@ -55,12 +55,24 @@ export default function Register() {
     return errs;
   };
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (fieldOrEvent, directValue) => {
+    let name;
+    let value;
+
+    if (fieldOrEvent && fieldOrEvent.target) {
+      const { target } = fieldOrEvent;
+      name = target.name;
+      value = target.type === 'checkbox' ? target.checked : target.value;
+    } else {
+      name = fieldOrEvent;
+      value = directValue;
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: value,
     }));
+
     if (fieldErrors[name]) {
       setFieldErrors((prev) => ({ ...prev, [name]: '' }));
     }
@@ -86,8 +98,8 @@ export default function Register() {
           phoneNumber: formData.phoneNumber.trim() || undefined,
         })
       ).unwrap();
-
-      navigate('/dashboard');
+      const registeredEmail = formData.email.trim().toLowerCase();
+      navigate(`/verify-email?email=${encodeURIComponent(registeredEmail)}`);
     } catch (err) {
       setSubmitError(
         typeof err === 'string'

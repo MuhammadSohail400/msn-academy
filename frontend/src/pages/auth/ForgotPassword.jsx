@@ -131,10 +131,10 @@ export default function ForgotPassword() {
           {debugToken && (
             <div className="mt-5 rounded-2xl bg-amber-50 border border-amber-200/80 p-4 text-left">
               <div className="flex items-center gap-2 text-amber-800 font-semibold text-xs mb-1">
-                <span>🛠️ Development Mode (No Email Service Configured)</span>
+                <span>🛠️ Development Quick-Test Link</span>
               </div>
               <p className="text-xs text-amber-700 leading-relaxed mb-3">
-                Since an SMTP email service is not configured yet, you can test the password reset screen directly using this link:
+                A password reset email has been dispatched via Resend to your inbox. For quick local testing, you can also open the reset screen directly:
               </p>
               <Link
                 to={`/reset-password?token=${debugToken}`}

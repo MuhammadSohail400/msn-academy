@@ -23,6 +23,7 @@ const Login = lazy(() => import('./pages/auth/Login'));
 const Register = lazy(() => import('./pages/auth/Register'));
 const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/auth/ResetPassword'));
+const VerifyEmail = lazy(() => import('./pages/auth/VerifyEmail'));
 
 // Dashboard pages — M1 / M4 — Code Split
 const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'));
@@ -80,6 +81,7 @@ export default function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
           </Route>
 
           {/* Authenticated LMS shell (M1 dashboard/profile, M4 learning, assessment briefing & scorecard) */}

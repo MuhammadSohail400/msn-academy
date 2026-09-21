@@ -5,6 +5,9 @@ import { hashPassword, verifyPassword } from '../../utils/password';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../../utils/jwt';
 import { ApiError } from '../../utils/ApiError';
 import { RegisterInput, LoginInput } from './auth.validation';
+import { env } from '../../config/environment';
+import { logger } from '../../utils/logger';
+import { emailService } from '../email/email.service';
 
 const googleClient = new OAuth2Client();
 
@@ -25,6 +28,8 @@ export class AuthService {
     }
 
     const hashedPassword = await hashPassword(input.password);
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedVerificationCode = crypto.createHash('sha256').update(verificationCode).digest('hex');
 
     const user = await User.create({
       fullName: input.fullName,
@@ -32,7 +37,22 @@ export class AuthService {
       passwordHash: hashedPassword,
       role: 'STUDENT',
       phoneNumber: input.phoneNumber,
+      isEmailVerified: false,
+      emailVerificationCode: hashedVerificationCode,
+      emailVerificationExpires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
     });
+
+    // Asynchronously dispatch email verification code
+    emailService
+      .sendVerificationEmail(
+        user.email,
+        user.fullName,
+        verificationCode,
+        `${env.CLIENT_URL}/verify-email?email=${encodeURIComponent(user.email)}&code=${verificationCode}`
+      )
+      .catch((err) => {
+        logger.error({ err: err.message }, 'Failed to dispatch registration verification email');
+      });
 
     const accessToken = signAccessToken({
       id: user._id.toString(),
@@ -106,8 +126,16 @@ export class AuthService {
     const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
 
     user.passwordResetToken = hashedToken;
-    user.passwordResetExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour expiration
+    user.passwordResetExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes expiration
     await user.save({ validateBeforeSave: false });
+
+    // Send password reset email asynchronously
+    const resetUrl = `${env.CLIENT_URL}/reset-password?token=${rawToken}`;
+    emailService
+      .sendPasswordResetEmail(user.email, user.fullName, resetUrl)
+      .catch((err) => {
+        logger.error({ err: err.message }, 'Failed to dispatch password reset email');
+      });
 
     return { resetToken: rawToken };
   }
@@ -132,6 +160,68 @@ export class AuthService {
     user.passwordResetExpires = undefined;
 
     await user.save();
+  }
+
+  /**
+   * Verifies user email with 6-digit OTP code.
+   */
+  public static async verifyEmail(email: string, code: string): Promise<void> {
+    const hashedCode = crypto.createHash('sha256').update(code.trim()).digest('hex');
+
+    const user = await User.findOne({
+      email: email.toLowerCase(),
+      emailVerificationCode: hashedCode,
+      emailVerificationExpires: { $gt: new Date() },
+    });
+
+    if (!user) {
+      throw ApiError.badRequest('Invalid or expired verification code.');
+    }
+
+    user.isEmailVerified = true;
+    user.emailVerificationCode = undefined;
+    user.emailVerificationExpires = undefined;
+    await user.save();
+
+    // Send welcome email after email verification
+    emailService
+      .sendWelcomeEmail(user.email, user.fullName, `${env.CLIENT_URL}/dashboard`)
+      .catch((err) => {
+        logger.error({ err: err.message }, 'Failed to dispatch welcome email');
+      });
+  }
+
+  /**
+   * Resends fresh 6-digit email verification code.
+   */
+  public static async resendVerification(email: string): Promise<void> {
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      // Return quietly to prevent email enumeration
+      return;
+    }
+
+    if (user.isEmailVerified) {
+      throw ApiError.badRequest('This account is already verified.');
+    }
+
+    const rawCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedCode = crypto.createHash('sha256').update(rawCode).digest('hex');
+
+    user.emailVerificationCode = hashedCode;
+    user.emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    await user.save({ validateBeforeSave: false });
+
+    emailService
+      .sendVerificationEmail(
+        user.email,
+        user.fullName,
+        rawCode,
+        `${env.CLIENT_URL}/verify-email?email=${encodeURIComponent(user.email)}&code=${rawCode}`
+      )
+      .catch((err) => {
+        logger.error({ err: err.message }, 'Failed to dispatch verification email');
+      });
   }
 
   /**

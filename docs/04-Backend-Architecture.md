@@ -605,14 +605,72 @@ The payment domain uses an adapter pattern to decouple commercial orders from th
 ## 22. Asynchronous Job & Worker Architecture (BullMQ & Redis)
 
 ### 22.1 Objective Justification for Redis & BullMQ
-To maintain API response times under 250ms, time-consuming I/O operations are offloaded from the main Node.js event loop to dedicated **BullMQ** background workers backed by **Redis**:
+To maintain API response times strictly under **200ms**, all network-bound, third-party SMTP/API communications and compute-heavy file generations are offloaded from the main Node.js event loop into dedicated **BullMQ** background queues backed by **Redis (Upstash / Local Redis)**.
 
-| Background Queue | Triggering Event | Worker Operation | Failure & Retry Policy |
-| :--- | :--- | :--- | :--- |
-| **`EmailQueue`** | Registration, Order Placed, Payment Approved, Exam Result | Sends transactional email via SMTP/SendGrid/SES. | 3 retries with exponential backoff (10s, 30s, 90s). |
-| **`CertificateQueue`**| Assessment passed ($\ge 70\%$) | Compiles vector PDF certificate, creates QR code, uploads to S3 bucket. | 3 retries with exponential backoff. |
+| Background Queue | Triggering Event | Worker Operation | Priority Tier | Failure & Retry Policy |
+| :--- | :--- | :--- | :--- | :--- |
+| **`EmailQueue:Critical`** | Registration, Forgot Password, Security Alert | Sends time-sensitive OTP and reset tokens. | High (Priority 1) | 3 retries (exponential: 5s, 15s, 30s) |
+| **`EmailQueue:Transactional`**| Order Completed, Payment Approved/Rejected, Invoice | Delivers itemized receipts and billing statements. | Medium (Priority 2) | 3 retries (exponential: 10s, 30s, 60s) |
+| **`EmailQueue:Academic`** | Quiz Submitted, Certificate Issued, Course Enrolled | Sends scorecards, welcome packets, credential PDFs. | Normal (Priority 3) | 3 retries (exponential: 30s, 60s, 120s) |
+| **`EmailQueue:Engagement`**| Abandoned Cart, Inactivity Nudge, Announcements | Delivers re-engagement and marketing communications.| Low (Priority 4) | 2 retries (linear backoff: 60s) |
+| **`CertificateQueue`** | Assessment Passed ($\ge 70\%$) | Compiles vector PDF certificate, signs QR code, uploads to S3. | Medium | 3 retries with exponential backoff |
 
-*If Redis is unavailable in local development, an in-process synchronous fallback adapter is provided.*
+### 22.2 Detailed EmailQueue Job Specifications
+
+```typescript
+// Core Job Discriminator Types
+export type EmailJobType =
+  | 'auth.verify-email'
+  | 'auth.forgot-password'
+  | 'auth.password-changed'
+  | 'auth.welcome'
+  | 'order.receipt'
+  | 'order.payment-failed'
+  | 'academic.enrollment-confirmed'
+  | 'academic.assessment-result'
+  | 'academic.certificate-issued'
+  | 'contact.inquiry-received'
+  | 'contact.admin-alert'
+  | 'lifecycle.abandoned-cart'
+  | 'lifecycle.inactivity-nudge';
+
+export interface EmailJobData {
+  jobType: EmailJobType;
+  to: string | string[];
+  recipientName: string;
+  subject: string;
+  templateName: string;
+  templateData: Record<string, unknown>;
+  attachments?: Array<{ filename: string; content?: Buffer | string; path?: string }>;
+}
+```
+
+### 22.3 Pluggable Email Provider Abstraction (`IEmailProvider`)
+The email subsystem utilizes an Adapter/Strategy pattern allowing zero-downtime switching between providers:
+
+```typescript
+export interface IEmailProvider {
+  sendEmail(payload: {
+    to: string | string[];
+    subject: string;
+    html: string;
+    text?: string;
+    from?: string;
+    attachments?: Array<{ filename: string; content?: Buffer | string; path?: string }>;
+  }): Promise<{ messageId: string; success: boolean }>;
+}
+
+// Concrete Adapters Supported:
+// 1. ResendAdapter (Recommended for Production: Modern API, high deliverability)
+// 2. NodemailerSmtpAdapter (Gmail SMTP / Custom Host for Development & Staging)
+// 3. AwsSesAdapter (High-volume enterprise scaling)
+```
+
+### 22.4 HTML Template Compilation & Styling System
+* **Responsive Email Templates:** Built with semantic, table-based responsive HTML compatible across Gmail, Apple Mail, Outlook, and mobile clients.
+* **Consistent MSN Academy Branding:** Primary Crimson/Red (`#dc2626`), Slate Typography (`#0f172a`), Soft Grays (`#f8fafc`), and clean rounded buttons.
+* **Variable Interpolation:** Lightweight template engine parsing placeholders (e.g. `{{studentName}}`, `{{orderId}}`, `{{formattedAmount}}`, `{{resetLink}}`).
+* **Synchronous Fallback:** If Redis/BullMQ is down during development, an in-memory direct dispatch fallback ensures development workflows continue unimpeded.
 
 ---
 

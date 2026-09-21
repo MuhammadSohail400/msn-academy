@@ -22,6 +22,9 @@ const environmentSchema = z.object({
   COOKIE_SECRET: z.string().min(16, 'COOKIE_SECRET must be at least 16 characters').default('msn_cookie_signing_secret_key_32chars!'),
   PAYMENT_WEBHOOK_SECRET: z.string().default('msn_webhook_secret_key_default_32chars!'),
   GOOGLE_CLIENT_ID: z.string().optional(),
+  RESEND_API_KEY: z.string().optional(),
+  EMAIL_FROM: z.string().default('MSN Academy <onboarding@resend.dev>'),
+  ADMIN_EMAIL: z.string().default('admissions@msnacademy.pk'),
 });
 
 const parsed = environmentSchema.safeParse(process.env);

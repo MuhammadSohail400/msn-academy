@@ -53,8 +53,19 @@ export const googleOAuthSchema = z.object({
   idToken: z.string().min(1, 'Google ID Token is required'),
 });
 
+export const verifyEmailSchema = z.object({
+  email: z.string().trim().email('Please enter a valid email address').toLowerCase(),
+  code: z.string().trim().length(6, 'Verification code must be exactly 6 digits'),
+});
+
+export const resendVerificationSchema = z.object({
+  email: z.string().trim().email('Please enter a valid email address').toLowerCase(),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 export type GoogleOAuthInput = z.infer<typeof googleOAuthSchema>;
+export type VerifyEmailInput = z.infer<typeof verifyEmailSchema>;
+export type ResendVerificationInput = z.infer<typeof resendVerificationSchema>;

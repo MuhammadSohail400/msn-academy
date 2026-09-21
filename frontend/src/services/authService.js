@@ -58,6 +58,22 @@ export const authService = {
     const response = await apiClient.post(ENDPOINTS.AUTH.GOOGLE_OAUTH, { idToken });
     return response.data;
   },
+
+  /**
+   * POST /auth/verify-email
+   */
+  async verifyEmail(email, code) {
+    const response = await apiClient.post(ENDPOINTS.AUTH.VERIFY_EMAIL, { email, code });
+    return response.data;
+  },
+
+  /**
+   * POST /auth/resend-verification
+   */
+  async resendVerification(email) {
+    const response = await apiClient.post(ENDPOINTS.AUTH.RESEND_VERIFICATION, { email });
+    return response.data;
+  },
 };
 
 export default authService;
