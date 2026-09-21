@@ -164,7 +164,7 @@ const sampleCourses = [
     price: 15000,
     originalPrice: 20000,
     currency: 'PKR',
-    thumbnail: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?q=80&w=1200&auto=format&fit=crop',
+    thumbnail: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1200&auto=format&fit=crop',
     previewVideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
     durationHours: 32,
     totalLectures: 52,
