@@ -20,36 +20,46 @@ export const emailQueue = new Queue<EmailJobData>(EMAIL_QUEUE_NAME, {
   },
 });
 
-// BullMQ Worker to process background emails
-export const emailWorker = new Worker<EmailJobData>(
-  EMAIL_QUEUE_NAME,
-  async (job: Job<EmailJobData>) => {
-    logger.info({ jobId: job.id, jobType: job.data.jobType }, '⚙️ Processing background email job');
-    const result = await emailService.sendEmail(job.data.options);
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to dispatch email via provider');
-    }
-    return result;
-  },
-  {
-    connection: redis as any,
-    concurrency: 5,
-  }
-);
+// BullMQ Worker to process background emails (only in persistent Node.js servers, not Vercel serverless)
+export const emailWorker = process.env.VERCEL
+  ? null
+  : new Worker<EmailJobData>(
+      EMAIL_QUEUE_NAME,
+      async (job: Job<EmailJobData>) => {
+        logger.info({ jobId: job.id, jobType: job.data.jobType }, '⚙️ Processing background email job');
+        const result = await emailService.sendEmail(job.data.options);
+        if (!result.success) {
+          throw new Error(result.error || 'Failed to dispatch email via provider');
+        }
+        return result;
+      },
+      {
+        connection: redis as any,
+        concurrency: 5,
+      }
+    );
 
-emailWorker.on('completed', (job) => {
-  logger.info({ jobId: job.id, jobType: job.data.jobType }, '🎉 Email job completed successfully');
-});
+if (emailWorker) {
+  emailWorker.on('completed', (job) => {
+    logger.info({ jobId: job.id, jobType: job.data.jobType }, '🎉 Email job completed successfully');
+  });
 
-emailWorker.on('failed', (job, err) => {
-  logger.error({ jobId: job?.id, jobType: job?.data?.jobType, err: err.message }, '❌ Email job failed');
-});
+  emailWorker.on('failed', (job, err) => {
+    logger.error({ jobId: job?.id, jobType: job?.data?.jobType, err: err.message }, '❌ Email job failed');
+  });
+}
 
 /**
  * Enqueues an email for asynchronous background dispatch.
- * Falls back to direct in-process sending if Redis is temporarily unreachable.
+ * Falls back to direct in-process sending in serverless environments or if Redis is temporarily unreachable.
  */
 export async function queueEmail(jobType: EmailJobData['jobType'], options: SendEmailOptions): Promise<void> {
+  // In Vercel serverless, background workers freeze when response completes — dispatch directly
+  if (process.env.VERCEL) {
+    await emailService.sendEmail(options);
+    return;
+  }
+
   try {
     if (redis.status === 'ready' || redis.status === 'connect') {
       await emailQueue.add(jobType, { jobType, options });

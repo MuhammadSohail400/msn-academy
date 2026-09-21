@@ -6,7 +6,7 @@ const isProduction = env.NODE_ENV === 'production';
 export const ACCESS_TOKEN_COOKIE_OPTIONS: CookieOptions = {
   httpOnly: true,
   secure: isProduction,
-  sameSite: isProduction ? 'strict' : 'lax',
+  sameSite: isProduction ? 'none' : 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days (prevents premature session expiration)
   path: '/',
 };
@@ -14,7 +14,7 @@ export const ACCESS_TOKEN_COOKIE_OPTIONS: CookieOptions = {
 export const REFRESH_TOKEN_COOKIE_OPTIONS: CookieOptions = {
   httpOnly: true,
   secure: isProduction,
-  sameSite: isProduction ? 'strict' : 'lax',
+  sameSite: isProduction ? 'none' : 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   path: '/api/v1/auth/refresh', // Scoped to refresh endpoint for enhanced security
 };

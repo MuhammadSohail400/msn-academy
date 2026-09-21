@@ -37,6 +37,7 @@ export const createApp = (): Application => {
 
         if (
           staticAllowedOrigins.includes(origin) ||
+          (typeof origin === 'string' && (origin.endsWith('.vercel.app') || origin.includes('.vercel.app'))) ||
           (env.NODE_ENV === 'development' && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin))
         ) {
           return callback(null, true);
