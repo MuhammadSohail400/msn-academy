@@ -2,8 +2,17 @@ import axios from 'axios';
 
 // Global Axios instance — see docs/03-Frontend-Architecture.md, section 8
 // Auth uses secure HttpOnly cookies, so withCredentials must stay true.
+const getBaseUrl = () => {
+  let url = (import.meta.env.VITE_API_BASE_URL || '/api/v1').trim();
+  url = url.replace(/\/+$/, '');
+  if (url.startsWith('http') && !url.includes('/api/v1')) {
+    url += '/api/v1';
+  }
+  return url;
+};
+
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1',
+  baseURL: getBaseUrl(),
   withCredentials: true,
   timeout: 15000,
   headers: {
