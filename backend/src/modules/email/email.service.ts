@@ -1,3 +1,4 @@
+import nodemailer, { Transporter } from 'nodemailer';
 import { Resend } from 'resend';
 import { env } from '../../config/environment';
 import { logger } from '../../utils/logger';
@@ -13,70 +14,102 @@ import {
 
 class EmailService {
   private resend: Resend | null = null;
+  private transporter: Transporter | null = null;
   private readonly defaultFrom: string;
 
   constructor() {
     this.defaultFrom = env.EMAIL_FROM || 'MSN Academy <onboarding@resend.dev>';
-    if (env.RESEND_API_KEY) {
+
+    // Priority 1: Nodemailer Gmail SMTP (supports sending to ANY email address)
+    if (env.SMTP_USER && env.SMTP_PASS) {
+      this.transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: env.SMTP_USER,
+          pass: env.SMTP_PASS.replace(/\s+/g, ''), // clean any accidental whitespace from app password
+        },
+      });
+      logger.info(`📧 Nodemailer Gmail SMTP Client initialized for ${env.SMTP_USER}`);
+    } else if (env.RESEND_API_KEY) {
+      // Priority 2: Resend API
       this.resend = new Resend(env.RESEND_API_KEY);
       logger.info('📧 Resend Email Client initialized successfully.');
     } else {
       logger.warn(
-        '⚠️ RESEND_API_KEY is not configured. Running in Local Development Logging Mode (Emails will print to console).'
+        '⚠️ Neither SMTP nor RESEND_API_KEY is configured. Running in Local Development Logging Mode (Emails will print to console).'
       );
     }
   }
 
   /**
-   * Send email using Resend API with local development console fallback.
+   * Send email using Gmail SMTP or Resend API with local development console fallback.
    */
   public async sendEmail(options: SendEmailOptions): Promise<SendEmailResult> {
-    const fromAddress = options.from || this.defaultFrom;
     const recipients = Array.isArray(options.to) ? options.to : [options.to];
 
-    // Local Development Fallback: If no API key is present, log cleanly to terminal
-    if (!this.resend || !env.RESEND_API_KEY) {
-      logger.info(
-        {
+    // Case 1: Send via Nodemailer Gmail SMTP
+    if (this.transporter && env.SMTP_USER) {
+      try {
+        const fromAddress = options.from || `MSN Academy <${env.SMTP_USER}>`;
+        const info = await this.transporter.sendMail({
+          from: fromAddress,
+          to: recipients.join(', '),
+          subject: options.subject,
+          html: options.html,
+          text: options.text,
+          replyTo: options.replyTo,
+        });
+
+        logger.info({ messageId: info.messageId, to: recipients }, '✅ Email dispatched successfully via Gmail SMTP');
+        return { success: true, messageId: info.messageId };
+      } catch (err: any) {
+        logger.error({ err: err.message, to: recipients }, '❌ Error sending email via Gmail SMTP');
+        return { success: false, error: err.message };
+      }
+    }
+
+    // Case 2: Send via Resend API
+    if (this.resend && env.RESEND_API_KEY) {
+      const fromAddress = options.from || this.defaultFrom;
+      try {
+        const response = await this.resend.emails.send({
+          from: fromAddress,
           to: recipients,
           subject: options.subject,
-          from: fromAddress,
-        },
-        '📨 [LOCAL EMAIL SIMULATION] Email dispatched'
-      );
-      console.log('------------------ 📧 EMAIL SIMULATION ------------------');
-      console.log(`To: ${recipients.join(', ')}`);
-      console.log(`Subject: ${options.subject}`);
-      console.log(`From: ${fromAddress}`);
-      console.log('---------------------------------------------------------');
-      return { success: true, messageId: 'simulated-dev-msg-id' };
+          html: options.html,
+          text: options.text,
+          replyTo: options.replyTo,
+        });
+
+        if (response.error) {
+          logger.error({ error: response.error, to: recipients }, '❌ Resend delivery error');
+          return { success: false, error: response.error.message };
+        }
+
+        logger.info({ messageId: response.data?.id, to: recipients }, '✅ Email dispatched successfully via Resend');
+        return { success: true, messageId: response.data?.id };
+      } catch (err: any) {
+        logger.error({ err: err.message, to: recipients }, '❌ Unexpected error in Resend EmailService');
+        return { success: false, error: err.message };
+      }
     }
 
-    try {
-      const response = await this.resend.emails.send({
-        from: fromAddress,
+    // Case 3: Local Simulation Fallback
+    const fromAddress = options.from || this.defaultFrom;
+    logger.info(
+      {
         to: recipients,
         subject: options.subject,
-        html: options.html,
-        text: options.text,
-        replyTo: options.replyTo,
-      });
-
-      if (response.error) {
-        logger.error({ error: response.error, to: recipients }, '❌ Resend delivery error');
-        if (response.error.message?.includes('testing emails') || (response.error as any)?.statusCode === 403) {
-          console.log('\n⚠️ [RESEND NOTICE] Free tier only delivers live emails to your registered account (msohailg211@gmail.com).');
-          console.log('To test with any email, the OTP code is printed directly in this terminal.\n');
-        }
-        return { success: false, error: response.error.message };
-      }
-
-      logger.info({ messageId: response.data?.id, to: recipients }, '✅ Email dispatched successfully via Resend');
-      return { success: true, messageId: response.data?.id };
-    } catch (err: any) {
-      logger.error({ err: err.message, to: recipients }, '❌ Unexpected error in EmailService');
-      return { success: false, error: err.message };
-    }
+        from: fromAddress,
+      },
+      '📨 [LOCAL EMAIL SIMULATION] Email dispatched'
+    );
+    console.log('------------------ 📧 EMAIL SIMULATION ------------------');
+    console.log(`To: ${recipients.join(', ')}`);
+    console.log(`Subject: ${options.subject}`);
+    console.log(`From: ${fromAddress}`);
+    console.log('---------------------------------------------------------');
+    return { success: true, messageId: 'simulated-dev-msg-id' };
   }
 
   /**
