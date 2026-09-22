@@ -1,182 +1,257 @@
-# MSN Academy — Vocational & Technology LMS
+# 🎓 MSN Academy — Vocational & Technology LMS
 
-MSN Academy is a career-focused vocational and technology Learning Management System (LMS). Students discover courses, check out (guest or registered), stream video lectures, pass a timed MCQ assessment, and receive a publicly verifiable digital certificate.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-msn--academy--nine.vercel.app-crimson?style=for-the-badge&logo=vercel)](https://msn-academy-nine.vercel.app/)
+[![Backend API](https://img.shields.io/badge/API%20Gateway-Live%20on%20Vercel-0F172A?style=for-the-badge&logo=express)](https://msn-academy-api1-nmvhlq756-msohailg211-gmailcoms-projects.vercel.app/api/v1/health)
+[![Node Version](https://img.shields.io/badge/Node.js-20.x%20LTS-green?style=for-the-badge&logo=node.js)](https://nodejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
+[![License: ISC](https://img.shields.io/badge/License-ISC-amber?style=for-the-badge)](LICENSE)
 
-> Localized for the Pakistani market — PKR pricing, Bank Transfer / Easypaisa / JazzCash checkout, no recurring subscriptions.
-
----
-
-## Tech Stack
-
-**Frontend**
-- React 18/19 + Vite
-- Tailwind CSS
-- Redux Toolkit (global state) + React Hook Form + Zod (forms/validation)
-- React Router v6/v7
-- Axios (HttpOnly cookie–based sessions)
-
-**Backend**
-- Node.js 20 (LTS) + TypeScript
-- Express.js (Controller–Service–Model pattern)
-- MongoDB + Mongoose
-- Redis + BullMQ (background jobs — email, certificate PDF generation)
-- JWT auth via secure HttpOnly cookies
+**MSN Academy** is a modern, career-focused vocational and technology Learning Management System (LMS) localized for Pakistan. It features course discovery, hybrid guest/registered shopping cart, localized PKR checkout with zero recurring subscriptions, video lecture streaming, a 120-minute timed MCQ assessment engine, and publicly verifiable digital certificates with QR validation.
 
 ---
 
-## Project Structure
+## 🌐 Live Deployments
+
+| Component | Platform | URL | Health / Status |
+| :--- | :--- | :--- | :--- |
+| **Frontend Web App** | Vercel SPA | [msn-academy-nine.vercel.app](https://msn-academy-nine.vercel.app/) | ![Active](https://img.shields.io/badge/Status-Live-success?style=flat-square) |
+| **Backend API Gateway** | Vercel Serverless | [msn-academy-api1...vercel.app](https://msn-academy-api1-nmvhlq756-msohailg211-gmailcoms-projects.vercel.app/api/v1/health) | ![Active](https://img.shields.io/badge/Status-Healthy-success?style=flat-square) |
+| **Database** | MongoDB Atlas | Cloud Multi-Region Cluster | ![Active](https://img.shields.io/badge/Status-Connected-success?style=flat-square) |
+| **Email Delivery** | Resend API | Transactional OTP & Password Recovery | ![Active](https://img.shields.io/badge/Status-Operational-success?style=flat-square) |
+
+---
+
+## ⚡ Core Features & Capabilities
+
+### 1. 🔍 Course Catalog & Discovery
+* **Faceted Search & Filter**: Real-time filtering by category (Web Development, Data Science, AI, Design, Freelancing) and experience level (Beginner to Advanced).
+* **Interactive Syllabus Preview**: Detailed curriculum breakdown with duration, preview lectures, learning outcomes, and prerequisites.
+* **Responsive Video Player**: Distraction-free lecture player with bookmarking, lesson navigation, and completion state toggling.
+
+### 2. 🛒 Commerce & Localized Pakistani Payments
+* **Hybrid Cart**: Seamless cart persistence across anonymous guest sessions and authenticated student accounts.
+* **PKR-Native Checkout**: No recurring credit card subscriptions required.
+* **Local Payment Channels**:
+  * 🏛️ Bank Wire Transfer (Account details, IBAN)
+  * 📱 Easypaisa Mobile Account & QR
+  * 💳 JazzCash Direct Mobile Wallet
+* **Audit & Approval**: Manual payment verification workflow with SLA tracking.
+
+### 3. ⏱️ 120-Minute Timed Assessment Engine
+* **Rigorous Evaluation**: 120-minute countdown exam engine with automatic submission on timeout.
+* **Exam Controls**: Question navigator grid, "Flag for Review" toggling, and pre-submission review modal.
+* **Instant Automated Scoring**: Immediate grading against the 70% passing threshold with detailed score summaries and retake options.
+
+### 4. 📜 Public Trust Registry & Verifiable Digital Certificates
+* **Tamper-Proof Verification**: Public verification portal (`/verify`) allowing employers and institutions to authenticate student certificates by ID.
+* **High-Res Digital Credentials**: Beautiful, printable certificate cards complete with security seals, student credentials, and scannable QR codes.
+
+### 5. 🛡️ Enterprise Security & Identity
+* **Authentication**: Multi-channel login supporting Email/Password and **Google One-Tap / GIS (OAuth 2.0)**.
+* **HttpOnly Session Cookies**: Dual-token architecture (`access_token` and `refresh_token`) with cross-site `SameSite=None` protection.
+* **Rate Limiting & Sanitation**: Helmet HTTP headers, CORS whitelisting, and strict Zod runtime request validation.
+
+---
+
+## 🛠️ Technology Stack
 
 ```
+                     ┌────────────────────────────────┐
+                     │    MSN Academy Client (SPA)    │
+                     │  React 19 + Vite + Tailwind    │
+                     └───────────────┬────────────────┘
+                                     │ HTTPS / Cookies
+                     ┌───────────────▼────────────────┐
+                     │    REST API Gateway (Vercel)   │
+                     │    Express + Node + TypeScript │
+                     └───────┬───────────────┬────────┘
+                             │               │
+            ┌────────────────▼──────┐ ┌──────▼────────────────┐
+            │  MongoDB Atlas (Data) │ │  Resend (Email Auth)  │
+            └───────────────────────┘ └───────────────────────┘
+```
+
+| Layer | Technologies Used |
+| :--- | :--- |
+| **Frontend Core** | React 19, Vite, Tailwind CSS, Redux Toolkit, React Router v7 |
+| **UI Components** | Lucide React, Custom Responsive Design System |
+| **Client Networking** | Axios (with auto-normalizing baseURL interceptors and HttpOnly credential exchange) |
+| **Backend Runtime** | Node.js 20 (LTS), Express 5, TypeScript 5 |
+| **Database & ODM** | MongoDB Atlas, Mongoose 9 (with serverless connection pool caching) |
+| **Validation & Security** | Zod, Helmet, CORS, Cookie-Parser, Argon2, JSON Web Tokens (JWT) |
+| **Logging & Monitoring** | Pino Logger, Pino HTTP serializer |
+| **Email Service** | Resend API (6-digit verification OTPs, password reset links) |
+
+---
+
+## 📁 Repository Structure
+
+```text
 msn-academy/
-├── frontend/       # React + Vite SPA
-├── backend/        # Express + TypeScript REST API
-├── docs/           # Planning & architecture docs (read these first)
-│   ├── 01-PRD.md
-│   ├── 02-Database-Design.md
-│   ├── 03-Frontend-Architecture.md
-│   ├── 04-Backend-Architecture.md
-│   └── 05-API-Specification.md
+├── frontend/                     # React + Vite Client Application
+│   ├── public/                   # Static assets & icons
+│   ├── src/
+│   │   ├── components/           # Reusable UI elements (auth, cart, courses, layout)
+│   │   ├── features/             # Redux slices (auth, cart)
+│   │   ├── pages/                # Page components (public, dashboard, checkout, learning)
+│   │   ├── services/             # Axios API client & endpoints
+│   │   ├── store/                # Redux store configuration
+│   │   └── App.jsx               # Application routes & layout bindings
+│   ├── vercel.json               # SPA rewrite configuration
+│   └── package.json
+│
+├── backend/                      # Express + TypeScript REST API
+│   ├── api/
+│   │   └── index.ts              # Vercel serverless entrypoint (cached DB connection)
+│   ├── src/
+│   │   ├── config/               # Database, Redis, and environment configs
+│   │   ├── middleware/           # Auth guards, error handlers, request validation
+│   │   ├── modules/              # Domain modules (auth, courses, cart, orders, etc.)
+│   │   ├── scripts/              # Seed scripts (courses, assessments, admin user)
+│   │   ├── utils/                # ApiError, ApiResponse, cookie & logger helpers
+│   │   ├── app.ts                # Express application setup
+│   │   └── server.ts             # Local standalone development server
+│   ├── public/                   # Static verification files
+│   ├── vercel.json               # Serverless API rewrite configuration
+│   ├── tsconfig.json             # CommonJS TypeScript compilation setup
+│   └── package.json
+│
+├── docs/                         # Project Architecture & PRD Documents
 └── README.md
 ```
 
-Read the relevant doc in `/docs` before starting on your module — each one covers folder structure, conventions, and your specific ownership area in detail.
-
 ---
 
-## Team & Module Ownership
-
-The engineering workflow is cleanly divided into a **Solo Backend Lead** (responsible for 100% of the backend and all REST APIs) and **Frontend Team Members (M1–M4)** who build the UI, client state, and consume the backend endpoints:
-
-### Backend Track (Solo Backend Lead — You)
-> **Full Backend & API Ownership:** Responsible for the entire Express + TypeScript architecture, MongoDB schemas, all 43 REST API endpoints, BullMQ workers, and server security.
-
-| Phase | Domain Modules | Core Responsibilities & Deliverables | APIs Delivered |
-| :--- | :--- | :--- | :--- |
-| **Phase 1: Foundation & Identity** | `auth`, `users` | Express bootstrap, MongoDB connection pool, JWT HttpOnly cookie session management, Zod request validator, user profiles, password recovery, and role guards (`STUDENT`, `ADMIN`). | `POST /auth/*`, `GET/PUT /users/*` |
-| **Phase 2: Content & Marketing** | `courses`, `contact` | Master course catalog, faceted search & filtering, syllabus tree endpoints, category listings, and public contact inquiries. | `GET /courses/*`, `GET /categories`, `POST /contact` |
-| **Phase 3: Commerce & Local Payments** | `cart`, `orders`, `payments` | Hybrid cart (guest session & student), promo coupon calculations, checkout ledger, Pakistani payment rails (Bank Wire, Easypaisa, JazzCash), and slip verification audit endpoints. | `* /cart/*`, `* /orders/*`, `* /payments/*` |
-| **Phase 4: Learning Management (LMS)** | `enrollments`, `learning` | Course access grants, lecture player streaming context, downloadable attachments, lesson completion toggles, and atomic progress tracking (0–100%). | `GET /student/*`, `GET/POST /learning/*` |
-| **Phase 5: Evaluation & Trust Registry** | `assessments`, `certificates` | 120-minute timed MCQ exam engine, automated scoring (70% pass mark), BullMQ Redis certificate PDF generation, vector QR codes, and public `/verify` registry. | `* /assessments/*`, `* /certificates/*` |
-
----
-
-### Frontend Track (Team Distribution — 4 Frontend Members M1 to M4)
-> **Frontend Engineering Team:** 4 developers build responsive React components, manage UI/UX state, and connect to the backend REST APIs. Full interactive developer checklists and component breakdowns are in [**`docs/FRONTEND-TEAM-TASK-DIVISION.md`**](docs/FRONTEND-TEAM-TASK-DIVISION.md).
-
-| Member | Focus Area | Pages & Screens Owned | Redux & Services Owned | Consumed Backend APIs | Screenshots Assigned |
-| :--- | :--- | :--- | :--- | :--- | :---: |
-| **M1** | **Auth, Profile & Dashboard** | `/login`, `/register`, `/forgot-password`, `/reset-password`, `/profile`, `/dashboard` | `authSlice.js`, `authService.js`, `profileService.js`, `AuthLayout.jsx`, `DashboardLayout.jsx` | All `/auth/*`, `/users/*`, `/student/dashboard-summary` | **10 Screens** |
-| **M2** | **Marketing & Course Discovery** | `/` (Home), `/courses` (Catalog), `/courses/:slug` (Details), `/about`, `/pricing`, `/faq`, `/contact` | `courseService.js`, `contactService.js`, `PublicLayout.jsx`, `CourseCard.jsx`, `SyllabusTree.jsx` | All `/courses/*`, `/categories`, `/contact` | **15 Screens** |
-| **M3** | **Cart, Checkout, Orders & Certificates** | `/checkout`, `/order/success`, `/order/pending`, `/order/failed`, `/orders`, `/certificate/:certId`, `/verify` | `cartSlice.js`, `cartService.js`, `checkoutService.js`, `orderService.js`, `certificateService.js` | All `/cart/*`, `/orders/*`, `/payments/*`, `/certificates/*` | **22 Screens** |
-| **M4** | **LMS Player & 120m Assessment Engine** | `/my-courses`, `/learn/:courseId`, `/learn/:courseId/lesson/:id`, `/learn/:courseId/assessment/*` | `learningService.js`, `assessmentService.js`, `LearningLayout.jsx`, `ExamLayout.jsx` | All `/enrollments/*`, `/learning/*`, `/assessments/*` | **24 Screens** |
-
----
-
-### 🎨 Exact UI Screenshots Mapping (71 Screens in `ui-screenshots/`)
-
-#### 👤 Member 1 (M1) — Auth, Profile & Dashboard Hub (10 Screens)
-* `Student login.png` & `Login-Mobile.png` — Student Login screen
-* `Create Account.png` & `Create account-mobile.png` — Student Registration screen (Google + Apple OAuth)
-* `student Profile-desktop.png`, `student Profile-desktop-1.png` & `Student Profile-mob.png` — Student Profile, Password Change & Email Notification preferences
-* `dashboard.png`, `dashboard-1.png` & `Dashboard-mb.png` — Student LMS Dashboard Hub (KPI widgets, Continue Learning, My Courses summary)
-
-#### 🌐 Member 2 (M2) — Marketing & Course Discovery (15 Screens)
-* `Home.png` & `home-mobile.png` — Public Landing Page (Hero, Stats, Testimonials, FAQ accordion, CTA)
-* `Course catalog.png` & `Course catalog-mobile.png` — Course Directory with Search, Sort & Category/Level Filters
-* `Course details.png` & `Course details-1.png` — Course Syllabus, Outcomes, Video Preview Modal & Sticky Enroll Card
-* `About.png` — About MSN Academy, Mission, Core Values & Impact Metrics
-* `Pricing.png` & `Pricing-1.png` — Transparent Pricing Guide (PKR 8k–18k), Inclusions Checklist & FAQs
-* `FAQs.png` & `FAQs-mobile.png` — Interactive FAQ Accordion with Category Pill Filtering
-* `Contact.png` & `Contact us-mobile.png` — Contact Inquiry Form with WhatsApp Integration Card
-* `Menu.png` & `Menu-1.png` — Mobile Navigation Hamburger Drawer
-
-#### 🛒 Member 3 (M3) — Cart, Checkout, Orders & Certificates (22 Screens)
-* **Cart, Checkout & Orders (14 Screens):**
-  * `Shopping cart.png` — Slide-Over Cart Drawer & Mobile Cart View (Item removal, Promo Code input)
-  * `Checkout.png` & `Checkout-1.png` — Guest vs. Student Checkout Form, PKR Order Summary & Multi-Step Stepper
-  * `Success.png`, `Payment successful-mb.png` & `Pass-mob.png` — Order Confirmation & Instant Access States
-  * `pending.png` & `Pending-mb.png` — Manual Bank/Wallet Payment Pending Notice (24h SLA) with "Check Status" CTA
-  * `Failed.png`, `Payment failed-mb.png` & `Fail-mob.png` — Payment Decline & Retry Screen
-  * `Order history.png`, `Order history-1.png` & `Order history-mob.png` — Student Orders Ledger, Filter Tabs & Invoice Receipt Modal
-* **Certificates & Public Verification Registry (8 Screens):**
-  * `certificate.png` & `certificate-1.png` — High-Resolution Certificate of Completion with Founder Signature & Security Seal
-  * `Certificate-mob.png` — Mobile Certificate Card with Scannable QR Code Box & "Verify Online" link
-  * `certificate verification.png`, `certificate verification-1.png` & `Certificate verification-mobile.png` — Public Verification Search with Sample Demo Chips (`MSN-DEMO-0001`, `MSN-DEMO-0002`)
-  * `verification complete.png` & `verification complete-1.png` — Authentic Certificate Verified Modal with Student Name & Course Details
-
-#### 🎓 Member 4 (M4) — LMS Player & 120-Minute Timed Assessment Engine (24 Screens)
-* **LMS Course Hub & Lecture Player (9 Screens):**
-  * `My courses.png`, `My courses-1.png` & `My courses-mb.png` — Enrolled Course Library (Tabs: All, In Progress, Completed)
-  * `course overview.png`, `course overview-1.png` & `Overview-mb.png` — Course Modules Tree, Syllabus Status & Downloadable Resources
-  * `lecture.png`, `lecture-1.png` & `Lecture-mb.png` — Distraction-Free Video Player, Lecture Description, Key Topics, Attachments & "✓ Mark as Complete"
-* **Timed Assessment Engine — 120 Mins (15 Screens):**
-  * `Course assessment.png`, `Course assessment-1.png` & `Course assessment-mb.png` — Exam Briefing Rules (70% pass threshold, 2-hour countdown)
-  * `Assessmet questions.png`, `Assessmet questions-1.png` & `asses. Questions-mb.png` — Live Timed MCQ Session with Question Navigator Grid & Flag for Review
-  * `Review and submit.png`, `Review and submit-1.png` & `Review-mb.png` — Pre-Submission Question Summary & Unanswered Questions Alert
-  * `go back.png` & `go back-1.png` — "Submit Assessment?" Final Submission Confirmation Safeguard Modal
-  * `assessment pass.png` & `assessment pass-1.png` — Exam Passed Result Screen (82% Score, Celebration Badge & Certificate Unlock CTA)
-  * `assessment fail.png` & `assessment fail-1.png` — Exam Failed Result Screen (55% Score, Unlimited Retakes CTA & Review Course CTA)
-
----
-
-## Getting Started
+## 🚀 Getting Started Locally
 
 ### Prerequisites
-- Node.js 20.x LTS
-- MongoDB (Atlas or local)
-- Redis (for background jobs)
-- Git
+* **Node.js**: v20.x or higher
+* **npm**: v10.x or higher
+* **MongoDB**: A free MongoDB Atlas cluster connection URI or local MongoDB instance
 
-### Setup
+---
 
+### Step 1: Clone the Repository
 ```bash
-# Clone the repo
-git clone https://github.com/<your-username>/msn-academy.git
+git clone https://github.com/MuhammadSohail400/msn-academy.git
 cd msn-academy
-
-# Frontend
-cd frontend
-npm install
-cp .env.example .env.local
-npm run dev
-
-# Backend (in a separate terminal)
-cd backend
-npm install
-cp .env.example .env.development
-npm run dev
 ```
 
-Frontend runs on `http://localhost:5173`, backend API on `http://localhost:5000/api/v1`.
+---
+
+### Step 2: Configure & Run Backend
+```bash
+cd backend
+npm install
+```
+
+Create a `.env.development` file in the `backend/` directory:
+```env
+PORT=5000
+NODE_ENV=development
+CLIENT_URL=http://localhost:5173
+CORS_ORIGIN=http://localhost:5173
+MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/msn_academy?retryWrites=true&w=majority
+JWT_SECRET=msn_super_secret_jwt_access_token_key_32chars!
+JWT_REFRESH_SECRET=msn_super_secret_jwt_refresh_token_key_32chars!
+COOKIE_SECRET=msn_cookie_signing_secret_key_32chars!
+PAYMENT_WEBHOOK_SECRET=msn_webhook_secret_key_default_32chars!
+RESEND_API_KEY=re_your_resend_api_key_here
+EMAIL_FROM=MSN Academy <onboarding@resend.dev>
+GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+```
+
+**Seed Initial Data:**
+```bash
+# Seed 6 industry courses
+npm run seed
+
+# Seed default admin account
+npm run seed:admin
+
+# Seed assessment MCQ banks
+npm run seed:assessments
+```
+
+**Start Backend Development Server:**
+```bash
+npm run dev
+# Running on http://localhost:5000 (API at http://localhost:5000/api/v1)
+```
 
 ---
 
-## Branching Strategy
+### Step 3: Configure & Run Frontend
+In a separate terminal window:
+```bash
+cd ../frontend
+npm install
+```
 
-- `main` — production-ready code only
-- `develop` — integration branch, all feature branches merge here first
-- `feature/backend-<module>-<feature-name>` — e.g. `feature/backend-auth-login`
-- `feature/frontend-<module>-<feature-name>` — e.g. `feature/frontend-catalog-search`
+Create a `.env` file in the `frontend/` directory:
+```env
+VITE_API_BASE_URL=http://localhost:5000/api/v1
+VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+```
 
-**Rules:**
-- Never push directly to `main` or `develop`
-- Open a PR into `develop`, get at least 1 approval before merging
-- PRs should be small and scoped to one feature/screen where possible
-
----
-
-## Contributing
-
-1. Pull latest `develop`: `git checkout develop && git pull`
-2. Create your feature branch: `git checkout -b feature/<track>-<module>-<name>`
-3. Commit with clear messages (e.g. `feat(auth): add login form validation`)
-4. Push and open a PR into `develop`
-5. Fill in the PR template, request review, address feedback, merge
+**Start Frontend Development Server:**
+```bash
+npm run dev
+# Running on http://localhost:5173
+```
 
 ---
 
-## Useful Links
+## 📡 Key API Endpoints Reference
 
-- Traceability Matrix (feature → screen mapping): [`docs/01-PRD.md`](file:///c:/Users/HS%20LAPTOP/Music/msn-academy/docs/01-PRD.md), section 26
-- API Endpoints Reference: [`docs/05-API-Specification.md`](file:///c:/Users/HS%20LAPTOP/Music/msn-academy/docs/05-API-Specification.md)
-- Database Schema: [`docs/02-Database-Design.md`](file:///c:/Users/HS%20LAPTOP/Music/msn-academy/docs/02-Database-Design.md)
+All endpoints are versioned under `/api/v1`:
+
+| Domain | Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- | :---: |
+| **System** | `GET` | `/health` | Server & uptime status check | ❌ |
+| **Auth** | `POST` | `/auth/register` | Register new student account | ❌ |
+| **Auth** | `POST` | `/auth/login` | Email/password sign in | ❌ |
+| **Auth** | `POST` | `/auth/oauth/google` | Google Identity Services token verification | ❌ |
+| **Auth** | `POST` | `/auth/verify-email` | Verify email with 6-digit OTP code | ❌ |
+| **Auth** | `POST` | `/auth/logout` | Clear HttpOnly session cookies | ❌ |
+| **Courses** | `GET` | `/courses` | Filterable course catalog | ❌ |
+| **Courses** | `GET` | `/courses/:slug` | Course details, syllabus & preview | ❌ |
+| **Cart** | `GET` | `/cart` | Retrieve current student/guest cart | ❌ |
+| **Cart** | `POST` | `/cart/items` | Add course to cart | ❌ |
+| **Orders** | `POST` | `/orders/checkout` | Create pending PKR order | ✅ |
+| **Learning**| `GET` | `/learning/:courseId/overview` | Course syllabus & lecture playlist | ✅ |
+| **Exams** | `POST` | `/assessments/:courseId/start` | Begin 120-minute timed MCQ exam | ✅ |
+| **Certificates** | `GET` | `/certificates/verify/:certId`| Public QR code verification registry | ❌ |
+
+---
+
+## 🚢 Deployment Architecture (Vercel)
+
+The application is deployed on Vercel as two decoupled, high-performance projects:
+
+1. **Frontend Project (`frontend/`):**
+   * **Framework:** Vite React SPA
+   * **Build Command:** `npm run build`
+   * **Output Directory:** `dist`
+   * **Routing:** Rewrites configured via `frontend/vercel.json` for zero-404 client-side routing.
+   * **Environment Variable:** `VITE_API_BASE_URL` set to the live backend URL.
+
+2. **Backend Project (`backend/`):**
+   * **Framework:** Serverless Node.js Express API
+   * **Entrypoint:** `backend/api/index.ts` with connection caching (reuses Mongoose pool across warm serverless invocations).
+   * **Routing:** `backend/vercel.json` routes all `/(.*)` requests into `api/index.ts`.
+   * **TypeScript Compilation:** Configured with CommonJS output for serverless execution.
+
+---
+
+## 👨‍💻 Author & Contributions
+
+* **Lead Architect & Developer:** [Muhammad Sohail](https://github.com/MuhammadSohail400)
+* **Repository:** [MuhammadSohail400/msn-academy](https://github.com/MuhammadSohail400/msn-academy)
+
+---
+
+## 📄 License
+
+This project is licensed under the [ISC License](LICENSE).
