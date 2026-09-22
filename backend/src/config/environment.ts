@@ -25,6 +25,10 @@ const environmentSchema = z.object({
   RESEND_API_KEY: z.string().optional(),
   EMAIL_FROM: z.string().default('MSN Academy <onboarding@resend.dev>'),
   ADMIN_EMAIL: z.string().default('admissions@msnacademy.pk'),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  SMTP_HOST: z.string().default('smtp.gmail.com'),
+  SMTP_PORT: z.string().default('465').transform((val) => parseInt(val, 10)),
 });
 
 const parsed = environmentSchema.safeParse(process.env);
