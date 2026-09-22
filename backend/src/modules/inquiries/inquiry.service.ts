@@ -22,18 +22,18 @@ export class InquiryService {
       '📬 New contact inquiry received'
     );
 
-    // Asynchronously dispatch auto-reply to visitor & lead alert to admin (non-blocking)
-    emailService
-      .handleContactInquiry({
+    // Dispatch auto-reply to visitor & lead alert to admin (awaited for serverless runtime stability)
+    try {
+      await emailService.handleContactInquiry({
         fullName: input.fullName,
         email: input.email,
         phone: input.phone,
         subject: input.subject,
         message: input.message,
-      })
-      .catch((err) => {
-        logger.error({ err: err.message }, 'Failed to dispatch contact inquiry emails');
       });
+    } catch (err: any) {
+      logger.error({ err: err.message }, 'Failed to dispatch contact inquiry emails');
+    }
 
     return {
       inquiryId: inquiry._id.toString(),

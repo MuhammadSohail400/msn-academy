@@ -43,17 +43,17 @@ export class AuthService {
       emailVerificationExpires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
     });
 
-    // Asynchronously dispatch email verification code
-    emailService
-      .sendVerificationEmail(
+    // Dispatch email verification code (awaited to guarantee completion in serverless/Vercel functions)
+    try {
+      await emailService.sendVerificationEmail(
         user.email,
         user.fullName,
         verificationCode,
         `${env.CLIENT_URL}/verify-email?email=${encodeURIComponent(user.email)}&code=${verificationCode}`
-      )
-      .catch((err) => {
-        logger.error({ err: err.message }, 'Failed to dispatch registration verification email');
-      });
+      );
+    } catch (err: any) {
+      logger.error({ err: err.message }, 'Failed to dispatch registration verification email');
+    }
 
     const accessToken = signAccessToken({
       id: user._id.toString(),
@@ -135,13 +135,13 @@ export class AuthService {
     user.passwordResetExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes expiration
     await user.save({ validateBeforeSave: false });
 
-    // Send password reset email asynchronously
+    // Send password reset email (awaited for serverless runtime stability)
     const resetUrl = `${env.CLIENT_URL}/reset-password?token=${rawToken}`;
-    emailService
-      .sendPasswordResetEmail(user.email, user.fullName, resetUrl)
-      .catch((err) => {
-        logger.error({ err: err.message }, 'Failed to dispatch password reset email');
-      });
+    try {
+      await emailService.sendPasswordResetEmail(user.email, user.fullName, resetUrl);
+    } catch (err: any) {
+      logger.error({ err: err.message }, 'Failed to dispatch password reset email');
+    }
 
     return { resetToken: rawToken };
   }
@@ -189,12 +189,12 @@ export class AuthService {
     user.emailVerificationExpires = undefined;
     await user.save();
 
-    // Send welcome email after email verification
-    emailService
-      .sendWelcomeEmail(user.email, user.fullName, `${env.CLIENT_URL}/dashboard`)
-      .catch((err) => {
-        logger.error({ err: err.message }, 'Failed to dispatch welcome email');
-      });
+    // Send welcome email after email verification (awaited for serverless stability)
+    try {
+      await emailService.sendWelcomeEmail(user.email, user.fullName, `${env.CLIENT_URL}/dashboard`);
+    } catch (err: any) {
+      logger.error({ err: err.message }, 'Failed to dispatch welcome email');
+    }
   }
 
   /**
@@ -218,16 +218,16 @@ export class AuthService {
     user.emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
     await user.save({ validateBeforeSave: false });
 
-    emailService
-      .sendVerificationEmail(
+    try {
+      await emailService.sendVerificationEmail(
         user.email,
         user.fullName,
         rawCode,
         `${env.CLIENT_URL}/verify-email?email=${encodeURIComponent(user.email)}&code=${rawCode}`
-      )
-      .catch((err) => {
-        logger.error({ err: err.message }, 'Failed to dispatch verification email');
-      });
+      );
+    } catch (err: any) {
+      logger.error({ err: err.message }, 'Failed to dispatch verification email');
+    }
 
     return {
       code: process.env.NODE_ENV === 'development' ? rawCode : undefined,
