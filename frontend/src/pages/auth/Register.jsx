@@ -322,13 +322,13 @@ export default function Register() {
             />
             <span className="text-xs text-slate-500 leading-normal">
               I agree to the{' '}
-              <a href="#" className="text-brand-crimson hover:underline font-medium">
+              <Link to="/terms" target="_blank" rel="noopener noreferrer" className="text-brand-crimson hover:underline font-medium">
                 Terms of Use
-              </a>{' '}
+              </Link>{' '}
               and{' '}
-              <a href="#" className="text-brand-crimson hover:underline font-medium">
+              <Link to="/privacy" target="_blank" rel="noopener noreferrer" className="text-brand-crimson hover:underline font-medium">
                 Privacy Policy
-              </a>
+              </Link>
             </span>
           </label>
           {fieldErrors.agreeTerms && (

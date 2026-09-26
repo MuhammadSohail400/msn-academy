@@ -61,6 +61,20 @@ export default function CourseCatalog() {
     };
   }, []);
 
+  // Sync state if URL query params change (e.g., navigation from Footer or Header)
+  useEffect(() => {
+    const cat = searchParams.get('category');
+    if (cat) {
+      setSelectedCategory(cat);
+    } else if (searchParams.get('category') === null && selectedCategory !== 'All' && !searchParams.get('q')) {
+      setSelectedCategory('All');
+    }
+    const q = searchParams.get('q');
+    if (q !== null) {
+      setSearchQuery(q);
+    }
+  }, [searchParams]);
+
   // Debounced search input (400ms delay)
   const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
   useEffect(() => {

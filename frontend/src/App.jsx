@@ -7,6 +7,7 @@ import PublicLayout from './components/layout/PublicLayout';
 import AuthLayout from './components/layout/AuthLayout';
 import LmsLayout from './components/layout/LmsLayout';
 import ExamLayout from './components/layout/ExamLayout';
+import ScrollToTop from './components/layout/ScrollToTop';
 
 // Public pages — M2 (Marketing & Discovery) — Code Split via React.lazy
 const Home = lazy(() => import('./pages/public/Home'));
@@ -17,6 +18,8 @@ const Pricing = lazy(() => import('./pages/public/Pricing'));
 const FAQ = lazy(() => import('./pages/public/FAQ'));
 const Contact = lazy(() => import('./pages/public/Contact'));
 const VerifyCertificate = lazy(() => import('./pages/public/VerifyCertificate'));
+const Privacy = lazy(() => import('./pages/public/Privacy'));
+const Terms = lazy(() => import('./pages/public/Terms'));
 
 // Auth pages — M1 (Auth, Profile & Dashboard) — Code Split
 const Login = lazy(() => import('./pages/auth/Login'));
@@ -55,6 +58,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Suspense fallback={<PageFallback />}>
         <Routes>
           {/* Public marketing + commerce pages (M2, M3) */}
@@ -68,6 +72,8 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/verify" element={<VerifyCertificate />} />
             <Route path="/verify/:certId" element={<VerifyCertificate />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/order/success" element={<OrderSuccess />} />
