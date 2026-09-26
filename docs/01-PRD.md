@@ -1906,16 +1906,48 @@ As explicitly specified in `Checkout.png`:
 | **FR-MISC-001** | Contact Us Lead Submission | `Contact.png`, `Contact us-mobile.png` | Support Flow | Must Have | Confirmed |
 | **FR-MISC-002** | Categorized Help Centre FAQs | `FAQs.png`, `FAQs-mobile.png` | Support Flow | Should Have | Confirmed |
 | **FR-MISC-003** | Transparent Pricing Directory | `Pricing.png`, `Pricing-1.png` | Discovery Flow | Should Have | Confirmed |
+| **FR-ADM-001** | Executive KPI & Revenue Analytics | Admin Dashboard | Operational Governance | Must Have | Confirmed |
+| **FR-ADM-002** | Manual Payment Slip Verification Desk | Admin Payments | Settlement & Fulfillment | Must Have | Confirmed |
+| **FR-ADM-003** | Course Management CRUD & Pricing | Admin Courses | Content Operations | Must Have | Confirmed |
+| **FR-ADM-004** | Commercial Orders Master Ledger | Admin Orders | Financial Audit | Must Have | Confirmed |
+| **FR-ADM-005** | Student Directory & Role Governance | Admin Users | User Operations | Must Have | Confirmed |
+| **FR-ADM-006** | Contact Leads Pipeline Tracker | Admin Inquiries | Admissions & CRM | Should Have | Confirmed |
 
 ---
 
-## 27. Final Product Summary
+## 27. Module M5 — Administrative Management & Academy Operations Suite
 
-* **What the Platform Does:** MSN Academy is a modern, career-focused vocational technology Learning Management System that eliminates recurring subscription barriers in favor of transparent, one-time course fees denominated in PKR. It bridges the gap between theoretical schooling and digital industry employment through hands-on curriculums, rigorous automated competency assessments, and publicly verifiable digital credentials.
+The Admin Operations Suite provides academy leadership with a secure, centralized web portal to manage enrollments, revenue, student records, and content.
+
+### 27.1 Business Objectives
+1. **Accelerate Student Onboarding:** Reduce the manual bank transfer verification cycle from 24 hours to under 2 minutes through a dedicated verification desk.
+2. **Dynamic Course Operations:** Allow immediate updates to course pricing, curriculum, and publication states without manual developer interventions or database edits.
+3. **Financial Transparency:** Real-time visibility into daily, weekly, and gross revenue generated in Pakistani Rupees (PKR).
+
+### 27.2 Admin Suite Core Capabilities
+1. **Executive Dashboard (`/admin`):**
+   * Real-time metrics: Gross Revenue (PKR), Active Students, Published Courses, Pending Payment Verifications.
+   * Actionable alerts banner for unreviewed bank deposit slips.
+2. **Payment Verification Desk (`/admin/payments`):**
+   * High-resolution viewer for uploaded deposit receipts and Transaction IDs.
+   * 1-Click "Approve & Provision" action that atomically creates an active enrollment, transitions order status to `COMPLETED`, and dispatches confirmation email.
+3. **Course Manager (`/admin/courses`):**
+   * Full CRUD interface to author courses, set pricing, assign categories, and toggle published states.
+4. **Orders Master Ledger (`/admin/orders`):**
+   * Centralized ledger showing all commercial transactions across students and payment methods.
+5. **Student Directory (`/admin/users`):**
+   * Searchable student registry with verification badges, enrollment counts, and role elevation.
+6. **Admissions CRM (`/admin/inquiries`):**
+   * Contact inquiries tracking with status workflows (`NEW` ➔ `IN_PROGRESS` ➔ `RESOLVED`).
+
+---
+
+## 28. Final Product Summary
+
+* **What the Platform Does:** MSN Academy is a modern, career-focused vocational technology Learning Management System that eliminates recurring subscription barriers in favor of transparent, one-time course fees denominated in PKR. It bridges the gap between theoretical schooling and digital industry employment through hands-on curriculums, rigorous automated competency assessments, publicly verifiable digital credentials, and a comprehensive administrative operations portal.
 * **Main User Journey:** 
-  $$\text{Discover Course} \longrightarrow \text{Add to Cart} \longrightarrow \text{Checkout (Guest/Student via Bank/Wallet)} \longrightarrow \text{Stream Video Lectures} \longrightarrow \text{Complete Lessons (100\%)} \longrightarrow \text{Pass 2-Hour MCQ Exam } (\ge 70\%) \longrightarrow \text{Download / Verify Certificate}$$
-* **Core MVP Scope:** 27 synchronized desktop and mobile screens encompassing discovery marketing, guest/student commerce, student LMS learning player, timed examination engine, result distribution, certificate rendering with PDF generation, and public verification lookup.
-* **Major Unresolved Architectural Decisions:** Integration of an automated online payment aggregator (to eliminate the 24-hour manual verification window for bank/wallet payments), selection of a video streaming infrastructure provider, and determination of back-office administrative tooling for manual payment validation.
+  $$\text{Discover Course} \longrightarrow \text{Add to Cart} \longrightarrow \text{Checkout (Bank/Wallet)} \longrightarrow \text{Admin Verifies Payment} \longrightarrow \text{Stream Video Lectures} \longrightarrow \text{Pass Exam } (\ge 70\%) \longrightarrow \text{Download / Verify Certificate}$$
+* **Core MVP Scope:** 27 synchronized student screens plus complete administrative governance portal (M5) encompassing analytics, course management, payment approval desk, orders audit, and student records.
 
 ---
-*End of Product Requirements Document — Baseline v1.0.0*
+*End of Product Requirements Document — Baseline v1.1.0*

@@ -995,7 +995,49 @@ All templates share a standardized master layout:
 
 ---
 
-## 39. Final Backend Architecture Summary
+## 40. Administrative Operations & Management Module (`admin.module`)
+
+To empower academy administrators with centralized operational control, the backend provides an authoritative administrative suite strictly protected by `roleGuard('ADMIN')`.
+
+### 40.1 Architecture & Role-Based Access Control Flow
+
+```mermaid
+graph TD
+    Client[Admin Client Application] -->|JWT Auth Cookie + CSRF| AuthGuard[authGuard Middleware]
+    AuthGuard -->|Decoded req.user| RoleGuard[roleGuard('ADMIN')]
+    
+    RoleGuard -->|Authorized: role == 'ADMIN'| AdminRouter[Admin Central Sub-Router]
+    RoleGuard -->|Forbidden: role == 'STUDENT'| ForbiddenRes[HTTP 403 Forbidden: Admin privileges required]
+    
+    AdminRouter --> AdminStats[AdminController.getStats]
+    AdminRouter --> CourseCRUD[CourseController.create / update / delete]
+    AdminRouter --> PaymentDesk[PaymentController.getAllPayments & adminReview]
+    AdminRouter --> OrderLedger[OrderController.getAllOrders]
+    AdminRouter --> UserDir[AdminController.getUsers & updateUserRole]
+    AdminRouter --> InquiryDesk[InquiryController.getAllInquiries & updateStatus]
+
+    AdminStats & CourseCRUD & PaymentDesk & OrderLedger & UserDir & InquiryDesk --> MongooseSession[MongoDB Multi-Document Session]
+```
+
+### 40.2 Administrative Endpoint Directory & Capabilities
+
+| Endpoint | Verb | Middleware | Controller & Method | Business Rule & Persistence Effect |
+| :--- | :--- | :--- | :--- | :--- |
+| `/api/v1/admin/stats` | `GET` | `authGuard`, `roleGuard('ADMIN')` | `AdminController.getStats` | Aggregates Gross Revenue (PKR), Enrolled Students, Active Courses, Pending Proofs Count, Open Inquiries. |
+| `/api/v1/courses` | `POST` | `authGuard`, `roleGuard('ADMIN')`, `validateRequest` | `CourseController.createCourse` | Validates Zod schema, generates unique slug, initializes new course document. |
+| `/api/v1/courses/:id` | `PUT` | `authGuard`, `roleGuard('ADMIN')`, `validateRequest` | `CourseController.updateCourse` | Updates course details, pricing, syllabus, and publish status (`DRAFT`/`PUBLISHED`). |
+| `/api/v1/courses/:id` | `DELETE` | `authGuard`, `roleGuard('ADMIN')` | `CourseController.deleteCourse` | Archives/deletes course record after verifying no active enrollments exist. |
+| `/api/v1/payments/admin/all` | `GET` | `authGuard`, `roleGuard('ADMIN')` | `PaymentController.getAllPayments` | Paginated payment list with search, method, and status filters (`PENDING`, `UNDER_REVIEW`, `COMPLETED`, `FAILED`). |
+| `/api/v1/payments/:id/admin-review` | `PATCH` | `authGuard`, `roleGuard('ADMIN')`, `validateRequest` | `PaymentController.adminReview` | Approves/rejects payment proof. On approval, triggers atomic enrollment provisioning and dispatches receipt email. |
+| `/api/v1/orders/admin/all` | `GET` | `authGuard`, `roleGuard('ADMIN')` | `OrderController.getAllOrders` | System-wide commercial order ledger with student details, items, amounts, and payment methods. |
+| `/api/v1/admin/users` | `GET` | `authGuard`, `roleGuard('ADMIN')` | `AdminController.getUsers` | Paginated user directory with search by name/email, enrollment count, and verification status. |
+| `/api/v1/admin/users/:id/role` | `PATCH` | `authGuard`, `roleGuard('ADMIN')`, `validateRequest` | `AdminController.updateUserRole` | Updates user role between `STUDENT` and `ADMIN`. |
+| `/api/v1/inquiries/admin/all` | `GET` | `authGuard`, `roleGuard('ADMIN')` | `InquiryController.getAllInquiries` | Contact leads list with status filtering (`NEW`, `IN_PROGRESS`, `RESOLVED`). |
+| `/api/v1/inquiries/admin/:id/status` | `PATCH` | `authGuard`, `roleGuard('ADMIN')`, `validateRequest` | `InquiryController.updateStatus` | Updates inquiry follow-up status. |
+
+---
+
+## 41. Final Backend Architecture Summary
 
 ```mermaid
 graph TD

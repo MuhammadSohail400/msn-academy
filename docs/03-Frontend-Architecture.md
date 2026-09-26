@@ -1343,7 +1343,51 @@ Backend Track (Solo Backend Lead)                       Frontend Track (Team M1�
 
 ---
 
-## 17. Summary & Verification Checklist
+## 17. Administrative Portal Architecture (Milestone M5)
+
+To provide academy administrators with a high-efficiency command center, the frontend architecture introduces the **Admin Operations Portal**.
+
+### 17.1 Layout Archetype & Role Guard Flow
+
+```mermaid
+graph TD
+    Browser[Admin Browser] -->|Navigates to /admin/*| AdminRoute[AdminRoute Component]
+    AdminRoute -->|Check: isAuthenticated && user.role === 'ADMIN'| Decision{Authorized?}
+    
+    Decision -->|Yes| AdminLayout[AdminLayout Shell]
+    Decision -->|No: Not Logged In| RedirectLogin[Navigate to /login?redirect=/admin]
+    Decision -->|No: Role == 'STUDENT'| RedirectDashboard[Navigate to /dashboard with Toast Alert]
+    
+    AdminLayout --> SideNav[Admin Slate-Navy Sidebar]
+    AdminLayout --> TopBar[Admin TopBar: Breadcrumbs & Quick Site Link]
+    AdminLayout --> OutletContainer[<Outlet /> Page Container]
+    
+    OutletContainer --> AdminDashboard[/admin - Live Analytics & KPIs]
+    OutletContainer --> AdminCourses[/admin/courses - Catalog CRUD & Pricing]
+    OutletContainer --> AdminPayments[/admin/payments - Bank Slip Verification Desk]
+    OutletContainer --> AdminOrders[/admin/orders - Commercial Ledger]
+    OutletContainer --> AdminUsers[/admin/users - Student Directory]
+    OutletContainer --> AdminInquiries[/admin/inquiries - Contact Leads Pipeline]
+```
+
+### 17.2 Administrative Routing Structure
+
+| Path | Route Element | Guard | Key Capabilities & Features |
+| :--- | :--- | :--- | :--- |
+| `/admin` | `AdminDashboard` | `AdminRoute` | Real-time Gross Revenue (PKR), Active Student Count, Pending Proofs Alert, Recent Orders. |
+| `/admin/courses` | `AdminCourses` | `AdminRoute` | Course listing, Publish/Draft status toggle, Add/Edit Course modal dialog. |
+| `/admin/payments` | `AdminPayments` | `AdminRoute` | Manual bank slip review, Transaction ID check, 1-click "Approve & Provision Enrollment". |
+| `/admin/orders` | `AdminOrders` | `AdminRoute` | Commercial ledger across all students, filterable by date, payment method, and status. |
+| `/admin/users` | `AdminUsers` | `AdminRoute` | Student & Admin directory with search, verification badge, and role management. |
+| `/admin/inquiries` | `AdminInquiries` | `AdminRoute` | Contact form submissions tracker with status workflow (`NEW` ➔ `IN_PROGRESS` ➔ `RESOLVED`). |
+
+### 17.3 Integration with LMS Navigation
+* When an authenticated user possesses the role `ADMIN`, `LmsTopBar.jsx` renders a high-visibility badge: **"Admin Portal →"** linking directly to `/admin`.
+* Inside `AdminLayout`, a reciprocal shortcut **"← Back to Academy"** allows instant navigation back to the student discovery catalog.
+
+---
+
+## 18. Summary & Verification Checklist
 
 * [x] **React.js Single-Page Application (SPA)** architecture established with **Vite**.
 * [x] **Modern JavaScript (ES6+)** syntax applied across all components (`.jsx`) and modules (`.js`).

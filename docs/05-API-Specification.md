@@ -3836,38 +3836,122 @@ Public / Authenticated
 
 ---
 
-## 41. Final API Architecture Summary
+## 41. Administrative Operations REST API Specification
+
+All endpoints in this section strictly require authentication and the `ADMIN` role. Unauthorized requests return `401 Unauthorized` or `403 Forbidden`.
+
+### 41.1 Admin Overview Analytics
+* **Endpoint:** `GET /api/v1/admin/stats`
+* **Access Control:** `authGuard` + `roleGuard('ADMIN')`
+* **Description:** Provides executive KPIs, gross revenue calculations, and pending operational tasks.
+* **Success Response (200 OK):**
+```json
+{
+  "success": true,
+  "message": "Admin metrics retrieved successfully",
+  "data": {
+    "grossRevenuePKR": 185000,
+    "totalStudents": 420,
+    "activeCourses": 6,
+    "pendingPaymentReviews": 3,
+    "openInquiries": 5,
+    "recentOrders": [
+      {
+        "id": "673f8a...",
+        "orderNumber": "ORD-2026-0042",
+        "studentName": "Ali Khan",
+        "totalAmount": 8500,
+        "paymentMethod": "BANK_TRANSFER",
+        "status": "PENDING",
+        "createdAt": "2026-09-26T14:30:00.000Z"
+      }
+    ]
+  }
+}
+```
+
+### 41.2 Admin Course Management CRUD
+* **Endpoint:** `POST /api/v1/courses`
+  * **Access:** `ADMIN`
+  * **Request Body:** `{ title, slug, subtitle, description, category, level, price, originalPrice, thumbnail, previewVideoUrl, durationHours }`
+  * **Success Response (201 Created):** New course object.
+* **Endpoint:** `PUT /api/v1/courses/:id`
+  * **Access:** `ADMIN`
+  * **Request Body:** Partial or full course update schema.
+  * **Success Response (200 OK):** Updated course document.
+* **Endpoint:** `DELETE /api/v1/courses/:id`
+  * **Access:** `ADMIN`
+  * **Success Response (200 OK):** `{ "success": true, "message": "Course deleted successfully" }`
+
+### 41.3 Admin Payment Verification Desk
+* **Endpoint:** `GET /api/v1/payments/admin/all`
+  * **Access:** `ADMIN`
+  * **Query Params:** `?page=1&limit=10&status=UNDER_REVIEW&search=0300`
+  * **Success Response (200 OK):** Paginated array of payment records with linked student, order details, and uploaded proof slips.
+
+### 41.4 Admin Commercial Orders Ledger
+* **Endpoint:** `GET /api/v1/orders/admin/all`
+  * **Access:** `ADMIN`
+  * **Query Params:** `?page=1&limit=15&status=COMPLETED&search=Ali`
+  * **Success Response (200 OK):** Paginated array of orders with customer contact and itemized line items.
+
+### 41.5 Admin Users Directory & Role Escalation
+* **Endpoint:** `GET /api/v1/admin/users`
+  * **Access:** `ADMIN`
+  * **Query Params:** `?page=1&limit=20&role=STUDENT&search=usman`
+  * **Success Response (200 OK):** Paginated student and admin profiles with enrollment counters.
+* **Endpoint:** `PATCH /api/v1/admin/users/:id/role`
+  * **Access:** `ADMIN`
+  * **Request Body:** `{ "role": "ADMIN" | "STUDENT" }`
+  * **Success Response (200 OK):** Updated user profile.
+
+### 41.6 Admin Contact Leads & Inquiries Pipeline
+* **Endpoint:** `GET /api/v1/inquiries/admin/all`
+  * **Access:** `ADMIN`
+  * **Query Params:** `?page=1&limit=20&status=NEW`
+  * **Success Response (200 OK):** Paginated contact submissions with sender details and inquiry messages.
+* **Endpoint:** `PATCH /api/v1/inquiries/admin/:id/status`
+  * **Access:** `ADMIN`
+  * **Request Body:** `{ "status": "NEW" | "IN_PROGRESS" | "RESOLVED" }`
+  * **Success Response (200 OK):** Updated inquiry record.
+
+---
+
+## 42. Final API Architecture Summary
 
 ```text
 MSN Academy API (/api/v1)
 │
 ├── Auth (Register, Login, Logout, Me, Forgot/Reset Password, Google OAuth)
 ├── Users (Profile View, Profile Update, Password Change)
-├── Courses (Catalog Listing, Slugs, Syllabus, Categories)
-├── Contact (Public Inquiry Submission)
+├── Courses (Catalog Listing, Slugs, Syllabus, Categories + Admin CRUD)
+├── Contact & Inquiries (Public Submission + Admin Leads Pipeline)
 ├── Cart (View Cart, Add Item, Remove Item, Clear Cart, Apply Promo)
-├── Orders (Checkout, Order History, Receipt Details)
-├── Payments (Initialize, Proof Submission, Status, Webhook, Admin Approval)
+├── Orders (Checkout, Order History, Receipt Details + Admin Master Ledger)
+├── Payments (Initialize, Proof Submission, Status, Webhook + Admin Verification Desk)
 ├── Enrollments (Student Courses, Dashboard Statistics)
 ├── Learning (Course Overview, Lesson Content Streaming)
 ├── Progress (Complete Lesson, Progress Synchronization)
 ├── Assessments (Briefing, Start Exam, Save Answer, Review, Submit, Result)
-└── Certificates (Student View, PDF Download, Public Verification)
+├── Certificates (Student View, PDF Download, Public Verification)
+└── Admin Operations (Executive Analytics Stats, User Directory & Roles)
 ```
 
 ### Metrics & Distribution:
-* **Total API Endpoints:** 43
+* **Total API Endpoints:** 53
 * **Public Endpoints:** 12
-* **Authenticated Endpoints:** 30
-* **Role-Protected Endpoints (`ADMIN`):** 1
+* **Authenticated Student Endpoints:** 30
+* **Role-Protected Endpoints (`ADMIN`):** 11
 * **Critical Integrity APIs:**
   * `POST /orders/checkout` (Server-side price enforcement)
-  * `POST /payments/:id/verify` and `PATCH /payments/:id/approve` (Financial settlement)
+  * `POST /payments/:id/verify` & `PATCH /payments/:id/admin-review` (Financial settlement & auto-enrollment)
+  * `POST /courses` & `PUT /courses/:id` (Course catalog governance)
   * `POST /assessments/:id/submit` (Server-side grading & tamper-proof certification)
 * **External Integrations:**
   * Google OAuth2 API
   * S3-compatible Object Storage (PDFs & Media)
+  * Nodemailer Gmail / SMTP (Transactional notifications)
   * Digital Payment Gateways (Webhook receiver)
 
 ---
-*End of API Specification Document — Baseline v1.0.0*
+*End of API Specification Document — Baseline v1.1.0*
