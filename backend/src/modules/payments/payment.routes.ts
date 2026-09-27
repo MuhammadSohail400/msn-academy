@@ -31,6 +31,7 @@ router.get('/webhook', (_req, res) => {
 router.use(authGuard);
 
 router.get('/', PaymentController.getAllPayments);
+router.get('/admin/all', roleGuard('ADMIN'), PaymentController.getAllPayments);
 router.post('/create', validateRequest({ body: createPaymentSchema }), PaymentController.createPayment);
 router.post(
   '/:paymentId/verify',

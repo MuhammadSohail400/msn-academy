@@ -20,4 +20,15 @@ export const createInquirySchema = z.object({
     .max(2000, 'Message cannot exceed 2000 characters'),
 });
 
+export const updateInquiryStatusSchema = z.object({
+  status: z.enum(['NEW', 'IN_PROGRESS', 'RESOLVED'], {
+    error: 'Status must be NEW, IN_PROGRESS, or RESOLVED',
+  }),
+});
+
+export const inquiryIdParamSchema = z.object({
+  inquiryId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid inquiry ID format'),
+});
+
 export type CreateInquiryInput = z.infer<typeof createInquirySchema>;
+export type UpdateInquiryStatusInput = z.infer<typeof updateInquiryStatusSchema>;

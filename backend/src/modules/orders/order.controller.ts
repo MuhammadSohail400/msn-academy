@@ -51,4 +51,21 @@ export class OrderController {
       next(error);
     }
   }
+
+  /**
+   * GET /api/v1/orders/admin/all
+   * Admin only
+   */
+  public static async getAllAdminOrders(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const result = await OrderService.getAllAdminOrders(req.query as any);
+      res.status(200).json(
+        ApiResponse.ok((result as any).orders, 'Admin orders ledger retrieved successfully', {
+          pagination: (result as any).pagination,
+        })
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
 }

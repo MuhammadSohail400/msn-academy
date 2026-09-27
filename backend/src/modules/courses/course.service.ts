@@ -277,4 +277,81 @@ export class CourseService {
 
     return result;
   }
+
+  /**
+   * Admin: Creates a new course in the catalog.
+   */
+  public static async createCourse(input: any): Promise<ICourse> {
+    const slug = input.slug || input.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    
+    const existing = await Course.findOne({ slug });
+    if (existing) {
+      throw ApiError.conflict(`A course with slug '${slug}' already exists. Please provide a unique slug.`);
+    }
+
+    const course = await Course.create({
+      ...input,
+      slug,
+      status: input.status || 'PUBLISHED',
+      currency: input.currency || 'PKR',
+    });
+
+    // Invalidate categories cache
+    try {
+      await redis.del(CATEGORIES_CACHE_KEY);
+    } catch (e) {
+      // ignore
+    }
+
+    return course;
+  }
+
+  /**
+   * Admin: Updates an existing course.
+   */
+  public static async updateCourse(courseId: string, input: any): Promise<ICourse> {
+    const course = await Course.findById(courseId);
+    if (!course || course.isDeleted) {
+      throw ApiError.notFound('Course not found.');
+    }
+
+    if (input.slug && input.slug !== course.slug) {
+      const existing = await Course.findOne({ slug: input.slug, _id: { $ne: course._id } });
+      if (existing) {
+        throw ApiError.conflict(`A course with slug '${input.slug}' already exists.`);
+      }
+    }
+
+    Object.assign(course, input);
+    await course.save();
+
+    try {
+      await redis.del(CATEGORIES_CACHE_KEY);
+    } catch (e) {
+      // ignore
+    }
+
+    return course;
+  }
+
+  /**
+   * Admin: Soft-deletes / archives a course.
+   */
+  public static async deleteCourse(courseId: string): Promise<void> {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      throw ApiError.notFound('Course not found.');
+    }
+
+    course.isDeleted = true;
+    course.deletedAt = new Date();
+    course.status = 'ARCHIVED';
+    await course.save();
+
+    try {
+      await redis.del(CATEGORIES_CACHE_KEY);
+    } catch (e) {
+      // ignore
+    }
+  }
 }

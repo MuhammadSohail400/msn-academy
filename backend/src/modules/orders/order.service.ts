@@ -205,4 +205,69 @@ export class OrderService {
       createdAt: order.createdAt.toISOString(),
     };
   }
+
+  /**
+   * Admin: Retrieves system-wide commercial order ledger.
+   */
+  public static async getAllAdminOrders(query: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    search?: string;
+  }): Promise<Record<string, unknown>> {
+    const page = Math.max(1, Number(query.page) || 1);
+    const limit = Math.min(100, Math.max(1, Number(query.limit) || 15));
+    const skip = (page - 1) * limit;
+
+    const filter: Record<string, any> = {};
+    if (query.status && query.status !== 'ALL') {
+      filter.status = query.status.toUpperCase();
+    }
+    if (query.search && query.search.trim()) {
+      const regex = new RegExp(query.search.trim(), 'i');
+      filter.$or = [
+        { orderNumber: regex },
+        { 'billingInfo.fullName': regex },
+        { 'billingInfo.email': regex },
+      ];
+    }
+
+    const [orders, total] = await Promise.all([
+      Order.find(filter)
+        .populate('userId', 'fullName email phoneNumber')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Order.countDocuments(filter),
+    ]);
+
+    const totalPages = Math.ceil(total / limit) || 1;
+
+    const formattedOrders = orders.map((o: any) => ({
+      id: o._id.toString(),
+      orderNumber: o.orderNumber,
+      studentName: o.userId?.fullName || o.billingInfo?.fullName || 'Student',
+      studentEmail: o.userId?.email || o.billingInfo?.email || 'N/A',
+      studentPhone: o.userId?.phoneNumber || o.billingInfo?.phone || 'N/A',
+      status: o.status,
+      totalAmount: o.totalAmount,
+      currency: o.currency,
+      paymentMethod: o.paymentMethod,
+      items: o.items || [],
+      createdAt: o.createdAt ? o.createdAt.toISOString() : null,
+    }));
+
+    return {
+      orders: formattedOrders,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
+      },
+    };
+  }
 }

@@ -67,4 +67,45 @@ export class CourseController {
       next(error);
     }
   }
+
+  /**
+   * POST /api/v1/courses
+   * Admin only
+   */
+  public static async createCourse(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const course = await CourseService.createCourse(req.body);
+      res.status(201).json(ApiResponse.created(course, 'Course created successfully.'));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * PUT /api/v1/courses/:courseId
+   * Admin only
+   */
+  public static async updateCourse(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const courseId = req.params.courseId as string;
+      const course = await CourseService.updateCourse(courseId, req.body);
+      res.status(200).json(ApiResponse.ok(course, 'Course updated successfully.'));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * DELETE /api/v1/courses/:courseId
+   * Admin only
+   */
+  public static async deleteCourse(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const courseId = req.params.courseId as string;
+      await CourseService.deleteCourse(courseId);
+      res.status(200).json(ApiResponse.ok(null, 'Course deleted successfully.'));
+    } catch (error) {
+      next(error);
+    }
+  }
 }

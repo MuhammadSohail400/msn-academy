@@ -11,6 +11,7 @@ import enrollmentRoutes from '../modules/enrollments/enrollment.routes';
 import learningRoutes from '../modules/learning/learning.routes';
 import assessmentRoutes from '../modules/assessments/assessment.routes';
 import certificateRoutes from '../modules/certificates/certificate.routes';
+import adminRoutes from '../modules/admin/admin.routes';
 
 export const apiRouter = Router();
 
@@ -37,5 +38,8 @@ apiRouter.use('/learning', learningRoutes);
 // 6. Timed Assessment Engine & Verification Routes
 apiRouter.use('/assessments', assessmentRoutes);
 apiRouter.use('/certificates', certificateRoutes);
+
+// 7. Administrative Operations & Management Routes
+apiRouter.use('/admin', adminRoutes);
 
 export default apiRouter;
