@@ -25,6 +25,7 @@ apiRouter.get('/categories', CourseController.getCategories);
 
 // 3. Marketing & Engagement Routes
 apiRouter.use('/contact', inquiryRoutes);
+apiRouter.use('/inquiries', inquiryRoutes); // Admin CRM endpoints: /inquiries/admin/all, /inquiries/admin/:id/status
 
 // 4. Commerce, Cart & Payment Routes
 apiRouter.use('/cart', cartRoutes);
