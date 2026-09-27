@@ -18,7 +18,7 @@ export default function PublicHeader() {
   const dispatch = useDispatch();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const cartCount = useSelector((state) => state.cart?.items?.length ?? 0);
-  const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated ?? false);
+  const { isAuthenticated, user } = useSelector((state) => state.auth || {});
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-brand-navy text-white">
@@ -77,6 +77,16 @@ export default function PublicHeader() {
               </span>
             )}
           </button>
+
+          {/* Admin Portal Shortcut if logged in as Admin */}
+          {user?.role === 'ADMIN' && (
+            <Link
+              to="/admin"
+              className="hidden lg:inline-flex h-10 items-center justify-center rounded-xl border border-amber-500/30 bg-amber-500/10 px-3.5 text-xs font-semibold text-amber-400 hover:bg-amber-500/20 transition-colors"
+            >
+              Admin Portal ⚡
+            </Link>
+          )}
 
           {/* Student Login Button */}
           <Link

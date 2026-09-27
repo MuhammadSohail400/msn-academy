@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Bell, ChevronRight, LogOut, Menu } from 'lucide-react';
+import { Bell, ChevronRight, LogOut, Menu, Shield } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../features/auth/slice/authSlice';
 
@@ -47,6 +47,16 @@ export default function LmsTopBar({ onMenuClick }) {
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3">
+        {user?.role === 'ADMIN' && (
+          <Link
+            to="/admin"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-600 hover:bg-amber-500/20 transition-all shadow-sm"
+          >
+            <Shield className="h-3.5 w-3.5" />
+            <span>Admin Portal</span>
+          </Link>
+        )}
+
         <button aria-label="Notifications" className="relative rounded-full p-2 hover:bg-gray-100 transition-colors">
           <Bell className="h-5 w-5 text-gray-600" />
         </button>

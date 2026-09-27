@@ -116,9 +116,10 @@ graph TD
 
 ## 5. Phased Execution Steps
 
-| Phase | Tasks | Deliverables |
-|---|---|---|
-| **Phase 1: Backend Admin APIs** | 1. Implement `/api/v1/admin/stats` controller & routes.<br>2. Implement Admin Course CRUD (`POST`, `PUT`, `DELETE`).<br>3. Add `GET /api/v1/payments/admin/all`.<br>4. Add `GET /api/v1/orders/admin/all`.<br>5. Add `GET /api/v1/admin/users`.<br>6. Add `GET /api/v1/inquiries/admin/all` & status update. | Complete Admin REST API suite protected by `roleGuard('ADMIN')`. |
-| **Phase 2: Frontend Infrastructure** | 1. Create `adminService.js` API client.<br>2. Build `AdminRoute.jsx` role guard.<br>3. Build `AdminLayout.jsx` with responsive sidebar and header.<br>4. Add "Admin Portal" link to `LmsTopBar.jsx` for admin users. | Protected Admin routing & shell structure. |
-| **Phase 3: Admin Pages UI** | 1. Build `AdminDashboard.jsx` (KPIs + pending actions).<br>2. Build `AdminPayments.jsx` (Proof inspection + 1-click approval).<br>3. Build `AdminCourses.jsx` (List + Create/Edit modal).<br>4. Build `AdminOrders.jsx` (Commercial ledger).<br>5. Build `AdminUsers.jsx` & `AdminInquiries.jsx`. | Full operational admin UI. |
-| **Phase 4: Testing & Verification** | 1. Test admin login (`admin@msnacademy.pk` / `Pakistan@12345`).<br>2. Test payment verification flow (Approve bank transfer ➔ student immediately gets access).<br>3. Test Course creation from UI.<br>4. Verify production build with Vite. | End-to-end verified admin portal. |
+| Phase | Tasks | Status | Deliverables |
+|---|---|---|---|
+| **Phase 1: Backend Admin APIs** | 1. Implement `/api/v1/admin/stats` controller & routes.<br>2. Implement Admin Course CRUD (`POST`, `PUT`, `DELETE`).<br>3. Add `GET /api/v1/payments/admin/all`.<br>4. Add `GET /api/v1/orders/admin/all`.<br>5. Add `GET /api/v1/admin/users`.<br>6. Add `GET /api/v1/inquiries/admin/all` & status update. | ✅ **COMPLETED** | Complete Admin REST API suite protected by `roleGuard('ADMIN')` + Automated Test Suite (100% pass). |
+| **Phase 2: Frontend Infrastructure** | 1. Create `adminService.js` API client.<br>2. Build `AdminRoute.jsx` role guard.<br>3. Build `AdminLayout.jsx` with responsive sidebar and header.<br>4. Add "Admin Portal" link to `LmsTopBar.jsx` & `PublicHeader.jsx` for admin users.<br>5. Wire `/admin/*` routes in `App.jsx` + scaffolds. | ✅ **COMPLETED** | Protected Admin routing & shell structure (`vite build` passed cleanly). |
+| **Phase 3: Admin Pages UI** | 1. Build `AdminDashboard.jsx` (KPIs + pending actions).<br>2. Build `AdminPayments.jsx` (Proof inspection + 1-click approval).<br>3. Build `AdminCourses.jsx` (List + Create/Edit modal).<br>4. Build `AdminOrders.jsx` (Commercial ledger).<br>5. Build `AdminUsers.jsx` & `AdminInquiries.jsx`. | ⏳ **NEXT** | Full operational admin UI with modals, filters & actions. |
+| **Phase 4: Testing & Verification** | 1. Test admin login (`admin@msnacademy.pk` / `Pakistan@12345`).<br>2. Test payment verification flow (Approve bank transfer ➔ student immediately gets access).<br>3. Test Course creation from UI.<br>4. Verify production build with Vite. | ⏳ Pending | End-to-end verified admin portal. |
+

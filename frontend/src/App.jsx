@@ -7,6 +7,8 @@ import PublicLayout from './components/layout/PublicLayout';
 import AuthLayout from './components/layout/AuthLayout';
 import LmsLayout from './components/layout/LmsLayout';
 import ExamLayout from './components/layout/ExamLayout';
+import AdminLayout from './components/layout/AdminLayout';
+import AdminRoute from './components/auth/AdminRoute';
 import ScrollToTop from './components/layout/ScrollToTop';
 
 // Public pages — M2 (Marketing & Discovery) — Code Split via React.lazy
@@ -52,6 +54,14 @@ const OrderHistory = lazy(() => import('./pages/checkout/OrderHistory'));
 
 // Certificate pages — M3 — Code Split
 const CertificateView = lazy(() => import('./pages/certificates/CertificateView'));
+
+// Administrative Suite — M5 — Code Split
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminCourses = lazy(() => import('./pages/admin/AdminCourses'));
+const AdminPayments = lazy(() => import('./pages/admin/AdminPayments'));
+const AdminOrders = lazy(() => import('./pages/admin/AdminOrders'));
+const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'));
+const AdminInquiries = lazy(() => import('./pages/admin/AdminInquiries'));
 
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -107,6 +117,22 @@ export default function App() {
           {/* Distraction-free active exam shell (M4 timed engine) */}
           <Route element={<ExamLayout />}>
             <Route path="/learn/:courseId/assessment/questions" element={<AssessmentQuestions />} />
+          </Route>
+
+          {/* Administrative Operations Suite (M5) — RBAC Protected */}
+          <Route
+            element={
+              <AdminRoute>
+                <AdminLayout />
+              </AdminRoute>
+            }
+          >
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/courses" element={<AdminCourses />} />
+            <Route path="/admin/payments" element={<AdminPayments />} />
+            <Route path="/admin/orders" element={<AdminOrders />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/inquiries" element={<AdminInquiries />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
