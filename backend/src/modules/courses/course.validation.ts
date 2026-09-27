@@ -10,8 +10,8 @@ export const getCoursesQuerySchema = z.object({
     .string()
     .optional()
     .transform((val) => (val ? parseInt(val, 10) : 12))
-    .refine((val) => !isNaN(val) && val >= 1 && val <= 50, {
-      message: 'Limit must be between 1 and 50',
+    .refine((val) => !isNaN(val) && val >= 1 && val <= 100, {
+      message: 'Limit must be between 1 and 100',
     }),
   search: z.string().trim().optional(),
   category: z

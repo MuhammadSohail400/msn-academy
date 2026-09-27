@@ -29,7 +29,7 @@ export default function AdminOrders() {
     setIsLoading(true);
     setError(null);
     try {
-      const params = { limit: 100 };
+      const params = { limit: 50 }; // Backend schema cap is 50
       if (statusFilter !== 'ALL') {
         params.status = statusFilter;
       }

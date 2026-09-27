@@ -35,7 +35,7 @@ export default function AdminPayments() {
     setIsLoading(true);
     setError(null);
     try {
-      const params = { limit: 100 };
+      const params = { limit: 50 }; // Backend schema cap is 50
       if (statusFilter !== 'ALL') {
         params.status = statusFilter;
       }
@@ -93,7 +93,8 @@ export default function AdminPayments() {
         ...(status === 'REJECTED' && { rejectionReason: rejectionReason.trim() }),
       };
 
-      const res = await adminService.verifyPayment(selectedPayment._id, payload);
+      const paymentId = selectedPayment.paymentId || selectedPayment._id || selectedPayment.id;
+      const res = await adminService.verifyPayment(paymentId, payload);
       if (res.success) {
         setActionSuccess(
           status === 'VERIFIED'
@@ -103,9 +104,10 @@ export default function AdminPayments() {
 
         // Update local list state
         setPayments((prev) =>
-          prev.map((item) =>
-            item._id === selectedPayment._id ? { ...item, status } : item
-          )
+          prev.map((item) => {
+            const itemId = item.paymentId || item._id || item.id;
+            return itemId === paymentId ? { ...item, status } : item;
+          })
         );
 
         setTimeout(() => {
@@ -127,8 +129,9 @@ export default function AdminPayments() {
   const filteredPayments = payments.filter((p) => {
     if (!searchTerm.trim()) return true;
     const term = searchTerm.toLowerCase();
-    const studentName = p.userId?.fullName?.toLowerCase() || '';
-    const studentEmail = p.userId?.email?.toLowerCase() || '';
+    // API returns student nested under .student (not .userId)
+    const studentName = (p.student?.fullName || p.userId?.fullName || '').toLowerCase();
+    const studentEmail = (p.student?.email || p.userId?.email || '').toLowerCase();
     const ref = (p.transactionReference || p.bankReference || '').toLowerCase();
     return studentName.includes(term) || studentEmail.includes(term) || ref.includes(term);
   });
@@ -170,7 +173,7 @@ export default function AdminPayments() {
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-3">
         {/* Status Filter Buttons */}
         <div className="flex flex-wrap items-center gap-1.5">
-          {['ALL', 'SUBMITTED', 'VERIFIED', 'REJECTED'].map((st) => (
+          {['ALL', 'PENDING', 'UNDER_REVIEW', 'VERIFIED', 'REJECTED'].map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
@@ -182,8 +185,10 @@ export default function AdminPayments() {
             >
               {st === 'ALL'
                 ? 'All Payments'
-                : st === 'SUBMITTED'
-                ? 'Pending Review'
+                : st === 'PENDING'
+                ? 'Pending'
+                : st === 'UNDER_REVIEW'
+                ? 'Under Review'
                 : st === 'VERIFIED'
                 ? 'Verified & Enrolled'
                 : 'Rejected'}
@@ -247,16 +252,16 @@ export default function AdminPayments() {
 
                   return (
                     <tr
-                      key={p._id}
+                      key={p.paymentId || p._id || p.id}
                       className={`hover:bg-slate-800/40 transition-colors ${
                         isPending ? 'bg-amber-500/[0.02]' : ''
                       }`}
                     >
                       <td className="py-3.5 px-4">
                         <div className="font-semibold text-white">
-                          {p.userId?.fullName || 'Student'}
+                          {p.student?.fullName || p.userId?.fullName || 'Student'}
                         </div>
-                        <div className="text-[11px] text-slate-400">{p.userId?.email || 'N/A'}</div>
+                        <div className="text-[11px] text-slate-400">{p.student?.email || p.userId?.email || 'N/A'}</div>
                       </td>
 
                       <td className="py-3.5 px-4 font-bold text-amber-400 text-sm">
