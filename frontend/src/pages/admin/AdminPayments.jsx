@@ -97,8 +97,8 @@ export default function AdminPayments() {
       const res = await adminService.verifyPayment(paymentId, payload);
       if (res.success) {
         setActionSuccess(
-          status === 'VERIFIED'
-            ? 'Payment verified! Student enrollment has been automatically provisioned.'
+          status === 'APPROVED'
+            ? 'Payment approved! Student enrollment has been automatically provisioned.'
             : 'Payment has been rejected.'
         );
 
@@ -248,7 +248,7 @@ export default function AdminPayments() {
               <tbody className="divide-y divide-slate-800/60 text-slate-300">
                 {filteredPayments.map((p) => {
                   const status = p.status?.toUpperCase() || 'PENDING';
-                  const isPending = status === 'SUBMITTED' || status === 'PENDING';
+                  const isPending = status === 'PENDING' || status === 'UNDER_REVIEW';
 
                   return (
                     <tr
@@ -270,7 +270,7 @@ export default function AdminPayments() {
 
                       <td className="py-3.5 px-4">
                         <span className="uppercase text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                          {p.method || 'BANK'}
+                          {p.paymentMethod || p.method || 'BANK'}
                         </span>
                       </td>
 
@@ -281,14 +281,16 @@ export default function AdminPayments() {
                       <td className="py-3.5 px-4">
                         <span
                           className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
-                            status === 'VERIFIED' || status === 'COMPLETED'
+                            status === 'APPROVED'
                               ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                              : status === 'UNDER_REVIEW'
+                              ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                               : isPending
                               ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                               : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                           }`}
                         >
-                          {status === 'VERIFIED' && <CheckCircle2 className="h-3 w-3" />}
+                          {status === 'APPROVED' && <CheckCircle2 className="h-3 w-3" />}
                           {isPending && <Clock className="h-3 w-3" />}
                           {status === 'REJECTED' && <XCircle className="h-3 w-3" />}
                           {status}
@@ -360,12 +362,12 @@ export default function AdminPayments() {
               <div className="flex justify-between items-center pb-2 border-b border-slate-800">
                 <span className="text-slate-400">Student Name:</span>
                 <span className="font-semibold text-white">
-                  {selectedPayment.userId?.fullName || 'Student'}
+                  {selectedPayment.student?.fullName || selectedPayment.userId?.fullName || 'Student'}
                 </span>
               </div>
               <div className="flex justify-between items-center pb-2 border-b border-slate-800">
                 <span className="text-slate-400">Student Email:</span>
-                <span className="text-slate-300">{selectedPayment.userId?.email || 'N/A'}</span>
+                <span className="text-slate-300">{selectedPayment.student?.email || selectedPayment.userId?.email || 'N/A'}</span>
               </div>
               <div className="flex justify-between items-center pb-2 border-b border-slate-800">
                 <span className="text-slate-400">Amount to Verify:</span>
@@ -382,11 +384,13 @@ export default function AdminPayments() {
               <div className="flex justify-between items-center">
                 <span className="text-slate-400">Current Status:</span>
                 <span
-                  className={`font-bold px-2 py-0.5 rounded ${
-                    selectedPayment.status === 'VERIFIED'
+                  className={`font-bold px-2 py-0.5 rounded text-xs ${
+                    selectedPayment.status === 'APPROVED'
                       ? 'text-emerald-400 bg-emerald-500/10'
                       : selectedPayment.status === 'REJECTED'
                       ? 'text-rose-400 bg-rose-500/10'
+                      : selectedPayment.status === 'UNDER_REVIEW'
+                      ? 'text-blue-400 bg-blue-500/10'
                       : 'text-amber-400 bg-amber-500/10'
                   }`}
                 >
@@ -465,12 +469,12 @@ export default function AdminPayments() {
               {/* Approve & Enroll Button */}
               <button
                 type="button"
-                onClick={() => handleVerify('VERIFIED')}
-                disabled={isVerifying || selectedPayment.status === 'VERIFIED'}
+                onClick={() => handleVerify('APPROVED')}
+                disabled={isVerifying || selectedPayment.status === 'APPROVED'}
                 className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-semibold text-slate-950 hover:bg-emerald-400 transition-colors disabled:opacity-50 shadow-md shadow-emerald-500/20"
               >
                 <Check className="h-4 w-4" />
-                <span>{isVerifying ? 'Verifying...' : 'Approve & Enroll Student'}</span>
+                <span>{isVerifying ? 'Approving...' : 'Approve & Enroll Student'}</span>
               </button>
             </div>
           </div>

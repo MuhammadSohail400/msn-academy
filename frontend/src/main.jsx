@@ -7,10 +7,11 @@ import ToastContainer from './components/feedback/ToastContainer';
 import { fetchMe } from './features/auth/slice/authSlice';
 import './index.css';
 
-// Attempt to hydrate auth session from the server only if an existing session or token exists in localStorage
-// This prevents unnecessary 401 Unauthorized noise in the browser console for unauthenticated guest visitors.
-const hasLocalAuth = typeof window !== 'undefined' && (localStorage.getItem('auth_token') || localStorage.getItem('user'));
-if (hasLocalAuth) {
+// Silent background refresh: re-validate user session from server on every load.
+// isInitialAuthChecked is always TRUE so this never blocks navigation or shows a spinner.
+// It simply keeps role/profile data fresh in the Redux store.
+const hasToken = typeof window !== 'undefined' && !!localStorage.getItem('auth_token');
+if (hasToken) {
   store.dispatch(fetchMe());
 }
 

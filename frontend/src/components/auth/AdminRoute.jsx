@@ -15,7 +15,10 @@ export default function AdminRoute({ children }) {
   );
   const location = useLocation();
 
-  if (!isInitialAuthChecked || isLoading) {
+  // Only show loading screen for cold-start (no cached session).
+  // If we have a cached session (isInitialAuthChecked=true), proceed immediately
+  // even if a background token refresh (fetchMe) is in progress.
+  if (!isInitialAuthChecked) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-900">
         <div className="flex flex-col items-center gap-3">

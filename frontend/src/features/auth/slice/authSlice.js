@@ -53,8 +53,6 @@ export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
 const getInitialUser = () => {
   if (typeof window === 'undefined') return null;
   try {
-    const token = localStorage.getItem('auth_token');
-    if (!token) return null;
     const raw = localStorage.getItem('user');
     return raw ? JSON.parse(raw) : null;
   } catch {
@@ -67,7 +65,9 @@ const savedUser = getInitialUser();
 const initialState = {
   user: savedUser,
   isAuthenticated: !!savedUser,
-  isInitialAuthChecked: !!savedUser,
+  // ALWAYS true on load — we always know auth state synchronously from localStorage.
+  // /auth/me is a background refresh, never a blocking gate for navigation.
+  isInitialAuthChecked: true,
   isLoading: false,
   error: null,
 };
@@ -109,7 +109,10 @@ const authSlice = createSlice({
     // fetchMe
     builder
       .addCase(fetchMe.pending, (state) => {
-        state.isLoading = true;
+        // Only show loading spinner if we have no cached session yet
+        if (!state.isInitialAuthChecked) {
+          state.isLoading = true;
+        }
       })
       .addCase(fetchMe.fulfilled, (state, action) => {
         state.isLoading = false;

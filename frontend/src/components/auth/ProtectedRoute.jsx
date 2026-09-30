@@ -12,12 +12,14 @@ export default function ProtectedRoute({ children }) {
   const { isAuthenticated, isInitialAuthChecked, isLoading } = useSelector((state) => state.auth);
   const location = useLocation();
 
-  if (!isInitialAuthChecked || isLoading) {
+  // Only block on cold-start (no cached session yet).
+  // Background token refreshes don't show a spinner.
+  if (!isInitialAuthChecked) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="flex min-h-screen items-center justify-center bg-slate-900">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-crimson border-t-transparent" />
-          <p className="text-sm font-medium text-gray-500">Checking authentication...</p>
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-amber-500 border-t-transparent" />
+          <p className="text-sm font-medium text-slate-400">Checking authentication...</p>
         </div>
       </div>
     );

@@ -78,12 +78,18 @@ export const adminService = {
   },
 
   /**
-   * POST /payments/:paymentId/verify
-   * Verify or reject payment deposit slip
-   * Body: { status: 'VERIFIED' | 'REJECTED', rejectionReason?: string, transactionReference?: string }
+   * PATCH /payments/:paymentId/admin-review
+   * Admin approves or rejects a payment deposit slip
+   * Body: { status: 'APPROVED' | 'REJECTED', verificationNotes?: string }
    */
   async verifyPayment(paymentId, payload) {
-    const response = await apiClient.post(`/payments/${paymentId}/verify`, payload);
+    // Map frontend status values to backend enum values
+    const mappedPayload = {
+      ...payload,
+      status: payload.status === 'VERIFIED' ? 'APPROVED' : payload.status,
+      verificationNotes: payload.rejectionReason || payload.verificationNotes,
+    };
+    const response = await apiClient.patch(`/payments/${paymentId}/admin-review`, mappedPayload);
     return response.data;
   },
 
