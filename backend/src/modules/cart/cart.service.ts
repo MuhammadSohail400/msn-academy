@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
 import { Cart, ICart } from './cart.model';
 import { Course } from '../courses/course.model';
+import { Enrollment } from '../enrollments/enrollment.model';
 import { validatePromoCode } from '../../config/promos';
 import { ApiError } from '../../utils/ApiError';
 import { logger } from '../../utils/logger';
@@ -189,6 +190,17 @@ export class CartService {
 
     if (!course) {
       throw ApiError.badRequest('Course does not exist or is not published.');
+    }
+
+    if (userId) {
+      const existingEnrollment = await Enrollment.findOne({
+        userId: new Types.ObjectId(userId),
+        courseId: course._id,
+        status: { $in: ['ACTIVE', 'COMPLETED'] },
+      });
+      if (existingEnrollment) {
+        throw ApiError.badRequest('You are already enrolled in this course.');
+      }
     }
 
     const cart = await this.findOrCreateCart(userId, guestSessionId);

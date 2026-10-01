@@ -15,8 +15,17 @@ import {
   Tag,
   Layers,
   Image as ImageIcon,
+  UploadCloud,
+  PlayCircle,
+  Clock,
+  ChevronDown,
+  ChevronRight,
+  Video,
+  FileText,
+  Loader2,
 } from 'lucide-react';
 import adminService from '../../services/adminService';
+import uploadService from '../../services/uploadService';
 
 const CATEGORIES = [
   'Artificial Intelligence',
@@ -62,6 +71,18 @@ export default function AdminCourses() {
   // Delete confirmation
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // Thumbnail file upload state
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
+
+  // Curriculum Builder Modal State
+  const [isCurriculumOpen, setIsCurriculumOpen] = useState(false);
+  const [curriculumCourse, setCurriculumCourse] = useState(null);
+  const [curriculumModules, setCurriculumModules] = useState([]);
+  const [expandedModules, setExpandedModules] = useState({});
+  const [isSavingCurriculum, setIsSavingCurriculum] = useState(false);
+  const [curriculumError, setCurriculumError] = useState(null);
+  const [curriculumSuccess, setCurriculumSuccess] = useState(null);
 
   const fetchCourses = async () => {
     setIsLoading(true);
@@ -124,6 +145,153 @@ export default function AdminCourses() {
     setIsModalOpen(false);
     setModalError(null);
     setModalSuccess(null);
+  };
+
+  const handleThumbnailUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingThumbnail(true);
+    setModalError(null);
+    try {
+      const res = await uploadService.uploadFile(file, 'thumbnails');
+      const uploadedUrl = res.fullUrl || res.url;
+      setFormData((prev) => ({ ...prev, thumbnail: uploadedUrl }));
+    } catch (err) {
+      setModalError(err.response?.data?.message || err.message || 'Failed to upload thumbnail');
+    } finally {
+      setUploadingThumbnail(false);
+    }
+  };
+
+  const handleOpenCurriculumModal = (course) => {
+    setCurriculumCourse(course);
+    const existing = Array.isArray(course.modules) ? JSON.parse(JSON.stringify(course.modules)) : [];
+    const initialModules =
+      existing.length > 0
+        ? existing
+        : [{ title: 'Module 1: Getting Started', order: 1, lectures: [] }];
+    setCurriculumModules(initialModules);
+
+    const initialExpanded = {};
+    initialModules.forEach((_, idx) => {
+      initialExpanded[idx] = true;
+    });
+    setExpandedModules(initialExpanded);
+
+    setCurriculumError(null);
+    setCurriculumSuccess(null);
+    setIsCurriculumOpen(true);
+  };
+
+  const toggleModuleExpand = (modIdx) => {
+    setExpandedModules((prev) => ({ ...prev, [modIdx]: !prev[modIdx] }));
+  };
+
+  const handleAddModule = () => {
+    const newIdx = curriculumModules.length;
+    setCurriculumModules([
+      ...curriculumModules,
+      {
+        title: `Module ${newIdx + 1}: Core Concepts`,
+        order: newIdx + 1,
+        lectures: [],
+      },
+    ]);
+    setExpandedModules((prev) => ({ ...prev, [newIdx]: true }));
+  };
+
+  const handleUpdateModuleTitle = (modIdx, title) => {
+    const updated = [...curriculumModules];
+    updated[modIdx].title = title;
+    setCurriculumModules(updated);
+  };
+
+  const handleDeleteModule = (modIdx) => {
+    if (curriculumModules.length <= 1) {
+      setCurriculumError('Course must have at least one module.');
+      return;
+    }
+    const updated = curriculumModules
+      .filter((_, i) => i !== modIdx)
+      .map((m, i) => ({ ...m, order: i + 1 }));
+    setCurriculumModules(updated);
+  };
+
+  const handleAddLecture = (modIdx) => {
+    const updated = [...curriculumModules];
+    const currentLectures = updated[modIdx].lectures || [];
+    const newOrder = currentLectures.length + 1;
+    updated[modIdx].lectures = [
+      ...currentLectures,
+      {
+        title: `Lesson ${newOrder}: Lecture Title`,
+        order: newOrder,
+        durationMinutes: 15,
+        isPreview: currentLectures.length === 0,
+        videoStreamUrl: '',
+        description: '',
+      },
+    ];
+    setCurriculumModules(updated);
+  };
+
+  const handleUpdateLecture = (modIdx, lecIdx, field, value) => {
+    const updated = [...curriculumModules];
+    updated[modIdx].lectures[lecIdx][field] = value;
+    setCurriculumModules(updated);
+  };
+
+  const handleDeleteLecture = (modIdx, lecIdx) => {
+    const updated = [...curriculumModules];
+    updated[modIdx].lectures = updated[modIdx].lectures
+      .filter((_, i) => i !== lecIdx)
+      .map((l, i) => ({ ...l, order: i + 1 }));
+    setCurriculumModules(updated);
+  };
+
+  const handleSaveCurriculum = async () => {
+    if (!curriculumCourse) return;
+    for (let i = 0; i < curriculumModules.length; i++) {
+      if (!curriculumModules[i].title?.trim()) {
+        setCurriculumError(`Module ${i + 1} must have a title.`);
+        return;
+      }
+    }
+
+    setIsSavingCurriculum(true);
+    setCurriculumError(null);
+    setCurriculumSuccess(null);
+
+    try {
+      let totalLectures = 0;
+      let totalMinutes = 0;
+      curriculumModules.forEach((m) => {
+        (m.lectures || []).forEach((l) => {
+          totalLectures += 1;
+          totalMinutes += Number(l.durationMinutes) || 0;
+        });
+      });
+      const durationHours = Math.max(1, Math.round(totalMinutes / 60));
+
+      const courseId = curriculumCourse._id || curriculumCourse.id;
+      await adminService.updateCourse(courseId, {
+        modules: curriculumModules,
+        totalLectures,
+        durationHours,
+      });
+
+      setCurriculumSuccess('Curriculum updated successfully!');
+      fetchCourses();
+      setTimeout(() => {
+        setIsCurriculumOpen(false);
+      }, 1200);
+    } catch (err) {
+      setCurriculumError(
+        err.response?.data?.message || err.message || 'Failed to save curriculum'
+      );
+    } finally {
+      setIsSavingCurriculum(false);
+    }
   };
 
   const handleSubmitCourse = async (e) => {
@@ -359,7 +527,11 @@ export default function AdminCourses() {
                     <div className="flex items-center gap-2 text-[11px] text-slate-400">
                       <span className="capitalize">{c.level || 'Beginner'}</span>
                       <span>•</span>
-                      <span>{c.lessonsCount || (c.curriculum?.length || 0)} lessons</span>
+                      <span>
+                        {c.totalLectures || (c.modules?.reduce((acc, m) => acc + (m.lectures?.length || 0), 0)) || 0} lessons
+                      </span>
+                      <span>•</span>
+                      <span>{c.modules?.length || 0} modules</span>
                     </div>
 
                     <h3 className="text-base font-bold text-white group-hover:text-amber-400 transition-colors line-clamp-1">
@@ -386,6 +558,16 @@ export default function AdminCourses() {
                   </div>
 
                   <div className="flex items-center gap-1.5">
+                    {/* Curriculum / Syllabus button */}
+                    <button
+                      onClick={() => handleOpenCurriculumModal(c)}
+                      title="Manage Curriculum (Modules & Lectures)"
+                      className="rounded-lg border border-sky-500/40 bg-sky-500/10 px-2.5 py-1.5 text-xs font-semibold text-sky-400 hover:bg-sky-500/20 hover:border-sky-400 transition-colors flex items-center gap-1.5 shadow-sm"
+                    >
+                      <BookOpen className="h-3.5 w-3.5" />
+                      <span>Syllabus</span>
+                    </button>
+
                     {/* Edit button */}
                     <button
                       onClick={() => handleOpenEditModal(c)}
@@ -577,18 +759,48 @@ export default function AdminCourses() {
                 />
               </div>
 
-              {/* Thumbnail URL */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                  Thumbnail Image URL
-                </label>
-                <input
-                  type="url"
-                  value={formData.thumbnail}
-                  onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-                  placeholder="https://images.unsplash.com/..."
-                  className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-xs text-white placeholder-slate-500 focus:border-amber-500 focus:outline-none"
-                />
+              {/* Thumbnail Image URL & Direct Upload */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-semibold text-slate-300">
+                    Thumbnail Image
+                  </label>
+                  <label className="cursor-pointer text-[11px] font-semibold text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
+                    <UploadCloud className="h-3.5 w-3.5" />
+                    <span>{uploadingThumbnail ? 'Uploading...' : 'Upload Image from PC'}</span>
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp"
+                      onChange={handleThumbnailUpload}
+                      disabled={uploadingThumbnail}
+                      className="sr-only"
+                    />
+                  </label>
+                </div>
+
+                <div className="flex gap-3 items-center">
+                  {formData.thumbnail && (
+                    <img
+                      src={formData.thumbnail.startsWith('/uploads') ? `http://localhost:5000${formData.thumbnail}` : formData.thumbnail}
+                      alt="Thumbnail preview"
+                      className="h-12 w-20 rounded-lg object-cover border border-slate-700 shrink-0 bg-slate-950"
+                    />
+                  )}
+                  <div className="relative flex-1">
+                    <input
+                      type="text"
+                      value={formData.thumbnail}
+                      onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
+                      placeholder="Paste image URL or click 'Upload Image from PC'"
+                      className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3 text-xs text-white placeholder-slate-500 focus:border-amber-500 focus:outline-none"
+                    />
+                    {uploadingThumbnail && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <Loader2 className="h-4 w-4 animate-spin text-amber-400" />
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
 
               {/* Publishing Status */}
@@ -627,6 +839,279 @@ export default function AdminCourses() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── Curriculum Builder Modal ────────────────────────────────────── */}
+      {isCurriculumOpen && curriculumCourse && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl border border-slate-800 bg-slate-900 shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in-95">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-5 border-b border-slate-800 bg-slate-950/60">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-500/20 text-sky-400 border border-sky-500/30">
+                    Curriculum Builder
+                  </span>
+                  <span className="text-xs text-slate-400">
+                    {curriculumModules.length} Modules •{' '}
+                    {curriculumModules.reduce((acc, m) => acc + (m.lectures?.length || 0), 0)} Lessons
+                  </span>
+                </div>
+                <h2 className="text-lg font-bold text-white line-clamp-1">
+                  {curriculumCourse.title}
+                </h2>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleAddModule}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-sky-500/40 bg-sky-500/10 px-3 py-1.5 text-xs font-semibold text-sky-400 hover:bg-sky-500/20 transition-colors shadow-sm"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  <span>Add Module</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsCurriculumOpen(false)}
+                  className="rounded-lg p-2 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Alerts */}
+            {curriculumError && (
+              <div className="m-4 mb-0 flex items-center gap-2 rounded-xl bg-rose-500/10 border border-rose-500/30 p-3 text-xs text-rose-400">
+                <AlertCircle className="h-4 w-4 shrink-0" />
+                <span>{curriculumError}</span>
+              </div>
+            )}
+            {curriculumSuccess && (
+              <div className="m-4 mb-0 flex items-center gap-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3 text-xs text-emerald-400">
+                <CheckCircle2 className="h-4 w-4 shrink-0" />
+                <span>{curriculumSuccess}</span>
+              </div>
+            )}
+
+            {/* Modal Body / Modules Accordion */}
+            <div className="p-5 overflow-y-auto space-y-4 flex-1">
+              {curriculumModules.length === 0 ? (
+                <div className="py-12 text-center text-slate-500 text-xs">
+                  <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <p>No modules yet. Click "Add Module" above to start building your course syllabus.</p>
+                </div>
+              ) : (
+                curriculumModules.map((mod, modIdx) => {
+                  const isExpanded = !!expandedModules[modIdx];
+                  const lectures = mod.lectures || [];
+
+                  return (
+                    <div
+                      key={modIdx}
+                      className="rounded-xl border border-slate-800 bg-slate-950/60 overflow-hidden shadow-sm"
+                    >
+                      {/* Module Top Bar */}
+                      <div className="flex items-center justify-between p-3.5 bg-slate-950/80 gap-3">
+                        <button
+                          type="button"
+                          onClick={() => toggleModuleExpand(modIdx)}
+                          className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors shrink-0"
+                        >
+                          <ChevronRight
+                            className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
+                          />
+                          <span className="text-[11px] font-mono font-bold uppercase text-amber-400/90 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                            Mod {modIdx + 1}
+                          </span>
+                        </button>
+
+                        <input
+                          type="text"
+                          value={mod.title}
+                          onChange={(e) => handleUpdateModuleTitle(modIdx, e.target.value)}
+                          placeholder="Module Title (e.g. Module 1: Web Fundamentals)"
+                          className="flex-1 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none"
+                        />
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="text-[11px] text-slate-400 font-medium">
+                            {lectures.length} lessons
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteModule(modIdx)}
+                            title="Delete Module"
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Module Content / Lectures */}
+                      {isExpanded && (
+                        <div className="p-4 border-t border-slate-800/80 space-y-3 bg-slate-900/40">
+                          {lectures.length === 0 ? (
+                            <p className="text-xs text-slate-500 italic py-2">
+                              No lessons in this module yet.
+                            </p>
+                          ) : (
+                            <div className="space-y-2.5">
+                              {lectures.map((lec, lecIdx) => (
+                                <div
+                                  key={lecIdx}
+                                  className="rounded-xl border border-slate-800/80 bg-slate-950 p-3 space-y-2.5"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-800 text-[10px] font-mono text-slate-300 font-bold shrink-0">
+                                      {lecIdx + 1}
+                                    </span>
+                                    <input
+                                      type="text"
+                                      value={lec.title}
+                                      onChange={(e) =>
+                                        handleUpdateLecture(modIdx, lecIdx, 'title', e.target.value)
+                                      }
+                                      placeholder="Lesson Title (e.g. Setting Up VS Code & Git)"
+                                      className="flex-1 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:border-amber-500 focus:outline-none font-medium"
+                                    />
+                                    <button
+                                      type="button"
+                                      onClick={() => handleDeleteLecture(modIdx, lecIdx)}
+                                      title="Delete Lesson"
+                                      className="p-1 rounded text-slate-500 hover:text-rose-400 transition-colors shrink-0"
+                                    >
+                                      <Trash2 className="h-3.5 w-3.5" />
+                                    </button>
+                                  </div>
+
+                                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-2 text-xs">
+                                    {/* Video Stream URL */}
+                                    <div className="sm:col-span-8 relative">
+                                      <Video className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-500" />
+                                      <input
+                                        type="url"
+                                        value={lec.videoStreamUrl || ''}
+                                        onChange={(e) =>
+                                          handleUpdateLecture(
+                                            modIdx,
+                                            lecIdx,
+                                            'videoStreamUrl',
+                                            e.target.value
+                                          )
+                                        }
+                                        placeholder="Video Stream URL (MP4, YouTube unlisted, Cloudflare)"
+                                        className="w-full rounded-lg border border-slate-800 bg-slate-900 pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:border-amber-500 focus:outline-none"
+                                      />
+                                    </div>
+
+                                    {/* Duration in Minutes */}
+                                    <div className="sm:col-span-2 relative">
+                                      <Clock className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-500" />
+                                      <input
+                                        type="number"
+                                        min="1"
+                                        value={lec.durationMinutes || 15}
+                                        onChange={(e) =>
+                                          handleUpdateLecture(
+                                            modIdx,
+                                            lecIdx,
+                                            'durationMinutes',
+                                            Number(e.target.value)
+                                          )
+                                        }
+                                        placeholder="Min"
+                                        className="w-full rounded-lg border border-slate-800 bg-slate-900 pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:border-amber-500 focus:outline-none"
+                                      />
+                                    </div>
+
+                                    {/* Free Preview Toggle */}
+                                    <div className="sm:col-span-2 flex items-center justify-start sm:justify-end gap-1.5 pl-1">
+                                      <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-semibold text-slate-400 select-none">
+                                        <input
+                                          type="checkbox"
+                                          checked={!!lec.isPreview}
+                                          onChange={(e) =>
+                                            handleUpdateLecture(
+                                              modIdx,
+                                              lecIdx,
+                                              'isPreview',
+                                              e.target.checked
+                                            )
+                                          }
+                                          className="rounded border-slate-700 bg-slate-800 text-brand-crimson focus:ring-0 focus:ring-offset-0"
+                                        />
+                                        <span className={lec.isPreview ? 'text-amber-400' : ''}>
+                                          Preview
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          <button
+                            type="button"
+                            onClick={() => handleAddLecture(modIdx)}
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-dashed border-slate-700/80 bg-slate-950/40 px-3 py-1.5 text-xs font-medium text-slate-300 hover:border-slate-500 hover:text-white transition-colors"
+                          >
+                            <Plus className="h-3.5 w-3.5" />
+                            <span>Add Lesson</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between p-4 border-t border-slate-800 bg-slate-950/80">
+              <div className="text-xs text-slate-400">
+                <span>Total: </span>
+                <strong className="text-white">
+                  {curriculumModules.reduce((acc, m) => acc + (m.lectures?.length || 0), 0)} lessons
+                </strong>
+                <span> across </span>
+                <strong className="text-white">{curriculumModules.length} modules</strong>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsCurriculumOpen(false)}
+                  disabled={isSavingCurriculum}
+                  className="rounded-xl border border-slate-800 bg-slate-800/80 px-4 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-700 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveCurriculum}
+                  disabled={isSavingCurriculum}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-500 px-5 py-2 text-xs font-bold text-slate-950 hover:bg-sky-400 transition-all shadow-md shadow-sky-500/20 disabled:opacity-50"
+                >
+                  {isSavingCurriculum ? (
+                    <>
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      <span>Saving Syllabus...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Check className="h-3.5 w-3.5" />
+                      <span>Save Curriculum</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

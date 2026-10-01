@@ -325,8 +325,8 @@ export default function AdminPayments() {
 
       {/* Slip Inspection & Verification Modal */}
       {selectedPayment && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative w-full max-w-lg rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-200">
+          <div className="relative w-full max-w-lg my-auto max-h-[90vh] overflow-y-auto rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl space-y-5">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div>
@@ -400,23 +400,63 @@ export default function AdminPayments() {
             </div>
 
             {/* Proof Slip Image Display if exists */}
-            {(selectedPayment.proofUrl || selectedPayment.slipUrl || selectedPayment.receiptUrl) ? (
-              <div className="space-y-1.5">
-                <span className="text-xs font-medium text-slate-300">Uploaded Slip Proof:</span>
-                <div className="rounded-xl border border-slate-800 bg-slate-950 p-2 overflow-hidden flex items-center justify-center max-h-56">
-                  <img
-                    src={selectedPayment.proofUrl || selectedPayment.slipUrl || selectedPayment.receiptUrl}
-                    alt="Deposit Receipt"
-                    className="max-h-52 object-contain rounded-lg"
-                  />
+            {(() => {
+              const rawProof =
+                selectedPayment.proofAttachmentUrl ||
+                selectedPayment.proofUrl ||
+                selectedPayment.slipUrl ||
+                selectedPayment.receiptUrl;
+              if (!rawProof) {
+                return (
+                  <div className="rounded-xl border border-dashed border-slate-800 bg-slate-950/40 p-4 text-center text-slate-400 text-xs">
+                    <FileText className="h-6 w-6 mx-auto mb-1 text-slate-500" />
+                    <span>Deposit slip proof provided via Bank Reference ID</span>
+                  </div>
+                );
+              }
+              const displaySrc = rawProof.startsWith('/uploads')
+                ? `http://localhost:5000${rawProof}`
+                : rawProof;
+              const isPdf = rawProof.toLowerCase().includes('.pdf');
+
+              return (
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-slate-300">Uploaded Slip Proof:</span>
+                    <a
+                      href={displaySrc}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] text-brand-crimson hover:underline"
+                    >
+                      Open Full Size ↗
+                    </a>
+                  </div>
+                  <div className="rounded-xl border border-slate-800 bg-slate-950 p-2 overflow-hidden flex items-center justify-center max-h-60">
+                    {isPdf ? (
+                      <div className="py-6 text-center space-y-2">
+                        <FileText className="h-10 w-10 text-rose-500 mx-auto" />
+                        <p className="text-xs text-slate-300">PDF Document Attached</p>
+                        <a
+                          href={displaySrc}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block text-xs bg-slate-800 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg"
+                        >
+                          View PDF Document
+                        </a>
+                      </div>
+                    ) : (
+                      <img
+                        src={displaySrc}
+                        alt="Deposit Receipt"
+                        className="max-h-56 object-contain rounded-lg"
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="rounded-xl border border-dashed border-slate-800 bg-slate-950/40 p-4 text-center text-slate-400 text-xs">
-                <FileText className="h-6 w-6 mx-auto mb-1 text-slate-500" />
-                <span>Deposit slip proof provided via Bank Reference ID</span>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Rejection input box if triggered */}
             {showRejectInput && (

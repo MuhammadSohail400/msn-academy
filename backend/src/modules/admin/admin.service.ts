@@ -141,7 +141,19 @@ export class AdminService {
       totalCertificatesIssued,
       recentOrders,
       recentPendingPayments,
-    };
+      overview: {
+        totalRevenue: grossRevenuePKR,
+        totalStudents,
+        totalOrders,
+        pendingPayments: pendingPaymentReviews,
+        openInquiries,
+        activeCourses,
+      },
+      recentActivity: {
+        orders: recentOrders,
+        payments: recentPendingPayments,
+      },
+    } as any;
   }
 
   /**

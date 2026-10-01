@@ -1,4 +1,6 @@
+import { Types } from 'mongoose';
 import { Course, ICourse } from './course.model';
+import { Enrollment } from '../enrollments/enrollment.model';
 import { GetCoursesQuery } from './course.validation';
 import { ApiError } from '../../utils/ApiError';
 import { redis } from '../../config/redis';
@@ -87,7 +89,7 @@ export class CourseService {
         .skip(skip)
         .limit(limit)
         .select(
-          '_id title slug subtitle category level badge price originalPrice currency thumbnail durationHours totalLectures averageRating totalReviews instructor'
+          '_id title slug subtitle category level badge price originalPrice currency thumbnail durationHours totalLectures averageRating totalReviews instructor status modules'
         )
         .lean(),
     ]);
@@ -95,7 +97,7 @@ export class CourseService {
     const totalPages = Math.ceil(total / limit) || 1;
 
     // 4. Format Catalog Card Output according to frozen contract
-    const formattedCourses = rawCourses.map((c) => ({
+    const formattedCourses = rawCourses.map((c: any) => ({
       id: c._id.toString(),
       title: c.title,
       slug: c.slug,
@@ -111,9 +113,11 @@ export class CourseService {
       totalLectures: c.totalLectures,
       averageRating: c.averageRating,
       totalReviews: c.totalReviews,
+      status: c.status || 'PUBLISHED',
+      modules: c.modules || [],
       instructor: {
-        name: c.instructor.name,
-        title: c.instructor.title,
+        name: c.instructor?.name || 'Instructor',
+        title: c.instructor?.title || '',
       },
     }));
 
@@ -144,8 +148,16 @@ export class CourseService {
       throw ApiError.notFound('Course with specified slug not found');
     }
 
-    // Determine if student is enrolled (placeholder for Phase 4 enrollment integration)
-    const isEnrolled = false;
+    // Determine if student is actively enrolled
+    let isEnrolled = false;
+    if (userId) {
+      const activeEnrollment = await Enrollment.findOne({
+        userId: new Types.ObjectId(userId),
+        courseId: course._id,
+        status: { $in: ['ACTIVE', 'COMPLETED'] },
+      });
+      isEnrolled = !!activeEnrollment;
+    }
 
     // Sanitize modules and lectures: Non-preview video streaming URLs are shielded
     const sanitizedModules = (course.modules || []).map((mod) => ({

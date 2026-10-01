@@ -3,6 +3,7 @@ import { Order, IOrder } from './order.model';
 import { Payment } from '../payments/payment.model';
 import { CartService } from '../cart/cart.service';
 import { User } from '../users/user.model';
+import { Enrollment } from '../enrollments/enrollment.model';
 import { CheckoutInput, GetOrdersQuery } from './order.validation';
 import { ApiError } from '../../utils/ApiError';
 
@@ -61,6 +62,23 @@ export class OrderService {
 
     if (summary.items.length === 0) {
       throw ApiError.badRequest('Cart is empty. Please add courses before checking out.');
+    }
+
+    // Verify user is not already enrolled in any of the courses
+    const courseIds = summary.items.map((item) => new Types.ObjectId(item.courseId));
+    const existingEnrollments = await Enrollment.find({
+      userId: new Types.ObjectId(userId),
+      courseId: { $in: courseIds },
+      status: { $in: ['ACTIVE', 'COMPLETED'] },
+    }).populate('courseId', 'title');
+
+    if (existingEnrollments.length > 0) {
+      const titles = existingEnrollments
+        .map((e: any) => e.courseId?.title || 'Course')
+        .join(', ');
+      throw ApiError.badRequest(
+        `You are already enrolled in: "${titles}". Please remove already enrolled courses from your cart to proceed.`
+      );
     }
 
     // Generate sequential order number (e.g. MSN-ORD-00101)

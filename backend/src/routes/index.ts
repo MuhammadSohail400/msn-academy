@@ -12,6 +12,7 @@ import learningRoutes from '../modules/learning/learning.routes';
 import assessmentRoutes from '../modules/assessments/assessment.routes';
 import certificateRoutes from '../modules/certificates/certificate.routes';
 import adminRoutes from '../modules/admin/admin.routes';
+import uploadRoutes from '../modules/uploads/upload.routes';
 
 export const apiRouter = Router();
 
@@ -42,5 +43,8 @@ apiRouter.use('/certificates', certificateRoutes);
 
 // 7. Administrative Operations & Management Routes
 apiRouter.use('/admin', adminRoutes);
+
+// 8. Media & Document Upload Routes
+apiRouter.use('/uploads', uploadRoutes);
 
 export default apiRouter;

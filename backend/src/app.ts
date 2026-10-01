@@ -3,6 +3,8 @@ import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import pinoHttp from 'pino-http';
+import path from 'path';
+import fs from 'fs';
 import { env } from './config/environment';
 import { logger } from './utils/logger';
 import { ApiResponse } from './utils/ApiResponse';
@@ -13,12 +15,25 @@ import apiRouter from './routes';
 export const createApp = (): Application => {
   const app: Application = express();
 
+  // Ensure uploads directory structure exists
+  const uploadsRoot = path.join(process.cwd(), 'uploads');
+  ['receipts', 'thumbnails', 'avatars', 'resources', 'general'].forEach((sub) => {
+    const subDir = path.join(uploadsRoot, sub);
+    if (!fs.existsSync(subDir)) {
+      fs.mkdirSync(subDir, { recursive: true });
+    }
+  });
+
   // 1. Security Headers
   app.use(
     helmet({
       crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
     })
   );
+
+  // Serve uploaded media statically
+  app.use('/uploads', express.static(uploadsRoot));
 
   // 2. CORS Whitelist
   const staticAllowedOrigins = [

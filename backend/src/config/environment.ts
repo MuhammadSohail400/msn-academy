@@ -16,7 +16,7 @@ const environmentSchema = z.object({
   MONGO_URI: z.string().default('mongodb://127.0.0.1:27017/msn_academy'),
   REDIS_URL: z.string().default('redis://127.0.0.1:6379'),
   JWT_SECRET: z.string().min(16, 'JWT_SECRET must be at least 16 characters').default('msn_super_secret_jwt_access_token_key_32chars!'),
-  JWT_EXPIRES_IN: z.string().default('15m'),
+  JWT_EXPIRES_IN: z.string().default('7d'),
   JWT_REFRESH_SECRET: z.string().min(16, 'JWT_REFRESH_SECRET must be at least 16 characters').default('msn_super_secret_jwt_refresh_token_key_32chars!'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
   COOKIE_SECRET: z.string().min(16, 'COOKIE_SECRET must be at least 16 characters').default('msn_cookie_signing_secret_key_32chars!'),

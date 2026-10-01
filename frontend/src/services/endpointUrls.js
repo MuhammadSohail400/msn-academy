@@ -65,4 +65,5 @@ export const ENDPOINTS = {
     DETAILS: (certId) => `/certificates/${certId}`,
     VERIFY: (certId) => `/certificates/verify/${certId}`,
   },
+  UPLOADS: '/uploads',
 };

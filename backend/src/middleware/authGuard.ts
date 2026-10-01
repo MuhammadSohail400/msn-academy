@@ -28,4 +28,24 @@ export function authGuard(req: Request, res: Response, next: NextFunction): void
   }
 }
 
+export function optionalAuthGuard(req: Request, _res: Response, next: NextFunction): void {
+  try {
+    let token: string | undefined;
+
+    if (req.cookies && req.cookies.access_token) {
+      token = req.cookies.access_token;
+    } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+
+    if (token) {
+      const decoded = verifyAccessToken(token);
+      req.user = decoded;
+    }
+  } catch (_e) {
+    // Ignore invalid/expired token in optional auth
+  }
+  next();
+}
+
 export default authGuard;

@@ -43,11 +43,18 @@ export default function AdminDashboard() {
     fetchStats();
   }, []);
 
-  const overview = stats?.overview || {};
-  const recentOrders = stats?.recentActivity?.orders || [];
-  const recentPayments = stats?.recentActivity?.payments || [];
+  const overview = {
+    totalRevenue: stats?.overview?.totalRevenue ?? stats?.grossRevenuePKR ?? 0,
+    totalStudents: stats?.overview?.totalStudents ?? stats?.totalStudents ?? 0,
+    pendingPayments: stats?.overview?.pendingPayments ?? stats?.pendingPaymentReviews ?? 0,
+    openInquiries: stats?.overview?.openInquiries ?? stats?.openInquiries ?? 0,
+    totalOrders: stats?.overview?.totalOrders ?? stats?.totalOrders ?? 0,
+    activeCourses: stats?.overview?.activeCourses ?? stats?.activeCourses ?? 0,
+  };
+  const recentOrders = stats?.recentActivity?.orders || stats?.recentOrders || [];
+  const recentPayments = stats?.recentActivity?.payments || stats?.recentPendingPayments || [];
   const pendingPayments = recentPayments.filter(
-    (p) => p.status === 'SUBMITTED' || p.status === 'PENDING'
+    (p) => p.status === 'SUBMITTED' || p.status === 'PENDING' || p.status === 'UNDER_REVIEW'
   );
 
   return (
@@ -215,43 +222,50 @@ export default function AdminDashboard() {
             ) : recentOrders.length === 0 ? (
               <div className="py-8 text-center text-xs text-slate-500">No orders recorded yet.</div>
             ) : (
-              recentOrders.slice(0, 5).map((order) => (
-                <div
-                  key={order._id}
-                  className="flex items-center justify-between rounded-xl border border-slate-800/80 bg-slate-950/40 p-3 hover:border-slate-700 transition-colors"
-                >
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-white">
-                        {order.userId?.fullName || 'Student'}
-                      </span>
-                      <span className="text-[10px] text-slate-500 font-mono">
-                        #{order.orderNumber || order._id.slice(-6)}
+              recentOrders.slice(0, 5).map((order) => {
+                const orderId = order.id || order._id || '';
+                const orderNum = order.orderNumber || (orderId ? orderId.slice(-6) : 'ORD');
+                const studentName = order.studentName || order.userId?.fullName || 'Student';
+                const studentEmail = order.studentEmail || order.userId?.email || 'N/A';
+
+                return (
+                  <div
+                    key={orderId}
+                    className="flex items-center justify-between rounded-xl border border-slate-800/80 bg-slate-950/40 p-3 hover:border-slate-700 transition-colors"
+                  >
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-semibold text-white">
+                          {studentName}
+                        </span>
+                        <span className="text-[10px] text-slate-500 font-mono">
+                          #{orderNum}
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-slate-400 block truncate max-w-[220px]">
+                        {studentEmail}
                       </span>
                     </div>
-                    <span className="text-[11px] text-slate-400 block truncate max-w-[220px]">
-                      {order.userId?.email || 'N/A'}
-                    </span>
-                  </div>
 
-                  <div className="text-right">
-                    <span className="text-xs font-bold text-amber-400 block">
-                      PKR {(order.totalAmount || 0).toLocaleString()}
-                    </span>
-                    <span
-                      className={`inline-block text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.2 rounded-full ${
-                        order.status === 'COMPLETED'
-                          ? 'bg-emerald-500/10 text-emerald-400'
-                          : order.status === 'PENDING'
-                          ? 'bg-amber-500/10 text-amber-400'
-                          : 'bg-rose-500/10 text-rose-400'
-                      }`}
-                    >
-                      {order.status}
-                    </span>
+                    <div className="text-right">
+                      <span className="text-xs font-bold text-amber-400 block">
+                        PKR {(order.totalAmount || 0).toLocaleString()}
+                      </span>
+                      <span
+                        className={`inline-block text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.2 rounded-full ${
+                          order.status === 'COMPLETED'
+                            ? 'bg-emerald-500/10 text-emerald-400'
+                            : order.status === 'PENDING'
+                            ? 'bg-amber-500/10 text-amber-400'
+                            : 'bg-rose-500/10 text-rose-400'
+                        }`}
+                      >
+                        {order.status}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
@@ -278,10 +292,16 @@ export default function AdminDashboard() {
               <div className="py-8 text-center text-xs text-slate-500">No payment records found.</div>
             ) : (
               recentPayments.slice(0, 5).map((pay) => {
-                const isPending = pay.status === 'SUBMITTED' || pay.status === 'PENDING';
+                const payId = pay.id || pay._id || '';
+                const isPending = pay.status === 'SUBMITTED' || pay.status === 'PENDING' || pay.status === 'UNDER_REVIEW';
+                const isApproved = pay.status === 'VERIFIED' || pay.status === 'APPROVED';
+                const studentName = pay.studentName || pay.userId?.fullName || 'Student';
+                const payMethod = pay.paymentMethod || pay.method || 'BANK';
+                const txRef = pay.transactionId || pay.transactionReference || 'N/A';
+
                 return (
                   <div
-                    key={pay._id}
+                    key={payId}
                     className={`flex items-center justify-between rounded-xl border p-3 transition-colors ${
                       isPending
                         ? 'border-amber-500/30 bg-amber-500/5'
@@ -291,14 +311,14 @@ export default function AdminDashboard() {
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-semibold text-white">
-                          {pay.userId?.fullName || 'Student'}
+                          {studentName}
                         </span>
                         <span className="text-[10px] uppercase font-bold px-1.5 rounded bg-slate-800 text-slate-300">
-                          {pay.method || 'BANK'}
+                          {payMethod}
                         </span>
                       </div>
                       <span className="text-[11px] text-slate-400 block font-mono">
-                        Ref: {pay.transactionReference || 'N/A'}
+                        Ref: {txRef}
                       </span>
                     </div>
 
@@ -309,7 +329,7 @@ export default function AdminDashboard() {
                         </span>
                         <span
                           className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full ${
-                            pay.status === 'VERIFIED'
+                            isApproved
                               ? 'bg-emerald-500/10 text-emerald-400'
                               : isPending
                               ? 'bg-amber-500/10 text-amber-400'

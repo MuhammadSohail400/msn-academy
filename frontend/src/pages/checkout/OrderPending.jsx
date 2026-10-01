@@ -12,8 +12,12 @@ import {
   Hash,
   Link2,
   BookOpen,
+  UploadCloud,
+  Image as ImageIcon,
+  X,
 } from 'lucide-react';
 import paymentService from '../../services/paymentService';
+import uploadService from '../../services/uploadService';
 
 function FieldError({ message }) {
   if (!message) return null;
@@ -80,6 +84,35 @@ export default function OrderPending() {
   );
   const [errors, setErrors] = useState({});
   const [globalError, setGlobalError] = useState('');
+  const [uploadingReceipt, setUploadingReceipt] = useState(false);
+  const [receiptFileName, setReceiptFileName] = useState('');
+  const [showManualUrl, setShowManualUrl] = useState(false);
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      setErrors((prev) => ({ ...prev, receiptUrl: 'File size must be under 10MB' }));
+      return;
+    }
+
+    setUploadingReceipt(true);
+    setErrors((prev) => ({ ...prev, receiptUrl: '' }));
+    try {
+      const res = await uploadService.uploadFile(file, 'receipts');
+      const uploadedUrl = res.fullUrl || res.url;
+      setReceiptUrl(uploadedUrl);
+      setReceiptFileName(file.name);
+    } catch (err) {
+      setErrors((prev) => ({
+        ...prev,
+        receiptUrl: err.response?.data?.message || err.message || 'Failed to upload receipt image',
+      }));
+    } finally {
+      setUploadingReceipt(false);
+    }
+  };
 
   // Persist order details to sessionStorage whenever state or status changes
   useEffect(() => {
@@ -146,7 +179,7 @@ export default function OrderPending() {
       newErrors.txRef = 'Transaction reference must be at least 4 characters';
     }
     let cleanUrl = receiptUrl.trim().replace(/[,;]+$/, '');
-    if (cleanUrl) {
+    if (cleanUrl && !cleanUrl.startsWith('/uploads')) {
       try {
         new URL(cleanUrl);
       } catch {
@@ -370,22 +403,107 @@ export default function OrderPending() {
                 <FieldError message={errors.txRef} />
               </div>
 
-              {/* Receipt URL */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                  Receipt Screenshot URL{' '}
-                  <span className="text-slate-400 font-normal">(optional)</span>
-                </label>
-                <div className="relative">
-                  <Link2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <input
-                    type="url"
-                    value={receiptUrl}
-                    onChange={(e) => setReceiptUrl(e.target.value)}
-                    placeholder="https://drive.google.com/..."
-                    className="w-full rounded-xl border border-slate-200 bg-white pl-10 pr-4 py-2.5 text-sm placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
-                  />
+              {/* Receipt File Upload / URL */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-semibold text-slate-700">
+                    Payment Deposit Slip / Receipt{' '}
+                    <span className="text-slate-400 font-normal">(optional)</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowManualUrl(!showManualUrl)}
+                    className="text-[11px] font-medium text-brand-crimson hover:underline"
+                  >
+                    {showManualUrl ? 'Upload File Instead' : 'Or Paste Link'}
+                  </button>
                 </div>
+
+                {!showManualUrl ? (
+                  <div>
+                    {receiptUrl ? (
+                      /* Uploaded Preview State */
+                      <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <div className="flex items-center gap-3 overflow-hidden">
+                          {receiptUrl.match(/\.(jpg|jpeg|png|webp|gif)($|\?)/i) || !receiptUrl.endsWith('.pdf') ? (
+                            <img
+                              src={receiptUrl.startsWith('/uploads') ? `http://localhost:5000${receiptUrl}` : receiptUrl}
+                              alt="Receipt preview"
+                              className="h-10 w-10 rounded-lg object-cover border border-slate-200 shrink-0"
+                            />
+                          ) : (
+                            <div className="h-10 w-10 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-xs shrink-0">
+                              PDF
+                            </div>
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-xs font-semibold text-slate-800 truncate">
+                              {receiptFileName || 'Receipt Attachment'}
+                            </p>
+                            <p className="text-[10px] text-emerald-600 font-medium flex items-center gap-1">
+                              <CheckCircle2 className="h-3 w-3" /> Ready to submit
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setReceiptUrl('');
+                            setReceiptFileName('');
+                          }}
+                          className="p-1 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-colors"
+                          title="Remove file"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      /* Drag/Browse Dropzone */
+                      <label className={`relative flex flex-col items-center justify-center p-4 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
+                        uploadingReceipt ? 'border-brand-crimson/50 bg-brand-crimson/5' : 'border-slate-300 hover:border-brand-crimson hover:bg-slate-50'
+                      }`}>
+                        <input
+                          type="file"
+                          accept="image/png,image/jpeg,image/webp,application/pdf"
+                          onChange={handleFileUpload}
+                          disabled={uploadingReceipt}
+                          className="sr-only"
+                        />
+                        {uploadingReceipt ? (
+                          <div className="flex items-center gap-2 py-2 text-xs font-medium text-brand-crimson">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <span>Uploading receipt...</span>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center text-center space-y-1">
+                            <UploadCloud className="h-6 w-6 text-slate-400" />
+                            <p className="text-xs font-semibold text-slate-700">
+                              Click to choose receipt screenshot
+                            </p>
+                            <p className="text-[10px] text-slate-400">
+                              JPG, PNG, WEBP or PDF (max 10MB)
+                            </p>
+                          </div>
+                        )}
+                      </label>
+                    )}
+                  </div>
+                ) : (
+                  /* Manual URL fallback */
+                  <div className="relative">
+                    <Link2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <input
+                      type="url"
+                      value={receiptUrl}
+                      onChange={(e) => {
+                        setReceiptUrl(e.target.value);
+                        setReceiptFileName('');
+                      }}
+                      placeholder="https://drive.google.com/... or image link"
+                      className="w-full rounded-xl border border-slate-200 bg-white pl-10 pr-4 py-2.5 text-sm placeholder-slate-400 focus:border-brand-crimson focus:outline-none focus:ring-1 focus:ring-brand-crimson"
+                    />
+                  </div>
+                )}
                 <FieldError message={errors.receiptUrl} />
               </div>
 

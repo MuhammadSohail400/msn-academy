@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { CourseController } from './course.controller';
-import { authGuard } from '../../middleware/authGuard';
+import { authGuard, optionalAuthGuard } from '../../middleware/authGuard';
 import { roleGuard } from '../../middleware/roleGuard';
 import { validateRequest } from '../../middleware/validateRequest';
 import {
@@ -23,6 +23,7 @@ router.get(
 
 router.get(
   '/:slug',
+  optionalAuthGuard,
   validateRequest({ params: getCourseBySlugParamsSchema }),
   CourseController.getCourseBySlug
 );
